@@ -1,0 +1,6 @@
+# Project exclude paths
+/module-controller/target/
+/module-web/target/
+/.idea/
+*/target/
+*.iml
