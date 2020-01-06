@@ -22,7 +22,7 @@ public class ConnectionManager {
         try {
             Context initContext = new InitialContext();
             Context rootContext = (Context) initContext.lookup("java:comp/env");
-            dataSource = (DataSource) rootContext.lookup("jdbc/personnel_department_db_link");
+            dataSource = (DataSource) rootContext.lookup("jdbc/tireServiceDb");
         } catch (NamingException e) {
             throw new RuntimeException("Some errors occurred during DataSource lookup!", e);
         }
