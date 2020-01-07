@@ -9,6 +9,6 @@ public interface Dao<T extends Entity> {
     T loadById(Integer id);
     void save(T obj);
     void update(T obj);
-    void remove(T obj);
+    void delete(T obj);
     List<T> loadAll();
 }

@@ -5,16 +5,17 @@ CREATE SCHEMA IF NOT EXISTS `tire_service_db`
 
 USE `tire_service_db`;
 
-CREATE TABLE `tire_service_db`.users
+CREATE TABLE `tire_service_db`.`users`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `email`  VARCHAR(255)   NOT NULL,
-    `phone`  VARCHAR(255)   NOT NULL,
-    `role`  VARCHAR(255)   NOT NULL
+    `id`    INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`  VARCHAR(255) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` VARCHAR(255) NOT NULL,
+    `phone` VARCHAR(255) NOT NULL,
+    `role`  VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.service_price_truck
+CREATE TABLE `tire_service_db`.`service_price_truck`
 (
     `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name`  VARCHAR(255)   NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE `tire_service_db`.`service_price`
     `price` NUMERIC(10, 2) NOT NULL
 );
 
-CREATE TABLE `bank_list_db`.`materials_patch`
+CREATE TABLE `tire_service_db`.`materials_patch`
 (
     `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name`  VARCHAR(255)   NOT NULL,
@@ -50,7 +51,7 @@ CREATE TABLE `bank_list_db`.`materials_patch`
     `price` NUMERIC(10, 2) NOT NULL
 );
 
-CREATE TABLE `bank_list_db`.`materials_valve`
+CREATE TABLE `tire_service_db`.`materials_valve`
 (
     `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name`  VARCHAR(255)   NOT NULL,
@@ -58,23 +59,25 @@ CREATE TABLE `bank_list_db`.`materials_valve`
     `price` NUMERIC(10, 2) NOT NULL
 );
 
-CREATE TABLE `bank_list_db`.`materials_weights_adhesive`
+CREATE TABLE `tire_service_db`.`tire_storage`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `count` INTEGER        NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`     VARCHAR(255) NOT NULL,
+    `fk_tire_id`  INTEGER      NOT NULL,
+    `date_end` DATE         NOT NULL,
+    `fk_user_id`  INTEGER      NOT NULL,
+    CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tire (`id`),
+    CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`)
 );
 
-CREATE TABLE `bank_list_db`.`materials_weights`
+CREATE TABLE `tire_service_db`.`tire`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `count` INTEGER        NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`       INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `width`    INTEGER NOT NULL,
+    `height`   INTEGER NOT NULL,
+    `diameter` INTEGER NOT NULL,
+    `date`     DATE    NOT NULL
 );
-
-
 
 --     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES user (`user_id`)
 
@@ -145,7 +148,7 @@ VALUES ('valve_replacement', 1.00),
        ('tire_pumping', 0.50),
        ('explosive_pumping', 2.00);
 
-INSERT INTO `bank_list_db`.`materials_patch` (`name`, `count`, `price`)
+INSERT INTO `tire_service_db`.`materials_patch` (`name`, `count`, `price`)
 VALUES ('patch_up40', 50, 4.00),
        ('patch_up50', 50, 4.00),
        ('patch_up6', 50, 5.00),
@@ -158,7 +161,7 @@ VALUES ('patch_up40', 50, 4.00),
        ('patch_tl110', 50, 9.00),
        ('patch_tl115', 50, 11.00);
 
-INSERT INTO `bank_list_db`.`materials_valve` (`name`, `count`, `price`)
+INSERT INTO `tire_service_db`.`materials_valve` (`name`, `count`, `price`)
 VALUES ('valve_tr413', 50, 2.00),
        ('valve_tr413c', 50, 3.00),
        ('valve_tk', 50, 35.00),

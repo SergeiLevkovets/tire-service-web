@@ -9,6 +9,7 @@ public class User implements Entity {
     private Integer id;
     private String name;
     private String email;
+    private String password;
     private String phone;
     private String role;
 
@@ -41,6 +42,14 @@ public class User implements Entity {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -65,12 +74,13 @@ public class User implements Entity {
         return Objects.equals(id, user.id) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
                 Objects.equals(phone, user.phone) &&
                 Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, phone, role);
+        return Objects.hash(id, name, email, password, phone, role);
     }
 }
