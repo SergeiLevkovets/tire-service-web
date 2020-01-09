@@ -10,7 +10,7 @@ public class TireStorage implements Entity {
     private Integer id;
     private String name;
     private Tire tire;
-    private Date endDate;
+    private Date dateEnd;
     private User user;
 
     public TireStorage() {
@@ -42,12 +42,12 @@ public class TireStorage implements Entity {
         this.tire = tire;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getDateEnd() {
+        return dateEnd;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setDateEnd(Date dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
     public User getUser() {
@@ -66,12 +66,12 @@ public class TireStorage implements Entity {
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(tire, that.tire) &&
-                Objects.equals(endDate, that.endDate) &&
+                Objects.equals(dateEnd, that.dateEnd) &&
                 Objects.equals(user, that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, tire, endDate, user);
+        return Objects.hash(id, name, tire, dateEnd, user);
     }
 }

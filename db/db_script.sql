@@ -7,12 +7,12 @@ USE `tire_service_db`;
 
 CREATE TABLE `tire_service_db`.`users`
 (
-    `id`    INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255) NOT NULL,
-    `email` VARCHAR(255) NOT NULL,
+    `id`       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`     VARCHAR(255) NOT NULL,
+    `email`    VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `phone` VARCHAR(255) NOT NULL,
-    `role`  VARCHAR(255) NOT NULL
+    `phone`    VARCHAR(255) NOT NULL,
+    `role`     VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE `tire_service_db`.`service_price_truck`
@@ -59,24 +59,24 @@ CREATE TABLE `tire_service_db`.`materials_valve`
     `price` NUMERIC(10, 2) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`tire_storage`
+CREATE TABLE `tire_service_db`.tires
 (
-    `id`       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`     VARCHAR(255) NOT NULL,
-    `fk_tire_id`  INTEGER      NOT NULL,
-    `date_end` DATE         NOT NULL,
-    `fk_user_id`  INTEGER      NOT NULL,
-    CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tire (`id`),
-    CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`)
+    `id`       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `width`    INTEGER   NOT NULL,
+    `height`   INTEGER   NOT NULL,
+    `diameter` INTEGER   NOT NULL,
+    `date`     TIMESTAMP NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`tire`
+CREATE TABLE `tire_service_db`.`tire_storage`
 (
-    `id`       INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `width`    INTEGER NOT NULL,
-    `height`   INTEGER NOT NULL,
-    `diameter` INTEGER NOT NULL,
-    `date`     DATE    NOT NULL
+    `id`         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name`       VARCHAR(255) NOT NULL,
+    `fk_tire_id` INTEGER      NOT NULL,
+    `date_end`   TIMESTAMP    NOT NULL,
+    `fk_user_id` INTEGER      NOT NULL,
+    CONSTRAINT `fk_to_tires` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`),
+    CONSTRAINT `fk_to_users` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`)
 );
 
 --     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES user (`user_id`)

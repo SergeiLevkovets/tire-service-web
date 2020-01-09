@@ -2,7 +2,7 @@ package by.stormnet.levkovets.dao.jdbc.impl;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.dao.jdbc.Dao;
-import by.stormnet.levkovets.domain.impl.User;
+import by.stormnet.levkovets.domain.impl.ServicePrice;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao implements Dao<User> {
+public class ServicePriceDao implements Dao<ServicePrice> {
 
 
     @Override
-    public void save(User user) {
+    public void save(ServicePrice servicePrice) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -23,16 +23,13 @@ public class UserDao implements Dao<User> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_price (name, price) VALUES (?, ?)");
 
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getPhone());
-            statement.setString(5, user.getRole());
+            statement.setString(1, servicePrice.getName());
+            statement.setDouble(2, servicePrice.getPrice());
 
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -40,24 +37,21 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void update(User user) {
+    public void update(ServicePrice servicePrice) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.users SET name = ?, email = ?, password = ?, phone = ?, role = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_price SET name = ?, price = ? WHERE id = ?");
 
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getPhone());
-            statement.setString(5, user.getRole());
-            statement.setInt(6, user.getId());
+            statement.setString(1, servicePrice.getName());
+            statement.setDouble(2, servicePrice.getPrice());
+            statement.setInt(3, servicePrice.getId());
 
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -65,19 +59,19 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(ServicePrice servicePrice) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.users WHERE id = ?");
+            statement = c.prepareStatement("DELETE FROM tire_service_db.service_price WHERE id = ?");
 
-            statement.setInt(1, user.getId());
+            statement.setInt(1, servicePrice.getId());
 
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -85,44 +79,38 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public User loadById(Integer id) {
+    public ServicePrice loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        User user = null;
+        ServicePrice servicePrice = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, email, password, phone, role from tire_service_db.users where id = ?");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                String email = set.getString("email");
-                String password = set.getString("password");
-                String phone = set.getString("phone");
-                String role = set.getString("role");
-                user = new User();
-                user.setId(objectId);
-                user.setName(name);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setPhone(phone);
-                user.setRole(role);
+                Double price = set.getDouble("price");
+                servicePrice = new ServicePrice();
+                servicePrice.setId(objectId);
+                servicePrice.setName(name);
+                servicePrice.setPrice(price);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return user;
+        return servicePrice;
     }
 
     @Override
-    public List<User> loadAll() {
-        List<User> list = new ArrayList<>();
+    public List<ServicePrice> loadAll() {
+        List<ServicePrice> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -130,24 +118,18 @@ public class UserDao implements Dao<User> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, email, password, phone, role from tire_service_db.users");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price");
             set = statement.executeQuery();
 
             while (set.next()) {
-                Integer id = set.getInt("id");
+                Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                String email = set.getString("email");
-                String password = set.getString("password");
-                String phone = set.getString("phone");
-                String role = set.getString("role");
-                User user = new User();
-                user.setId(id);
-                user.setName(name);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setPhone(phone);
-                user.setRole(role);
-                list.add(user);
+                Double price = set.getDouble("price");
+                ServicePrice servicePrice = new ServicePrice();
+                servicePrice.setId(objectId);
+                servicePrice.setName(name);
+                servicePrice.setPrice(price);
+                list.add(servicePrice);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
