@@ -2,6 +2,6 @@
 <%@ page isELIgnored="false" %>
 
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/custom.js"></script>
-<script src="${pageContext.request.contextPath}/js/myscript.js"></script>
+<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/myscript.js"></script>
