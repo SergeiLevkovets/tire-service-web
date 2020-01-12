@@ -1,8 +1,8 @@
-package by.stormnet.levkovets.dao.jdbc.impl;
+package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.jdbc.Dao;
-import by.stormnet.levkovets.domain.impl.Patch;
+import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.domain.impl.ServicePriceTruck;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatchDao implements Dao<Patch> {
+public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
 
 
     @Override
-    public void save(Patch patch) {
+    public void save(ServicePriceTruck servicePriceTruck) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -23,11 +23,10 @@ public class PatchDao implements Dao<Patch> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.materials_patch (name, count, price) VALUES (?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_price_truck (name, price) VALUES (?, ?)");
 
-            statement.setString(1, patch.getName());
-            statement.setInt(2, patch.getCount());
-            statement.setDouble(3, patch.getPrice());
+            statement.setString(1, servicePriceTruck.getName());
+            statement.setDouble(2, servicePriceTruck.getPrice());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -38,18 +37,17 @@ public class PatchDao implements Dao<Patch> {
     }
 
     @Override
-    public void update(Patch patch) {
+    public void update(ServicePriceTruck servicePriceTruck) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.materials_patch SET name = ?, count = ?, price = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_price_truck SET name = ?, price = ? WHERE id = ?");
 
-            statement.setString(1, patch.getName());
-            statement.setInt(2, patch.getCount());
-            statement.setDouble(3, patch.getPrice());
-            statement.setInt(4, patch.getId());
+            statement.setString(1, servicePriceTruck.getName());
+            statement.setDouble(2, servicePriceTruck.getPrice());
+            statement.setInt(3, servicePriceTruck.getId());
 
             statement.executeUpdate();
 
@@ -61,15 +59,15 @@ public class PatchDao implements Dao<Patch> {
     }
 
     @Override
-    public void delete(Patch patch) {
+    public void delete(ServicePriceTruck servicePriceTruck) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.materials_patch WHERE id = ?");
+            statement = c.prepareStatement("DELETE FROM tire_service_db.service_price_truck WHERE id = ?");
 
-            statement.setInt(1, patch.getId());
+            statement.setInt(1, servicePriceTruck.getId());
 
             statement.executeUpdate();
 
@@ -81,40 +79,38 @@ public class PatchDao implements Dao<Patch> {
     }
 
     @Override
-    public Patch loadById(Integer id) {
+    public ServicePriceTruck loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Patch patch = null;
+        ServicePriceTruck servicePriceTruck = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, count, price from tire_service_db.materials_patch where id = ?");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price_truck where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                Integer count = set.getInt("count");
                 Double price = set.getDouble("price");
-                patch = new Patch();
-                patch.setId(objectId);
-                patch.setName(name);
-                patch.setCount(count);
-                patch.setPrice(price);
+                servicePriceTruck = new ServicePriceTruck();
+                servicePriceTruck.setId(objectId);
+                servicePriceTruck.setName(name);
+                servicePriceTruck.setPrice(price);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return patch;
+        return servicePriceTruck;
     }
 
     @Override
-    public List<Patch> loadAll() {
-        List<Patch> list = new ArrayList<>();
+    public List<ServicePriceTruck> loadAll() {
+        List<ServicePriceTruck> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -122,20 +118,18 @@ public class PatchDao implements Dao<Patch> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, count, price from tire_service_db.materials_patch");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price_truck");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                Integer count = set.getInt("count");
                 Double price = set.getDouble("price");
-                Patch patch = new Patch();
-                patch.setId(objectId);
-                patch.setName(name);
-                patch.setCount(count);
-                patch.setPrice(price);
-                list.add(patch);
+                ServicePriceTruck servicePriceTruck = new ServicePriceTruck();
+                servicePriceTruck.setId(objectId);
+                servicePriceTruck.setName(name);
+                servicePriceTruck.setPrice(price);
+                list.add(servicePriceTruck);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);

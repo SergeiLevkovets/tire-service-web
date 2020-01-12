@@ -1,8 +1,8 @@
-package by.stormnet.levkovets.dao.jdbc.impl;
+package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.jdbc.Dao;
-import by.stormnet.levkovets.domain.impl.ServicePriceTruck;
+import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.domain.impl.ServicePrice;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
+public class ServicePriceDao implements Dao<ServicePrice> {
 
 
     @Override
-    public void save(ServicePriceTruck servicePriceTruck) {
+    public void save(ServicePrice servicePrice) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -23,10 +23,10 @@ public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.service_price_truck (name, price) VALUES (?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_price (name, price) VALUES (?, ?)");
 
-            statement.setString(1, servicePriceTruck.getName());
-            statement.setDouble(2, servicePriceTruck.getPrice());
+            statement.setString(1, servicePrice.getName());
+            statement.setDouble(2, servicePrice.getPrice());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -37,37 +37,17 @@ public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
     }
 
     @Override
-    public void update(ServicePriceTruck servicePriceTruck) {
+    public void update(ServicePrice servicePrice) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.service_price_truck SET name = ?, price = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_price SET name = ?, price = ? WHERE id = ?");
 
-            statement.setString(1, servicePriceTruck.getName());
-            statement.setDouble(2, servicePriceTruck.getPrice());
-            statement.setInt(3, servicePriceTruck.getId());
-
-            statement.executeUpdate();
-
-        } catch(SQLException e) {
-            throw new RuntimeException("Some errors occurred during DB access!", e);
-        } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
-        }
-    }
-
-    @Override
-    public void delete(ServicePriceTruck servicePriceTruck) {
-        Connection c = null;
-        PreparedStatement statement = null;
-
-        try {
-            c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.service_price_truck WHERE id = ?");
-
-            statement.setInt(1, servicePriceTruck.getId());
+            statement.setString(1, servicePrice.getName());
+            statement.setDouble(2, servicePrice.getPrice());
+            statement.setInt(3, servicePrice.getId());
 
             statement.executeUpdate();
 
@@ -79,15 +59,35 @@ public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
     }
 
     @Override
-    public ServicePriceTruck loadById(Integer id) {
+    public void delete(ServicePrice servicePrice) {
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("DELETE FROM tire_service_db.service_price WHERE id = ?");
+
+            statement.setInt(1, servicePrice.getId());
+
+            statement.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public ServicePrice loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        ServicePriceTruck servicePriceTruck = null;
+        ServicePrice servicePrice = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price_truck where id = ?");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
@@ -95,22 +95,22 @@ public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
                 Double price = set.getDouble("price");
-                servicePriceTruck = new ServicePriceTruck();
-                servicePriceTruck.setId(objectId);
-                servicePriceTruck.setName(name);
-                servicePriceTruck.setPrice(price);
+                servicePrice = new ServicePrice();
+                servicePrice.setId(objectId);
+                servicePrice.setName(name);
+                servicePrice.setPrice(price);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return servicePriceTruck;
+        return servicePrice;
     }
 
     @Override
-    public List<ServicePriceTruck> loadAll() {
-        List<ServicePriceTruck> list = new ArrayList<>();
+    public List<ServicePrice> loadAll() {
+        List<ServicePrice> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -118,18 +118,18 @@ public class servicePriceTruckDao implements Dao<ServicePriceTruck> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price_truck");
+            statement = c.prepareStatement("select id, name, price from tire_service_db.service_price");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
                 Double price = set.getDouble("price");
-                ServicePriceTruck servicePriceTruck = new ServicePriceTruck();
-                servicePriceTruck.setId(objectId);
-                servicePriceTruck.setName(name);
-                servicePriceTruck.setPrice(price);
-                list.add(servicePriceTruck);
+                ServicePrice servicePrice = new ServicePrice();
+                servicePrice.setId(objectId);
+                servicePrice.setName(name);
+                servicePrice.setPrice(price);
+                list.add(servicePrice);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);

@@ -1,7 +1,7 @@
-package by.stormnet.levkovets.dao.jdbc.impl;
+package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.jdbc.Dao;
+import by.stormnet.levkovets.dao.Dao;
 import by.stormnet.levkovets.domain.impl.Tire;
 import by.stormnet.levkovets.domain.impl.TireStorage;
 import by.stormnet.levkovets.domain.impl.User;

@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page isELIgnored="false" %>
 <%@include file="/WEB-INF/pages/head.jsp" %>
@@ -21,11 +20,11 @@
                         <div class="panel-body">
                             <table class="table table-bordered text-center">
                                 <tr>
-                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/images/car.png" height="100px"></th>
-                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/images/jeep.png" height="100px"></th>
-                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/images/truck.png" height="100px">
+                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/resources/images/car.png" height="100px"></th>
+                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/resources/images/jeep.png" height="100px"></th>
+                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/resources/images/truck.png" height="100px">
                                     </th>
-                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/images/traсtor.png" height="100px">
+                                    <th style="text-align: center"><img src="${pageContext.request.contextPath}/resources/images/traсtor.png" height="100px">
                                     </th>
                                 </tr>
                                 <tr>

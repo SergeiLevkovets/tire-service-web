@@ -1,4 +1,4 @@
-package by.stormnet.levkovets.dao.jdbc;
+package by.stormnet.levkovets.dao;
 
 import by.stormnet.levkovets.domain.Entity;
 

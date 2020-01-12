@@ -16,36 +16,53 @@
                         <div class="panel-title">Редактирование профиля</div>
                     </div>
                     <div class="panel-body">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${servicePriceList}" var="servicePrice">
+                                    <tr>
+                                        <td>${servicePrice.id}</td>
+                                        <td>${servicePrice.name}</td>
+                                        <td>${servicePrice.price}</td>
+                                        <td>
+                                            <c:url value="/service-price" var="update_url">
+                                                <c:param name="servicePrice_update" value="${servicePrice.id}"/>
+                                            </c:url>
+                                            <a href="${update_url}" id="update_url">update</a>
+
+                                            <c:url value="/service-price" var="delete_url">
+                                                <c:param name="servicePrice_delete" value="${servicePrice.id}"/>
+                                            </c:url>
+                                            <a href="${delete_url}" id="delete_url">delete</a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <form class="form-horizontal panel-body" id="service_price_form" action="service-price" method="post">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control"
+                                           value="${param.name}" name="name" id="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="price">Price</label>
+                                    <input type="number" class="form-control"
+                                           value="${param.price}" name="price" id="price">
+                                </div>
+                                <input type="submit" class="btn btn-success" name="save" value="Save Service Price">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

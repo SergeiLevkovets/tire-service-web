@@ -1,18 +1,21 @@
-package by.stormnet.levkovets.dao.jdbc.impl;
+package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.jdbc.Dao;
-import by.stormnet.levkovets.domain.impl.Tire;
+import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.domain.impl.Patch;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TireDao implements Dao<Tire> {
+public class PatchDao implements Dao<Patch> {
 
 
     @Override
-    public void save(Tire tire) {
+    public void save(Patch patch) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -20,12 +23,11 @@ public class TireDao implements Dao<Tire> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.tires (width, height, diameter, date) VALUES (?, ?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.materials_patch (name, count, price) VALUES (?, ?, ?)");
 
-            statement.setInt(1, tire.getWidth());
-            statement.setInt(2, tire.getHeight());
-            statement.setInt(3, tire.getDiameter());
-            statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
+            statement.setString(1, patch.getName());
+            statement.setInt(2, patch.getCount());
+            statement.setDouble(3, patch.getPrice());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -36,19 +38,18 @@ public class TireDao implements Dao<Tire> {
     }
 
     @Override
-    public void update(Tire tire) {
+    public void update(Patch patch) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.tires SET width = ?, height = ?, diameter = ?, date = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.materials_patch SET name = ?, count = ?, price = ? WHERE id = ?");
 
-            statement.setInt(1, tire.getWidth());
-            statement.setInt(2, tire.getHeight());
-            statement.setInt(3, tire.getDiameter());
-            statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
-            statement.setInt(5, tire.getId());
+            statement.setString(1, patch.getName());
+            statement.setInt(2, patch.getCount());
+            statement.setDouble(3, patch.getPrice());
+            statement.setInt(4, patch.getId());
 
             statement.executeUpdate();
 
@@ -60,15 +61,15 @@ public class TireDao implements Dao<Tire> {
     }
 
     @Override
-    public void delete(Tire tire) {
+    public void delete(Patch patch) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.tires WHERE id = ?");
+            statement = c.prepareStatement("DELETE FROM tire_service_db.materials_patch WHERE id = ?");
 
-            statement.setInt(1, tire.getId());
+            statement.setInt(1, patch.getId());
 
             statement.executeUpdate();
 
@@ -80,42 +81,40 @@ public class TireDao implements Dao<Tire> {
     }
 
     @Override
-    public Tire loadById(Integer id) {
+    public Patch loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Tire tire = null;
+        Patch patch = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width, height, diameter, `date` from tire_service_db.tires where id = ?");
+            statement = c.prepareStatement("select id, name, count, price from tire_service_db.materials_patch where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Integer width = set.getInt("width");
-                Integer height = set.getInt("height");
-                Integer diameter = set.getInt("diameter");
-                java.util.Date date = set.getTimestamp("date");
-                tire = new Tire();
-                tire.setId(objectId);
-                tire.setWidth(width);
-                tire.setHeight(height);
-                tire.setDiameter(diameter);
-                tire.setDate(date);
+                String name = set.getString("name");
+                Integer count = set.getInt("count");
+                Double price = set.getDouble("price");
+                patch = new Patch();
+                patch.setId(objectId);
+                patch.setName(name);
+                patch.setCount(count);
+                patch.setPrice(price);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return tire;
+        return patch;
     }
 
     @Override
-    public List<Tire> loadAll() {
-        List<Tire> list = new ArrayList<>();
+    public List<Patch> loadAll() {
+        List<Patch> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -123,22 +122,20 @@ public class TireDao implements Dao<Tire> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width, height, diameter, `date` from tire_service_db.tires");
+            statement = c.prepareStatement("select id, name, count, price from tire_service_db.materials_patch");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Integer width = set.getInt("width");
-                Integer height = set.getInt("height");
-                Integer diameter = set.getInt("diameter");
-                java.util.Date date = set.getTimestamp("date");
-                Tire tire = new Tire();
-                tire.setId(objectId);
-                tire.setWidth(width);
-                tire.setHeight(height);
-                tire.setDiameter(diameter);
-                tire.setDate(date);
-                list.add(tire);
+                String name = set.getString("name");
+                Integer count = set.getInt("count");
+                Double price = set.getDouble("price");
+                Patch patch = new Patch();
+                patch.setId(objectId);
+                patch.setName(name);
+                patch.setCount(count);
+                patch.setPrice(price);
+                list.add(patch);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
