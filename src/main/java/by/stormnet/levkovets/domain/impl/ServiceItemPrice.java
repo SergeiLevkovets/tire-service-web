@@ -4,12 +4,14 @@ import by.stormnet.levkovets.domain.Entity;
 
 import java.util.Objects;
 
-public class ServicePriceTruck implements Entity {
+public class ServiceItemPrice implements Entity {
+
     private Integer id;
-    private String name;
+    private ServiceItem serviceItem;
+    private Diameter diameter;
     private Double price;
 
-    public ServicePriceTruck() {
+    public ServiceItemPrice() {
     }
 
     @Override
@@ -22,12 +24,20 @@ public class ServicePriceTruck implements Entity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public ServiceItem getServiceItem() {
+        return serviceItem;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceItem(ServiceItem serviceItem) {
+        this.serviceItem = serviceItem;
+    }
+
+    public Diameter getDiameter() {
+        return diameter;
+    }
+
+    public void setDiameter(Diameter diameter) {
+        this.diameter = diameter;
     }
 
     public Double getPrice() {
@@ -42,14 +52,15 @@ public class ServicePriceTruck implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ServicePriceTruck that = (ServicePriceTruck) o;
+        ServiceItemPrice that = (ServiceItemPrice) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name) &&
+                Objects.equals(serviceItem, that.serviceItem) &&
+                Objects.equals(diameter, that.diameter) &&
                 Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price);
+        return Objects.hash(id, serviceItem, diameter, price);
     }
 }

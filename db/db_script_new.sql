@@ -53,7 +53,7 @@ CREATE TABLE `tire_service_db`.`tires`
     `fk_width_id`    INTEGER   NOT NULL,
     `fk_height_id`   INTEGER   NOT NULL,
     `fk_diameter_id` INTEGER   NOT NULL,
-    `date`           TIMESTAMP NOT NULL,
+    `date`           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_to_width` FOREIGN KEY (`fk_width_id`) REFERENCES widths (`id`),
     CONSTRAINT `fk_to_height` FOREIGN KEY (`fk_height_id`) REFERENCES heights (`id`),
     CONSTRAINT `fk_to_diameter` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
@@ -62,10 +62,10 @@ CREATE TABLE `tire_service_db`.`tires`
 CREATE TABLE `tire_service_db`.`service_item_prices`
 (
     `id`             INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `fk_item_id`     INTEGER        NOT NULL,
+    `fk_service_item_id`     INTEGER        NOT NULL,
     `fk_diameter_id` INTEGER        NULL,
     `price`          NUMERIC(10, 2) NOT NULL,
-    CONSTRAINT `fk_to_items` FOREIGN KEY (`fk_item_id`) REFERENCES service_items (`id`),
+    CONSTRAINT `fk_to_items` FOREIGN KEY (fk_service_item_id) REFERENCES service_items (`id`),
     CONSTRAINT `fk_to_diameters` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE `tire_service_db`.`orders`
     `id`         INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `fk_user_id` INTEGER   NOT NULL,
     `fk_tire_id` INTEGER   NOT NULL,
-    `date`       TIMESTAMP NOT NULL,
+    `date`       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`),
     CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`)
 );
@@ -266,7 +266,7 @@ VALUES ('mounting', 1),
        ('valve_gk135', 10);
 
 
-INSERT INTO tire_service_db.service_item_prices (fk_item_id, fk_diameter_id, price)
+INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_diameter_id, price)
 VALUES
        ((SELECT id from tire_service_db.service_items where name = 'mounting' and fk_type_id = (Select id from tire_service_db.types where type = 'truck')), null, 5.00),
        ((SELECT id from tire_service_db.service_items where name = 'mounting' and fk_type_id = (Select id from tire_service_db.types where type = 'ring')), null, 8.00),
@@ -324,11 +324,9 @@ VALUES
        ((SELECT id from tire_service_db.service_items where name = 'cut_repair' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 4.00),
        ((SELECT id from tire_service_db.service_items where name = 'big_cut_repair' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 5.00),
        ((SELECT id from tire_service_db.service_items where name = 'vertical_cut_repair' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 7.00),
-
        ((SELECT id from tire_service_db.service_items where name = 'sealing' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 5.00),
        ((SELECT id from tire_service_db.service_items where name = 'using_key_jack' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 1.00),
        ((SELECT id from tire_service_db.service_items where name = 'diagnostic' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 2.00),
-
        ((SELECT id from tire_service_db.service_items where name = 'pumping' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 0.50),
        ((SELECT id from tire_service_db.service_items where name = 'explosive_pumping' and fk_type_id = (Select id from tire_service_db.types where type = 'universal')), null, 2.00),
        ((SELECT id from tire_service_db.service_items where name = 'patch_up40' and fk_type_id = (Select id from tire_service_db.types where type = 'patch')), null, 4.00),

@@ -7,9 +7,9 @@ import java.util.Objects;
 
 public class Tire implements Entity {
     private Integer id;
-    private Integer width;
-    private Integer height;
-    private Integer diameter;
+    private Width width;
+    private Height height;
+    private Diameter diameter;
     private Date date;
 
     public Tire() {
@@ -25,27 +25,27 @@ public class Tire implements Entity {
         this.id = id;
     }
 
-    public Integer getWidth() {
+    public Width getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(Width width) {
         this.width = width;
     }
 
-    public Integer getHeight() {
+    public Height getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(Height height) {
         this.height = height;
     }
 
-    public Integer getDiameter() {
+    public Diameter getDiameter() {
         return diameter;
     }
 
-    public void setDiameter(Integer diameter) {
+    public void setDiameter(Diameter diameter) {
         this.diameter = diameter;
     }
 
@@ -63,14 +63,11 @@ public class Tire implements Entity {
         if (o == null || getClass() != o.getClass()) return false;
         Tire tire = (Tire) o;
         return Objects.equals(id, tire.id) &&
-                Objects.equals(width, tire.width) &&
-                Objects.equals(height, tire.height) &&
-                Objects.equals(diameter, tire.diameter) &&
                 Objects.equals(date, tire.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, width, height, diameter, date);
+        return Objects.hash(id, date);
     }
 }

@@ -4,12 +4,13 @@ import by.stormnet.levkovets.domain.Entity;
 
 import java.util.Objects;
 
-public class ServicePrice implements Entity {
+public class ServiceItem implements Entity {
+
     private Integer id;
     private String name;
-    private Double price;
+    private Type type;
 
-    public ServicePrice() {
+    public ServiceItem() {
     }
 
     @Override
@@ -30,26 +31,26 @@ public class ServicePrice implements Entity {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
+    public Type getType() {
+        return type;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ServicePrice that = (ServicePrice) o;
+        ServiceItem that = (ServiceItem) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(price, that.price);
+                Objects.equals(type, that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price);
+        return Objects.hash(id, name, type);
     }
 }

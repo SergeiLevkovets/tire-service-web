@@ -1,8 +1,6 @@
 package by.stormnet.levkovets.controller;
 
 import by.stormnet.levkovets.dao.Dao;
-import by.stormnet.levkovets.dao.mysql.ServicePriceDao;
-import by.stormnet.levkovets.domain.impl.ServicePrice;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

@@ -2,7 +2,10 @@ package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.domain.impl.Diameter;
+import by.stormnet.levkovets.domain.impl.Height;
 import by.stormnet.levkovets.domain.impl.Tire;
+import by.stormnet.levkovets.domain.impl.Width;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,9 +25,9 @@ public class TireDao implements Dao<Tire> {
 
             statement = c.prepareStatement("INSERT INTO tire_service_db.tires (width, height, diameter, date) VALUES (?, ?, ?, ?)");
 
-            statement.setInt(1, tire.getWidth());
-            statement.setInt(2, tire.getHeight());
-            statement.setInt(3, tire.getDiameter());
+            statement.setInt(1, tire.getWidth().getId());
+            statement.setInt(2, tire.getHeight().getId());
+            statement.setInt(3, tire.getDiameter().getId());
             statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
 
             statement.executeUpdate();
@@ -44,9 +47,9 @@ public class TireDao implements Dao<Tire> {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("UPDATE tire_service_db.tires SET width = ?, height = ?, diameter = ?, date = ? WHERE id = ?");
 
-            statement.setInt(1, tire.getWidth());
-            statement.setInt(2, tire.getHeight());
-            statement.setInt(3, tire.getDiameter());
+            statement.setInt(1, tire.getWidth().getId());
+            statement.setInt(2, tire.getHeight().getId());
+            statement.setInt(3, tire.getDiameter().getId());
             statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
             statement.setInt(5, tire.getId());
 
@@ -94,15 +97,15 @@ public class TireDao implements Dao<Tire> {
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Integer width = set.getInt("width");
-                Integer height = set.getInt("height");
-                Integer diameter = set.getInt("diameter");
+//                Width width = set.getInt("width");
+//                Height height = set.getInt("height");
+//                Diameter diameter = set.getInt("diameter");
                 java.util.Date date = set.getTimestamp("date");
                 tire = new Tire();
                 tire.setId(objectId);
-                tire.setWidth(width);
-                tire.setHeight(height);
-                tire.setDiameter(diameter);
+//                tire.setWidth(width);
+//                tire.setHeight(height);
+//                tire.setDiameter(diameter);
                 tire.setDate(date);
             }
         } catch (SQLException e) {
@@ -128,15 +131,15 @@ public class TireDao implements Dao<Tire> {
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Integer width = set.getInt("width");
-                Integer height = set.getInt("height");
-                Integer diameter = set.getInt("diameter");
+//                Integer width = set.getInt("width");
+//                Integer height = set.getInt("height");
+//                Integer diameter = set.getInt("diameter");
                 java.util.Date date = set.getTimestamp("date");
                 Tire tire = new Tire();
                 tire.setId(objectId);
-                tire.setWidth(width);
-                tire.setHeight(height);
-                tire.setDiameter(diameter);
+//                tire.setWidth(width);
+//                tire.setHeight(height);
+//                tire.setDiameter(diameter);
                 tire.setDate(date);
                 list.add(tire);
             }
