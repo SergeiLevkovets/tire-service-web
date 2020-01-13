@@ -20,10 +20,11 @@ public class OrderDao implements Dao<Order> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders (fk_user_id, fk_tire_id) VALUES (?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders (fk_user_id, fk_tire_id, fk_type_id) VALUES (?, ?, ?)");
 
             statement.setInt(1, order.getUser().getId());
             statement.setInt(2, order.getTire().getId());
+            statement.setInt(3, order.getType().getId());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -40,10 +41,11 @@ public class OrderDao implements Dao<Order> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.orders SET fk_user_id = ?, fk_tire_id = ?, date = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.orders SET fk_user_id = ?, fk_tire_id = ?, fk_type_id = ?, date = ? WHERE id = ?");
 
             statement.setInt(1, order.getUser().getId());
             statement.setInt(2, order.getTire().getId());
+            statement.setInt(2, order.getType().getId());
             statement.setTimestamp(3, new Timestamp(order.getDate().getTime()));
             statement.setInt(4, order.getId());
 
@@ -84,10 +86,11 @@ public class OrderDao implements Dao<Order> {
         Order order = null;
         UserDao userDao = new UserDao();
         TireDao tireDao = new TireDao();
+        TypeDao typeDao = new TypeDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_user_id, fk_tire_id, `date` from tire_service_db.orders where id = ?");
+            statement = c.prepareStatement("select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
@@ -95,11 +98,13 @@ public class OrderDao implements Dao<Order> {
                 Integer objectId = set.getInt("id");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
                 Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 java.util.Date date = set.getTimestamp("date");
                 order = new Order();
                 order.setId(objectId);
                 order.setUser(user);
                 order.setTire(tire);
+                order.setType(type);
                 order.setDate(date);
             }
         } catch (SQLException e) {
@@ -118,10 +123,11 @@ public class OrderDao implements Dao<Order> {
         ResultSet set = null;
         UserDao userDao = new UserDao();
         TireDao tireDao = new TireDao();
+        TypeDao typeDao = new TypeDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_user_id, fk_tire_id, `date` from tire_service_db.orders");
+            statement = c.prepareStatement("select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders");
             set = statement.executeQuery();
 
 
@@ -129,11 +135,13 @@ public class OrderDao implements Dao<Order> {
                 Integer objectId = set.getInt("id");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
                 Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 java.util.Date date = set.getTimestamp("date");
                 Order order = new Order();
                 order.setId(objectId);
                 order.setUser(user);
                 order.setTire(tire);
+                order.setType(type);
                 order.setDate(date);
                 list.add(order);
             }

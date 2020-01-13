@@ -10,6 +10,7 @@ public class Order implements Entity {
     private Integer id;
     private User user;
     private Tire tire;
+    private Type type;
     private Date date;
 
     public Order() {
@@ -41,6 +42,14 @@ public class Order implements Entity {
         this.tire = tire;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -57,11 +66,12 @@ public class Order implements Entity {
         return Objects.equals(id, order.id) &&
                 Objects.equals(user, order.user) &&
                 Objects.equals(tire, order.tire) &&
+                Objects.equals(type, order.type) &&
                 Objects.equals(date, order.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, tire, date);
+        return Objects.hash(id, user, tire, type, date);
     }
 }

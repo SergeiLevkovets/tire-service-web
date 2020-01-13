@@ -8,6 +8,7 @@ public class ServiceItemPrice implements Entity {
 
     private Integer id;
     private ServiceItem serviceItem;
+    private Type type;
     private Diameter diameter;
     private Double price;
 
@@ -30,6 +31,14 @@ public class ServiceItemPrice implements Entity {
 
     public void setServiceItem(ServiceItem serviceItem) {
         this.serviceItem = serviceItem;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Diameter getDiameter() {
@@ -55,12 +64,13 @@ public class ServiceItemPrice implements Entity {
         ServiceItemPrice that = (ServiceItemPrice) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(serviceItem, that.serviceItem) &&
+                Objects.equals(type, that.type) &&
                 Objects.equals(diameter, that.diameter) &&
                 Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, serviceItem, diameter, price);
+        return Objects.hash(id, serviceItem, type, diameter, price);
     }
 }

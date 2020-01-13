@@ -5,6 +5,7 @@ import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.Diameter;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
 import by.stormnet.levkovets.domain.impl.ServiceItemPrice;
+import by.stormnet.levkovets.domain.impl.Type;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,11 +26,12 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_diameter_id, price) VALUES (?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_type_id, fk_diameter_id, price) VALUES (?, ?, ?, ?)");
 
             statement.setInt(1, serviceItemPrice.getServiceItem().getId());
-            statement.setInt(2, serviceItemPrice.getDiameter().getId());
-            statement.setDouble(3, serviceItemPrice.getPrice());
+            statement.setInt(2, serviceItemPrice.getType().getId());
+            statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            statement.setDouble(4, serviceItemPrice.getPrice());
 
 
             statement.executeUpdate();
@@ -47,12 +49,13 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.service_item_prices SET fk_service_item_id = ?, fk_diameter_id = ?, price = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_item_prices SET fk_service_item_id = ?, fk_type_id = ?, fk_diameter_id = ?, price = ? WHERE id = ?");
 
             statement.setInt(1, serviceItemPrice.getServiceItem().getId());
-            statement.setInt(2, serviceItemPrice.getDiameter().getId());
-            statement.setDouble(3, serviceItemPrice.getPrice());
-            statement.setInt(4, serviceItemPrice.getId());
+            statement.setInt(2, serviceItemPrice.getType().getId());
+            statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            statement.setDouble(4, serviceItemPrice.getPrice());
+            statement.setInt(5, serviceItemPrice.getId());
 
             statement.executeUpdate();
 
@@ -90,22 +93,25 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         ResultSet set = null;
         ServiceItemPrice serviceItemPrice = null;
         ServiceItemDao serviceItemDao = new ServiceItemDao();
+        TypeDao typeDao = new TypeDao();
         DiameterDao diameterDao = new DiameterDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_service_item_id, fk_diameter_id, price from tire_service_db.service_item_prices where id = ?");
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 ServiceItem serviceItem = serviceItemDao.loadById(set.getInt("fk_service_item_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 Double price = set.getDouble("price");
                 serviceItemPrice = new ServiceItemPrice();
                 serviceItemPrice.setId(objectId);
                 serviceItemPrice.setServiceItem(serviceItem);
+                serviceItemPrice.setType(type);
                 serviceItemPrice.setDiameter(diameter);
                 serviceItemPrice.setPrice(price);
             }
@@ -124,21 +130,24 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         PreparedStatement statement = null;
         ResultSet set = null;
         ServiceItemDao serviceItemDao = new ServiceItemDao();
+        TypeDao typeDao = new TypeDao();
         DiameterDao diameterDao = new DiameterDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_service_item_id, fk_diameter_id, price from tire_service_db.service_item_prices");
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 ServiceItem serviceItem = serviceItemDao.loadById(set.getInt("fk_service_item_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 Double price = set.getDouble("price");
                 ServiceItemPrice serviceItemPrice = new ServiceItemPrice();
                 serviceItemPrice.setId(objectId);
                 serviceItemPrice.setServiceItem(serviceItem);
+                serviceItemPrice.setType(type);
                 serviceItemPrice.setDiameter(diameter);
                 serviceItemPrice.setPrice(price);
                 list.add(serviceItemPrice);

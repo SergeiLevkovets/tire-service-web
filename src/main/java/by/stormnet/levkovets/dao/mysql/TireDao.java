@@ -23,12 +23,11 @@ public class TireDao implements Dao<Tire> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.tires (width, height, diameter, date) VALUES (?, ?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.tires (fk_width_id, fk_height_id, fk_diameter_id) VALUES (?, ?, ?)");
 
             statement.setInt(1, tire.getWidth().getId());
             statement.setInt(2, tire.getHeight().getId());
             statement.setInt(3, tire.getDiameter().getId());
-            statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -45,7 +44,7 @@ public class TireDao implements Dao<Tire> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.tires SET width = ?, height = ?, diameter = ?, date = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.tires SET fk_width_id = ?, fk_height_id = ?, fk_diameter_id = ?, date = ? WHERE id = ?");
 
             statement.setInt(1, tire.getWidth().getId());
             statement.setInt(2, tire.getHeight().getId());
