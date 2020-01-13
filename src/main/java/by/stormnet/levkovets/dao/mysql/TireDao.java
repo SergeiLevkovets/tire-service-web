@@ -88,24 +88,27 @@ public class TireDao implements Dao<Tire> {
         PreparedStatement statement = null;
         ResultSet set = null;
         Tire tire = null;
+        WidthDao widthDao = new WidthDao();
+        HeightDao heightDao = new HeightDao();
+        DiameterDao diameterDao = new DiameterDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width, height, diameter, `date` from tire_service_db.tires where id = ?");
+            statement = c.prepareStatement("select id, fk_width_id, fk_height_id, fk_diameter_id, `date` from tire_service_db.tires where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-//                Width width = set.getInt("width");
-//                Height height = set.getInt("height");
-//                Diameter diameter = set.getInt("diameter");
+                Width width = widthDao.loadById(set.getInt("fk_width_id")) ;
+                Height height = heightDao.loadById(set.getInt("fk_height_id"));
+                Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 java.util.Date date = set.getTimestamp("date");
                 tire = new Tire();
                 tire.setId(objectId);
-//                tire.setWidth(width);
-//                tire.setHeight(height);
-//                tire.setDiameter(diameter);
+                tire.setWidth(width);
+                tire.setHeight(height);
+                tire.setDiameter(diameter);
                 tire.setDate(date);
             }
         } catch (SQLException e) {
@@ -123,23 +126,27 @@ public class TireDao implements Dao<Tire> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
+        WidthDao widthDao = new WidthDao();
+        HeightDao heightDao = new HeightDao();
+        DiameterDao diameterDao = new DiameterDao();
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width, height, diameter, `date` from tire_service_db.tires");
+            statement = c.prepareStatement("select id, fk_width_id, fk_height_id, fk_diameter_id, `date` from tire_service_db.tires");
             set = statement.executeQuery();
+
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-//                Integer width = set.getInt("width");
-//                Integer height = set.getInt("height");
-//                Integer diameter = set.getInt("diameter");
+                Width width = widthDao.loadById(set.getInt("fk_width_id")) ;
+                Height height = heightDao.loadById(set.getInt("fk_height_id"));
+                Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 java.util.Date date = set.getTimestamp("date");
                 Tire tire = new Tire();
                 tire.setId(objectId);
-//                tire.setWidth(width);
-//                tire.setHeight(height);
-//                tire.setDiameter(diameter);
+                tire.setWidth(width);
+                tire.setHeight(height);
+                tire.setDiameter(diameter);
                 tire.setDate(date);
                 list.add(tire);
             }
