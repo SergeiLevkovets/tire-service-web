@@ -2,10 +2,14 @@ package by.stormnet.levkovets.dao.mysql;
 
 import by.stormnet.levkovets.dao.Dao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.domain.impl.*;
+import by.stormnet.levkovets.domain.impl.Order;
+import by.stormnet.levkovets.domain.impl.Tire;
+import by.stormnet.levkovets.domain.impl.Type;
+import by.stormnet.levkovets.domain.impl.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDao implements Dao<Order> {
@@ -27,7 +31,7 @@ public class OrderDao implements Dao<Order> {
             statement.setInt(3, order.getType().getId());
 
             statement.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -51,7 +55,7 @@ public class OrderDao implements Dao<Order> {
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -71,7 +75,7 @@ public class OrderDao implements Dao<Order> {
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -152,4 +156,45 @@ public class OrderDao implements Dao<Order> {
         }
         return list;
     }
+
+    public List<Order> loadAllByDates(Date startDate, Date endDate) {
+        List<Order> list = new ArrayList<>();
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        UserDao userDao = new UserDao();
+        TireDao tireDao = new TireDao();
+        TypeDao typeDao = new TypeDao();
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement(
+                    "select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders where `date` between ? end ?");
+            statement.setTimestamp(1, new Timestamp(startDate.getTime()));
+            statement.setTimestamp(2, new Timestamp(endDate.getTime()));
+            set = statement.executeQuery();
+
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                User user = userDao.loadById(set.getInt("fk_user_id"));
+                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
+                java.util.Date date = set.getTimestamp("date");
+                Order order = new Order();
+                order.setId(objectId);
+                order.setUser(user);
+                order.setTire(tire);
+                order.setType(type);
+                order.setDate(date);
+                list.add(order);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return list;
+    }
+
 }

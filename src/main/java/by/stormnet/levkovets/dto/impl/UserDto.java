@@ -1,8 +1,10 @@
-package by.stormnet.levkovets.dto;
+package by.stormnet.levkovets.dto.impl;
+
+import by.stormnet.levkovets.dto.Dto;
 
 import java.util.Objects;
 
-public class UserDto {
+public class UserDto implements Dto {
 
     private Integer id;
     private String name;

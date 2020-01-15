@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page isELIgnored="false" %>
 <%@include file="/WEB-INF/pages/head.jsp" %>
@@ -55,7 +56,7 @@
                                             </div>
                                             <div class="form-group col-sm-3">
                                                 <input type="number" class="form-control" id="wheel_count"
-                                                       value="${param.car_wheel_count}" name="car_wheel_count" min="1"
+                                                       value="${param.wheel_count}" name="wheelCount" min="1"
                                                        required>
                                             </div>
                                         </div>
@@ -65,37 +66,28 @@
                                         <div class="form-group row" id="wheel_size">
                                             <div class="col-sm-3">
                                                 <label>Ширина колеса</label>
-                                                ${car_wheel_width}
-                                                <select class="form-control" name="car_wheel_width" id="car_wheel_width"
+                                                ${width}
+                                                <select class="form-control" name="width" id="width"
                                                         required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.car_wheel_width.stream().anyMatch(v->v == '235').get() ? 'selected' : ''}>235</option>
+                                                    <option ${paramValues.width.stream().anyMatch(v->v == '235').get() ? 'selected' : ''}>235</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label>Высота профиля</label>
-                                                ${car_wheel_height}
-                                                <select class="form-control" name="car_wheel_height"
-                                                        id="car_wheel_height" required>
+                                                ${height}
+                                                <select class="form-control" name="height"
+                                                        id="height" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.car_wheel_height.stream().anyMatch(v->v == '55').get() ? 'selected' : ''}>55</option>
+                                                    <option ${paramValues.height.stream().anyMatch(v->v == '55').get() ? 'selected' : ''}>55</option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label>Диаметр диска</label>
-                                                ${car_wheel_diameter}
-                                                <select class="form-control" name="car_wheel_diameter" required>
+                                                ${diameter}
+                                                <select class="form-control" name="diameter" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r13').get() ? 'selected' : ''}>r13</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r14').get() ? 'selected' : ''}>r14</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r15').get() ? 'selected' : ''}>r15</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r16').get() ? 'selected' : ''}>r16</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r17').get() ? 'selected' : ''}>r17</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r18').get() ? 'selected' : ''}>r18</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r19').get() ? 'selected' : ''}>r19</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r20').get() ? 'selected' : ''}>r20</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r21').get() ? 'selected' : ''}>r21</option>
-                                                    <option ${paramValues.car_wheel_diameter.stream().anyMatch(v->v == 'r22').get() ? 'selected' : ''}>r22</option>
+                                                    <option ${paramValues.diameter.stream().anyMatch(v->v == 'r13').get() ? 'selected' : ''}>r13</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -120,38 +112,38 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_complex" ${param.car_complex == 'on' ? 'checked' : ''}>Комплекс
+                                                           name="complex" ${param.complex == 'on' ? 'checked' : ''}>Комплекс
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_dismantling" ${param.car_dismantling == 'on' ? 'checked' : ''}>Демонтаж
+                                                           name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_installation" ${param.car_installation == 'on' ? 'checked' : ''}>Монтаж
+                                                           name="installation" ${param.installation == 'on' ? 'checked' : ''}>Монтаж
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_balancing" ${param.car_balancing == 'on' ? 'checked' : ''}>Балансировка
+                                                           name="balancing" ${param.balancing == 'on' ? 'checked' : ''}>Балансировка
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_remove_wheel" ${param.car_remove_wheel == 'on' ? 'checked' : ''}>Снятие
+                                                           name="remove_wheel" ${param.remove_wheel == 'on' ? 'checked' : ''}>Снятие
                                                     с а/м
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_install_wheel" ${param.car_install_wheel == 'on' ? 'checked' : ''}>Установка
+                                                           name="install_wheel" ${param.install_wheel == 'on' ? 'checked' : ''}>Установка
                                                     на а/м
                                                 </label>
                                             </div>
@@ -161,38 +153,38 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_balance_weights_adhesive" ${param.car_balance_weights_adhesive == 'on' ? 'checked' : ''}>Клеящиеся
+                                                           name="balance_weights_adhesive" ${param.car_balance_weights_adhesive == 'on' ? 'checked' : ''}>Клеящиеся
                                                     грузы
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_camera_insert" ${param.car_camera_insert == 'on' ? 'checked' : ''}>
+                                                           name="camera_insert" ${param.camera_insert == 'on' ? 'checked' : ''}>
                                                     Вставка камеры </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_tire_pumping" ${param.car_tire_pumping == 'on' ? 'checked' : ''}>
+                                                           name="tire_pumping" ${param.tire_pumping == 'on' ? 'checked' : ''}>
                                                     Подкачка колеса </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_cleaning" ${param.car_cleaning == 'on' ? 'checked' : ''}>
+                                                           name="cleaning" ${param.cleaning == 'on' ? 'checked' : ''}>
                                                     Удаление грязи с диска</label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_diagnostic" ${param.car_diagnostic == 'on' ? 'checked' : ''}>
+                                                           name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
                                                     Диагностика колеса</label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_using_key_jack" ${param.car_using_key_jack == 'on' ? 'checked' : ''}>
+                                                           name="using_key_jack" ${param.using_key_jack == 'on' ? 'checked' : ''}>
                                                     использование ключа, домкрата</label>
                                             </div>
 
@@ -204,12 +196,12 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="car_valve_replacement" ${param.car_valve_replacement == 'on' ? 'checked' : ''}
+                                                           name="valve_replacement" ${param.valve_replacement == 'on' ? 'checked' : ''}
                                                            id="valve_replacement">Замена вентиля</label>
                                             </div>
                                             <div class="form-group">
                                                 <label>количество</label>
-                                                ${car_valve_count}
+                                                ${valve_count_error}
                                                 <div class="btn-toolbar mb-3" role="toolbar"
                                                      aria-label="Toolbar with button groups">
                                                     <div class="btn-group mr-2" id="btn_car_valve" role="group"
@@ -229,15 +221,15 @@
                                                     </div>
                                                     <div class="form-group col-sm-3">
                                                         <input type="number" class="form-control" id="valve_count"
-                                                               name="car_valve_count" min="1" value="${param.car_valve_count}">
+                                                               name="valve_count" min="1" value="${param.valve_count}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <label>Вентиль</label>
-                                            ${car_valve_type}
-                                            <select class="form-control" id="valve_type" name="car_valve_type">
+                                            ${valve_type_error}
+                                            <select class="form-control" id="valve_type" name="valve">
                                                 <option hidden></option>
-                                                <option ${paramValues.car_valve_type.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
+                                                <option ${paramValues.valve.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
                                             </select></div>
                                     </div>
 
@@ -245,12 +237,12 @@
                                         <div class="col-sm-8">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox" name="car_sealing"
-                                                           id="sealing" ${param.car_sealing == 'on' ? 'checked' : ''}>Гермитизация</label>
+                                                    <input type="checkbox" name="sealing"
+                                                           id="sealing" ${param.sealing == 'on' ? 'checked' : ''}>Гермитизация</label>
                                             </div>
                                             <div class="form-group">
                                                 <label>количество</label>
-                                                ${car_sealing_count}
+                                                ${sealing_count_error}
                                                 <div class="btn-toolbar mb-3" role="toolbar"
                                                      aria-label="Toolbar with button groups">
                                                     <div class="btn-group mr-2" id="btn_car_sealing" role="group"
@@ -270,7 +262,7 @@
                                                     </div>
                                                     <div class="form-group col-sm-3">
                                                         <input type="number" class="form-control" id="sealing_count"
-                                                               name="car_sealing_count" min="1" value="${param.car_sealing_count}">
+                                                               name="sealing_count" min="1" value="${param.sealing_count}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -283,7 +275,7 @@
                                     <div class="content-box-large form-group row">
                                         <div class="form-group">
                                             <label>количество колес</label>
-                                            ${car_repair_count}
+                                            ${repair_count_error}
                                             <div class="btn-toolbar mb-3" role="toolbar"
                                                  aria-label="Toolbar with button groups">
                                                 <div class="btn-group mr-2" id="btn_car_repair" role="group"
@@ -303,7 +295,7 @@
                                                 </div>
                                                 <div class="form-group col-sm-3">
                                                     <input type="number" class="form-control" id="repair_count"
-                                                           name="car_repair_count" min="1" value="${param.car_repair_count}">
+                                                           name="repair_count" min="1" value="${param.repair_count}">
                                                 </div>
                                             </div>
                                         </div>
@@ -314,37 +306,33 @@
                                             <div class="col-md-4" id="repair">
                                                 <div class="checkbox">
                                                     <label><input type="checkbox"
-                                                                  id="puncture_repair" ${param.car_puncture_repair == 'on' ? 'checked' : ''}
-                                                                  name="car_puncture_repair">Прокол </label>
+                                                                  id="puncture_repair" ${param.puncture_repair == 'on' ? 'checked' : ''}
+                                                                  name="puncture_repair">Прокол </label>
                                                 </div>
                                                 <div class="checkbox">
                                                     <label><input type="checkbox"
-                                                                  id="cut_repair" ${param.car_cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="car_cut_repair">Порез
+                                                                  id="cut_repair" ${param.cut_repair == 'on' ? 'checked' : ''}
+                                                                  name="cut_repair">Порез
                                                     </label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="big_cut_repair" ${param.car_big_cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="car_big_cut_repair">Большой порез </label>
+                                                    <label><input type="checkbox" id="big_cut_repair" ${param.big_cut_repair == 'on' ? 'checked' : ''}
+                                                                  name="big_cut_repair">Большой порез </label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="vertical_cut_repair" ${param.car_vertical_cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="car_vertical_cut_repair">Вертикальный порез
+                                                    <label><input type="checkbox" id="vertical_cut_repair" ${param.vertical_cut_repair == 'on' ? 'checked' : ''}
+                                                                  name="vertical_cut_repair">Вертикальный порез
                                                     </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox" id="repair_diagnostic" ${param.car_repair_diagnostic == 'on' ? 'checked' : ''}
-                                                                  name="car_repair_diagnostic">Диагностика </label>
                                                 </div>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <div class="col-sm-8">
                                                     <label>Латка</label>
-                                                    ${car_patch_type}
-                                                    <select class="form-control" id="patch_type" name="car_patch_type">
+                                                    ${patch_type_error}
+                                                    <select class="form-control" id="patch_type" name="patch">
                                                         <option hidden></option>
-                                                        <option ${paramValues.car_patch_type.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
+                                                        <option ${paramValues.patch.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
                                                     </select>
                                                 </div>
                                             </div>

@@ -132,4 +132,31 @@ public class TypeDao implements Dao<Type> {
         }
         return list;
     }
+
+    public Type loadByType(String type) {
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        Type typeElem = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, type from tire_service_db.types where type = ?");
+            statement.setString(1, type);
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String typeField = set.getString("type");
+                typeElem = new Type();
+                typeElem.setId(objectId);
+                typeElem.setType(typeField);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return typeElem;
+    }
 }

@@ -132,4 +132,31 @@ public class HeightDao implements Dao<Height> {
         }
         return list;
     }
+
+    public Height loadBySize(String size) {
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        Height height = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, height from tire_service_db.heights where height = ?");
+            statement.setString(1, size);
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String heightField = set.getString("height");
+                height = new Height();
+                height.setId(objectId);
+                height.setHeight(heightField);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return height;
+    }
 }

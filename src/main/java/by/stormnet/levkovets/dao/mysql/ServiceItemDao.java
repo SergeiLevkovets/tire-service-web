@@ -131,4 +131,31 @@ public class ServiceItemDao implements Dao<ServiceItem> {
         }
         return list;
     }
+
+    public ServiceItem loadByName(String name) {
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        ServiceItem serviceItem = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, name from tire_service_db.service_items where name = ?");
+            statement.setString(1, name);
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String itemName = set.getString("name");
+                serviceItem = new ServiceItem();
+                serviceItem.setId(objectId);
+                serviceItem.setName(itemName);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return serviceItem;
+    }
 }

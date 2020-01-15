@@ -1,7 +1,6 @@
 package by.stormnet.levkovets.controllers;
 
-import by.stormnet.levkovets.dto.UserDto;
-import by.stormnet.levkovets.services.UserService;
+import by.stormnet.levkovets.dto.impl.UserDto;
 import by.stormnet.levkovets.services.impl.UserServiceImpl;
 import by.stormnet.levkovets.utils.StringUtils;
 
@@ -58,8 +57,8 @@ public class LoginController extends HttpServlet {
         Boolean isEmailExist = true;
         Boolean isPhoneExist = true;
 
-        UserService userService = new UserServiceImpl();
-        List<UserDto> allUsers = userService.getAllUsers();
+        UserServiceImpl userService = new UserServiceImpl();
+        List<UserDto> allUsers = userService.getAll();
         HttpSession session = req.getSession();
 
         if (StringUtils.isBlank(email) && StringUtils.isBlank(phone)){

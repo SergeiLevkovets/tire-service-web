@@ -159,4 +159,78 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         }
         return list;
     }
+
+    public List<ServiceItemPrice> loadAllByItem(ServiceItem item) {
+        List<ServiceItemPrice> list = new ArrayList<>();
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        ServiceItemDao serviceItemDao = new ServiceItemDao();
+        TypeDao typeDao = new TypeDao();
+        DiameterDao diameterDao = new DiameterDao();
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_service_item_id = ?");
+            statement.setInt(1, item.getId());
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                ServiceItem serviceItem = serviceItemDao.loadById(set.getInt("fk_service_item_id"));
+                Type type = typeDao.loadById(set.getInt("fk_type_id"));
+                Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
+                Double price = set.getDouble("price");
+                ServiceItemPrice serviceItemPrice = new ServiceItemPrice();
+                serviceItemPrice.setId(objectId);
+                serviceItemPrice.setServiceItem(serviceItem);
+                serviceItemPrice.setType(type);
+                serviceItemPrice.setDiameter(diameter);
+                serviceItemPrice.setPrice(price);
+                list.add(serviceItemPrice);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return list;
+    }
+
+    public List<ServiceItemPrice> loadAllByType(Type type) {
+        List<ServiceItemPrice> list = new ArrayList<>();
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        ServiceItemDao serviceItemDao = new ServiceItemDao();
+        TypeDao typeDao = new TypeDao();
+        DiameterDao diameterDao = new DiameterDao();
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_type_id = ?");
+            statement.setInt(1, type.getId());
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                ServiceItem serviceItem = serviceItemDao.loadById(set.getInt("fk_service_item_id"));
+                Type typeElem = typeDao.loadById(set.getInt("fk_type_id"));
+                Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
+                Double price = set.getDouble("price");
+                ServiceItemPrice serviceItemPrice = new ServiceItemPrice();
+                serviceItemPrice.setId(objectId);
+                serviceItemPrice.setServiceItem(serviceItem);
+                serviceItemPrice.setType(typeElem);
+                serviceItemPrice.setDiameter(diameter);
+                serviceItemPrice.setPrice(price);
+                list.add(serviceItemPrice);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return list;
+    }
 }

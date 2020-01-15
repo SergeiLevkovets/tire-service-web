@@ -130,4 +130,31 @@ public class WidthDao implements Dao<Width> {
         }
         return list;
     }
+
+    public Width loadBySize(String size) {
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        Width width = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, width from tire_service_db.widths where width = ?");
+            statement.setString(1, size);
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String widthField = set.getString("width");
+                width = new Width();
+                width.setId(objectId);
+                width.setWidth(widthField);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return width;
+    }
 }

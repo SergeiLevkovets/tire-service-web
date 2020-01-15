@@ -132,4 +132,31 @@ public class DiameterDao implements Dao<Diameter> {
         }
         return list;
     }
+
+    public Diameter loadBySize(String size) {
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        Diameter diameter = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("select id, diameter from tire_service_db.diameters where diameter = ?");
+            statement.setString(1, size);
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String diameterField = set.getString("diameter");
+                diameter = new Diameter();
+                diameter.setId(objectId);
+                diameter.setDiameter(diameterField);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return diameter;
+    }
 }

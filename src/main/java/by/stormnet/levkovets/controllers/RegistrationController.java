@@ -1,7 +1,6 @@
 package by.stormnet.levkovets.controllers;
 
-import by.stormnet.levkovets.dto.UserDto;
-import by.stormnet.levkovets.services.UserService;
+import by.stormnet.levkovets.dto.impl.UserDto;
 import by.stormnet.levkovets.services.impl.UserServiceImpl;
 import by.stormnet.levkovets.utils.StringUtils;
 
