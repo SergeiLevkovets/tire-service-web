@@ -8,7 +8,7 @@
             <div class="col-md-12">
                 <!-- Logo -->
                 <div class="logo">
-                    <h1><a href="index.html">Tire Service</a></h1>
+                    <h1><a href="${pageContext.request.contextPath}/index.html">Tire Service</a></h1>
                 </div>
             </div>
         </div>
@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="login-wrapper">
-                <form class="box" id="registration_form" action="registration" method="post">
+                <form class="box" id="registration_form" action="${pageContext.request.contextPath}/registration" method="post">
                     <div class="content-wrap">
                         <h6>Sign Up</h6>
                         ${name_error}

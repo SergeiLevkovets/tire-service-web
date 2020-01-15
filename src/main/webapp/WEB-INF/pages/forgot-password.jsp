@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="logo">
-                    <h1><a href="index.html">Tire Service</a></h1>
+                    <h1><a href="${pageContext.request.contextPath}/index.html">Tire Service</a></h1>
                 </div>
             </div>
         </div>

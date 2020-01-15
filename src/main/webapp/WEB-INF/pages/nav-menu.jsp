@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page isELIgnored="false" %>
-<li class="current"><a href="index.html"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-<li><a href="authorized/order-car"><i class="glyphicon glyphicon-edit"></i> Order</a></li>
-<li><a href="login">Login</a></li>
-<li><a href="registration">Sign Up</a></li>
-<li><a href="authorized/profile">Profile</a></li>
-<li><a href="authorized/service-price">Service Price</a></li>
-<li><a href="authorized/tire-storage">Tire storage</a></li>
-<li><a href="logout/index.html">Logout</a></li>
-<li><a href="${pageContext.request.contextPath}/WEB-INF/pages/404.jsp">404</a></li>
+<li class="current"><a href="${pageContext.request.contextPath}/index.html"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+<li ${sessionScope.authorizedUserName == null ? 'hidden' : ''}><a href="${pageContext.request.contextPath}/authorized/order-car"><i class="glyphicon glyphicon-shopping-cart"></i> Order</a></li>
+<li ${sessionScope.authorizedUserName == null ? 'hidden' : ''}><a href="${pageContext.request.contextPath}/authorized/profile"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+<li ${sessionScope.authorizedUserName == null ? 'hidden' : ''}><a href="${pageContext.request.contextPath}/authorized/service-price"><i class="glyphicon glyphicon-list"></i> Service Price</a></li>
+<li ${sessionScope.authorizedUserName == null ? 'hidden' : ''}><a href="${pageContext.request.contextPath}/authorized/tire-storage"><i class="glyphicon glyphicon-inbox"></i> Tire storage</a></li>
+<li ><a href="${pageContext.request.contextPath}/login"><i class="glyphicon glyphicon-log-in"></i> Log-in</a></li>
+<li><a href="${pageContext.request.contextPath}/registration"><i class="glyphicon glyphicon-floppy-disk"></i> Registration</a></li>
+<li><a href="${pageContext.request.contextPath}/logout"><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+<li><a href="${pageContext.request.contextPath}/404"><i class="glyphicon glyphicon-warning-sign"></i> 404</a></li>

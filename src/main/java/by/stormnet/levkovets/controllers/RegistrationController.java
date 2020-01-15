@@ -36,35 +36,36 @@ public class RegistrationController extends HttpServlet {
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirm_password");
 
-        if (isValid(req, name, email, phone, password, confirmPassword)){
-
-            UserDto userDto = new UserDto();
-            userDto.setName(name);
-            userDto.setEmail(email);
-            userDto.setPhone(phone);
-            userDto.setPassword(password);
-
-            UserService userService = new UserServiceImpl();
-            userService.saveOrUpdateUser(userDto);
-
-            HttpSession session = req.getSession();
-
-            List<UserDto> allUsers = userService.getAllUsers();
-            for (UserDto user : allUsers) {
-                if (user.getEmail().equals(email)){
-                    session.setAttribute("authorizedUserId", user.getId());
-                    session.setAttribute("authorizedUserName", user.getName());
-                    break;
-                }
-            }
-            resp.sendRedirect("index.html");
+        if (isNoValid(req, name, email, phone, password, confirmPassword)){
+            req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
+
+        UserDto userDto = new UserDto();
+        userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setPhone(phone);
+        userDto.setPassword(password);
+
+        UserService userService = new UserServiceImpl();
+        userService.saveOrUpdateUser(userDto);
+
+        HttpSession session = req.getSession();
+
+        List<UserDto> allUsers = userService.getAllUsers();
+        for (UserDto user : allUsers) {
+            if (user.getEmail().equals(email)){
+                session.setAttribute("authorizedUserId", user.getId());
+                session.setAttribute("authorizedUserName", user.getName());
+                break;
+            }
+        }
+        String contextPath = req.getContextPath();
+        resp.sendRedirect(contextPath + "/index.html");
 
     }
 
-    private boolean isValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword){
+    private boolean isNoValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword){
         Map<String, String> errorMap = new HashMap<>();
 
         UserService userService = new UserServiceImpl();
@@ -78,6 +79,18 @@ public class RegistrationController extends HttpServlet {
             errorMap.put("email_error", MESSAGE);
         }
 
+        if (StringUtils.isBlank(phone)){
+            errorMap.put("phone_error", MESSAGE);
+        }
+
+        if (StringUtils.isBlank(password)) {
+            errorMap.put("password_error", MESSAGE);
+        }
+
+        if (StringUtils.isBlank(confirmPassword) || !password.equals(confirmPassword)) {
+            errorMap.put("confirm_password_error", MESSAGE);
+        }
+
         if (StringUtils.isNotBlank(email)){
             for (UserDto user : allUsers) {
                 if (user.getEmail().equals(email)){
@@ -85,9 +98,6 @@ public class RegistrationController extends HttpServlet {
                     break;
                 }
             }
-        }
-        if (StringUtils.isBlank(phone)){
-            errorMap.put("phone_error", MESSAGE);
         }
         if (StringUtils.isNotBlank(email)){
             for (UserDto user : allUsers) {
@@ -100,21 +110,14 @@ public class RegistrationController extends HttpServlet {
             }
         }
 
-        if (StringUtils.isBlank(password)) {
-            errorMap.put("password_error", MESSAGE);
-        }
 
-        if (StringUtils.isBlank(confirmPassword) || !password.equals(confirmPassword)) {
-            errorMap.put("confirm_password_error", MESSAGE);
-        }
-
-        if (!errorMap.isEmpty()){
-            for (String key : errorMap.keySet()) {
-                req.setAttribute(key, errorMap.get(key));
-            }
+        if (errorMap.isEmpty()){
             return false;
         }
 
+        for (String key : errorMap.keySet()) {
+            req.setAttribute(key, errorMap.get(key));
+        }
         return true;
     }
 

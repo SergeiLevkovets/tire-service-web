@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <!-- Logo -->
                 <div class="logo">
-                    <h1><a href="index.html">Tire Service</a></h1>
+                    <h1><a href="${pageContext.request.contextPath}/index.html">Tire Service</a></h1>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
             <div class="login-wrapper">
-                <form class="box" id="login_form" action="login" method="post">
+                <form class="box" id="login_form" action="${pageContext.request.contextPath}/login" method="post">
                     <div class="content-wrap">
                         <h6>Sign In</h6>
                         ${email_error}
@@ -28,7 +28,7 @@
                                value="${param.email}" placeholder="E-mail address" required>
                         <p>or</p>
                         ${phone_error}
-                        <input class="form-control" type="text" id="phone" name="phonen"
+                        <input class="form-control" type="text" id="phone" name="phone"
                                value="${param.phone}" placeholder="Phone number" required>
 
                         ${password_error}

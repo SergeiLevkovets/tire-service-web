@@ -15,29 +15,29 @@
                         <div class="panel-title">Редактирование профиля</div>
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal panel-body" id="profile_form" action="profile" method="post">
+                        <form class="form-horizontal panel-body" id="profile_form" action="${pageContext.request.contextPath}/authorized/profile" method="post">
                             <div class="form-group">
                                 <label for="profile_name">Full Name</label>
-                                ${profile_name}
+                                ${name_error}
                                 <input type="text" class="form-control"
-                                       value="${param.profile_name}" name="profile_name" id="profile_name">
+                                       value="${name == null ? param.name : name}" name="name" id="profile_name">
                             </div>
                             <div class="form-group">
                                 <label for="profile_email">Email</label>
-                                ${profile_email}
+                                ${email_error}
                                 <input type="email" class="form-control"
-                                       value="${param.profile_email}" name="profile_email" id="profile_email">
+                                       value="${email == null ? param.email : email}" name="email" id="profile_email">
                             </div>
                             <div class="form-group">
                                 <label for="profile_password">Password</label>
-                                ${profile_password}
-                                <input type="password" class="form-control" name="profile_password"
-                                       value="${param.profile_password}" id="profile_password">
+                                ${password_error}
+                                <input type="text" class="form-control" name="password"
+                                       value="${password == null ? param.password : password}" id="profile_password">
                             </div>
                             <div class="form-group">
                                 <label for="profile_phone">Phone No</label>
-                                ${profile_phone}
-                                <input type="text" value="${param.profile_phone}" id="profile_phone" name="profile_phone" class="form-control">
+                                ${phone_error}
+                                <input type="text" value="${phone == null ? param.phone : phone}" id="profile_phone" name="phone" class="form-control">
                             </div>
                             <input type="button" class="btn btn-success" id="profile_submit" value="Update Profile">
                         </form>

@@ -19,9 +19,9 @@
                         <div class="panel-body">
                             <div class="container">
                                 <ul class="nav nav-pills">
-                                    <li><a href="authorized/order-car">Легвой</a></li>
-                                    <li><a href="authorized/order-suv">Микроавтобус / джип</a></li>
-                                    <li class="active"><a href="authorized/order-truck">Грузовой</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/authorized/order-car">Легвой</a></li>
+                                    <li><a href="${pageContext.request.contextPath}/authorized/order-suv">Микроавтобус / джип</a></li>
+                                    <li class="active"><a href="${pageContext.request.contextPath}/authorized/order-truck">Грузовой</a></li>
                                 </ul>
                             </div>
 
@@ -30,7 +30,7 @@
                                     <div class="panel-title">Заказ</div>
                                 </div>
                                 <div class="panel-body">
-                                    <form action="order-truck" method="post">
+                                    <form action="${pageContext.request.contextPath}/authorized/order-truck" method="post">
                                         <fieldset class="content-box-large">
                                             <div class="row panel-heading">
                                                 <div class="panel-title"> Количество колес</div>

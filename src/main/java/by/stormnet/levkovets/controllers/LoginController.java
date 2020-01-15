@@ -18,7 +18,9 @@ import java.util.Map;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    private static final String EMAIL_MESSAGE = "<strong style=\"color: red\">Введите Email или номер телефона</strong>";
+    private static final String MESSAGE = "<strong style=\"color: red\">Введите Email или номер телефона</strong>";
+    private static final String EMAIL_MESSAGE = "<strong style=\"color: red\">Такого Email не существует</strong>";
+    private static final String PHONE_MESSAGE = "<strong style=\"color: red\">Такого номер телефона не существует</strong>";
     private static final String PASSWORD_MESSAGE = "<strong style=\"color: red\">Неверный пароль</strong>";
 
     @Override
@@ -31,23 +33,37 @@ public class LoginController extends HttpServlet {
         String phone = req.getParameter("phone");
         String password = req.getParameter("password");
 
-        if (isValid(req, email, phone, password)){
-            resp.sendRedirect("index.html");
+        if (isNoValid(req, email, phone, password)){
+            req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
             return;
         }
-        req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
 
+        HttpSession session = req.getSession();
+
+        String uri = "/index.html";
+        String requestURI = (String) session.getAttribute("requestURI");
+
+
+        if (StringUtils.isNotBlank(requestURI)){
+            uri = requestURI;
+            session.removeAttribute("requestURI");
+        }
+        String contextPath = req.getContextPath();
+        resp.sendRedirect(contextPath + uri);
     }
 
-    private boolean isValid(HttpServletRequest req, String email, String phone, String password){
+    private boolean isNoValid(HttpServletRequest req, String email, String phone, String password){
         Map<String, String> errorMap = new HashMap<>();
+
+        Boolean isEmailExist = true;
+        Boolean isPhoneExist = true;
 
         UserService userService = new UserServiceImpl();
         List<UserDto> allUsers = userService.getAllUsers();
         HttpSession session = req.getSession();
 
         if (StringUtils.isBlank(email) && StringUtils.isBlank(phone)){
-            errorMap.put("email_error", EMAIL_MESSAGE);
+            errorMap.put("email_error", MESSAGE);
         }
 
         if (StringUtils.isBlank(password)) {
@@ -59,20 +75,42 @@ public class LoginController extends HttpServlet {
                 String userEmail = user.getEmail();
                 String userPhone = user.getPhone();
                 String userPassword = user.getPassword();
-                if (userEmail.equals(email) && userPassword.equals(password)){
-                    session.setAttribute("authorizedUserId", user.getId());
-                    session.setAttribute("authorizedUserName", user.getName());
-                    return true;
+                if (userEmail.equals(email)){
+                    if (userPassword.equals(password)) {
+                        session.setAttribute("authorizedUserId", user.getId());
+                        session.setAttribute("authorizedUserName", user.getName());
+                        return false;
+                    }
+                    isEmailExist = false;
                 }
-                if (userPhone.equals(phone) && userPassword.equals(password)){
-                    session.setAttribute("authorizedUserId", user.getId());
-                    session.setAttribute("authorizedUserName", user.getName());
-                    return true;
+                if (userPhone.equals(phone)){
+                    if (userPassword.equals(password)) {
+                        session.setAttribute("authorizedUserId", user.getId());
+                        session.setAttribute("authorizedUserName", user.getName());
+                        return false;
+                    }
+                    isPhoneExist = false;
                 }
             }
-            errorMap.put("password_error", PASSWORD_MESSAGE);
+            if (StringUtils.isNotBlank(email)) {
+                if (isEmailExist){
+                    errorMap.put("email_error", EMAIL_MESSAGE);
+                }else {
+                    errorMap.put("password_error", PASSWORD_MESSAGE);
+                }
+            }
+            if (StringUtils.isNotBlank(phone)) {
+                if (isPhoneExist){
+                    errorMap.put("phone_error", PHONE_MESSAGE);
+                }else {
+                    errorMap.put("password_error", PASSWORD_MESSAGE);
+                }
+            }
         }
-        return false;
+        for (String key : errorMap.keySet()) {
+            req.setAttribute(key, errorMap.get(key));
+        }
+        return true;
     }
 
 }

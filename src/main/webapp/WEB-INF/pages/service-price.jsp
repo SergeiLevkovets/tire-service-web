@@ -49,7 +49,8 @@
                             </table>
                         </div>
                         <div class="row">
-                            <form class="form-horizontal panel-body" id="service_price_form" action="service-price" method="post">
+                            <form class="form-horizontal panel-body" id="service_price_form"
+                                  action="${pageContext.request.contextPath}/authorized/service-price" method="post">
                                 <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control"

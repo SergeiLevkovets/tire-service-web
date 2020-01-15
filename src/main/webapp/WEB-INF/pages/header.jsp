@@ -6,14 +6,18 @@
             <div class="col-md-5">
 
                 <div class="logo">
-                    <h1><a href="index.html">Tire Service</a></h1>
+                    <h1><a href="${pageContext.request.contextPath}/index.html">Tire Service</a></h1>
                 </div>
             </div>
             <div class="col-md-3">
 
             </div>
             <div class="col-md-2">
-                <h6><a href="authorized/profile">${sessionScope.authorizedUserName}</a></h6>
+                <div class="logo">
+                    <h1>
+                        <a href="${pageContext.request.contextPath}/authorized/profile"> ${sessionScope.authorizedUserName == null ? '' : '<i class="glyphicon glyphicon-user"></i>'}${sessionScope.authorizedUserName}</a>
+                    </h1>
+                </div>
             </div>
             <div class="col-md-2">
                 <div class="navbar navbar-inverse" role="banner">

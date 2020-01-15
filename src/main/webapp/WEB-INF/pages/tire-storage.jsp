@@ -15,7 +15,8 @@
                         <div class="panel-title">Разместить шины на хранение</div>
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal panel-body" id="storage_form" action="tire-storage" method="post">
+                        <form class="form-horizontal panel-body" id="storage_form"
+                              action="${pageContext.request.contextPath}/authorized/tire-storage" method="post">
                             <div class="form-group">
                                 <label for="tire_name">Производитель и модель</label>
                                 ${tire_name}
