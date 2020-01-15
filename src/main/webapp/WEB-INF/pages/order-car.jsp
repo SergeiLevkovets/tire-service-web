@@ -17,9 +17,9 @@
                 <div class="panel-body">
                     <div class="container">
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="order-car">Легвой</a></li>
-                            <li><a href="order-suv">Микроавтобус / джип</a></li>
-                            <li><a href="order-truck">Грузовой</a></li>
+                            <li class="active"><a href="authorized/order-car">Легвой</a></li>
+                            <li><a href="authorized/order-suv">Микроавтобус / джип</a></li>
+                            <li><a href="authorized/order-truck">Грузовой</a></li>
                         </ul>
                     </div>
 

@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12 content-box-large">
                     <div class="panel-heading">
-                        <div class="panel-title">Редактирование профиля</div>
+                        <div class="panel-title">Редактирование</div>
                     </div>
                     <div class="panel-body">
                         <div class="row">

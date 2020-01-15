@@ -1,4 +1,4 @@
-package by.stormnet.levkovets.controller;
+package by.stormnet.levkovets.controllers;
 
 import by.stormnet.levkovets.dao.Dao;
 
@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/service-price")
+@WebServlet("/authorized/service-price")
 public class ServicePriceController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+       /*
         Dao<ServicePrice> dao = new ServicePriceDao();
 
         if (req.getParameter("name") != null && req.getParameter("price") != null){
@@ -32,7 +32,7 @@ public class ServicePriceController extends HttpServlet {
         }
 
         List<ServicePrice> list = dao.loadAll();
-        req.setAttribute("servicePriceList", list);
+        req.setAttribute("servicePriceList", list);*/
         req.getRequestDispatcher("/WEB-INF/pages/service-price.jsp").forward(req, resp);
     }
 }

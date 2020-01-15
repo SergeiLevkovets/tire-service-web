@@ -9,7 +9,11 @@
                     <h1><a href="index.html">Tire Service</a></h1>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
+
+            </div>
+            <div class="col-md-2">
+                <h6><a href="authorized/profile">${sessionScope.authorizedUserName}</a></h6>
             </div>
             <div class="col-md-2">
                 <div class="navbar navbar-inverse" role="banner">

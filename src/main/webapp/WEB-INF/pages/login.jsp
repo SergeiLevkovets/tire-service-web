@@ -23,12 +23,17 @@
                 <form class="box" id="login_form" action="login" method="post">
                     <div class="content-wrap">
                         <h6>Sign In</h6>
-                        ${email_login}
-                        <input class="form-control" type="text" id="email_login" name="email_login"
-                               value="${param.email_login}" placeholder="E-mail address" required>
-                        ${password_login}
-                        <input class="form-control" type="password" id="password_login" name="password_login"
-                               value="${param.password_login}" placeholder="Password" required>
+                        ${email_error}
+                        <input class="form-control" type="email" id="email" name="email"
+                               value="${param.email}" placeholder="E-mail address" required>
+                        <p>or</p>
+                        ${phone_error}
+                        <input class="form-control" type="text" id="phone" name="phonen"
+                               value="${param.phone}" placeholder="Phone number" required>
+
+                        ${password_error}
+                        <input class="form-control" type="password" id="password" name="password"
+                               value="${param.password}" placeholder="Password" required>
                         <div class="col text-right">
                             <a href="forgot-password">Forgot Password ?</a>
                         </div>

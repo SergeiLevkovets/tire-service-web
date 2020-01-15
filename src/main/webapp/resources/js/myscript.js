@@ -43,51 +43,49 @@ $(document).ready(function () {
             alert("Поле «Количество колес» не может быть пустым");
             return;
         }
-
-
-        if (isEmpty($('#email_reg').val()) || !(($('#email_reg').val().match(/.+?\@.+/g) || []).length === 1)) {
-            alert(" Заполните правильно поле «Email»");
-            return;
-        }
-        if (isEmpty($('#phone_reg').val()) || !(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone_reg').val())))) {
-            alert(" Заполните правильно поле «Phone»");
-            return;
-        }
-
-        if ($('#password_reg').val() !== $('#confirm_password_reg').val()) {
-            alert("Поля «Password» и «Confirm Password» должны совпадать");
-            return;
-        }
-        $('#registration_form').submit();
+        $('#').submit();
     })
 
 
-    $('#submit_reg').click(function () {
-        if (isEmpty($('#email_reg').val()) || !(($('#email_reg').val().match(/.+?\@.+/g) || []).length === 1)) {
+    $('#submit_registration').click(function () {
+        if (isEmpty($('#email').val()) || !(($('#email').val().match(/.+?\@.+/g) || []).length === 1)) {
             alert(" Заполните правильно поле «Email»");
             return;
         }
-        if (isEmpty($('#phone_reg').val()) || !(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone_reg').val())))) {
+        if (isEmpty($('#phone').val()) || !(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone').val())))) {
             alert(" Заполните правильно поле «Phone»");
             return;
         }
-        if (isEmpty($('#password_reg').val())) {
+        if (isEmpty($('#password').val())) {
             alert("Поле «Password» не может быть пустым");
             return;
         }
-        if ($('#password_reg').val() !== $('#confirm_password_reg').val()) {
+        if ($('#password').val() !== $('#confirm_password').val()) {
             alert("Поля «Password» и «Confirm Password» должны совпадать");
             return;
         }
         $('#registration_form').submit();
-    })
+    });
+
 
     $('#submit_login').click(function () {
-        if (isEmpty($('#email_login').val()) || !(($('#email_login').val().match(/.+?\@.+/g) || []).length === 1)) {
-            alert(" Заполните правильно поле «Email»");
+        if (isEmpty($('#email').val()) & isEmpty($('#phone').val())){
+            alert(" Заполните поле «Email» или «Phone»");
             return;
         }
-        if (isEmpty($('#password_login').val())) {
+        if (isNotEmpty( $('#email').val() )) {
+            if (!(($('#email').val().match(/.+?\@.+/g) || []).length === 1)){
+                alert(" Заполните правильно поле «Email»");
+                return;
+            }
+        }
+        if (isNotEmpty($('#phone').val())) {
+            if (!(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone').val())))){
+                alert(" Заполните правильно поле «Phone»");
+                return;
+            }
+        }
+        if (isEmpty($('#password').val())) {
             alert("Поле «Password» не может быть пустым");
             return;
         }
@@ -160,5 +158,8 @@ $(document).ready(function () {
 
 function isEmpty(value) {
     return value.trim() === '';
+}
+function isNotEmpty(value) {
+    return !isEmpty(value);
 }
 
