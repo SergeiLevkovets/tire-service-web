@@ -15,7 +15,7 @@
             <div class="col-md-2">
                 <div class="logo">
                     <h1>
-                        <a href="${pageContext.request.contextPath}/authorized/profile"> ${sessionScope.authorizedUserName == null ? '' : '<i class="glyphicon glyphicon-user"></i>'}${sessionScope.authorizedUserName}</a>
+                        <a href="${pageContext.request.contextPath}/authorized/profile"> ${sessionScope.authorizedUserName == null ? '' : '<i class="glyphicon glyphicon-user"></i>'} ${sessionScope.authorizedUserName}</a>
                     </h1>
                 </div>
             </div>
