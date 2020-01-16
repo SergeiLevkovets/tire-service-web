@@ -1,19 +1,21 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.TypeDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.domain.impl.Tire;
-import by.stormnet.levkovets.domain.impl.Width;
+import by.stormnet.levkovets.domain.impl.Type;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WidthDao implements Dao<Width> {
+public class TypeDaoImpl implements TypeDao {
 
 
     @Override
-    public void save(Width width) {
+    public void save(Type type) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -21,9 +23,9 @@ public class WidthDao implements Dao<Width> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.widths (width) VALUES (?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.types (type) VALUES (?)");
 
-            statement.setString(1, width.getWidth());
+            statement.setString(1, type.getType());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -34,36 +36,16 @@ public class WidthDao implements Dao<Width> {
     }
 
     @Override
-    public void update(Width width) {
+    public void update(Type type) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.widths SET width = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.types SET type = ? WHERE id = ?");
 
-            statement.setString(1, width.getWidth());
-            statement.setInt(2, width.getId());
-
-            statement.executeUpdate();
-
-        } catch(SQLException e) {
-            throw new RuntimeException("Some errors occurred during DB access!", e);
-        } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
-        }
-    }
-
-    @Override
-    public void delete(Width width) {
-        Connection c = null;
-        PreparedStatement statement = null;
-
-        try {
-            c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.widths WHERE id = ?");
-
-            statement.setInt(1, width.getId());
+            statement.setString(1, type.getType());
+            statement.setInt(2, type.getId());
 
             statement.executeUpdate();
 
@@ -75,36 +57,56 @@ public class WidthDao implements Dao<Width> {
     }
 
     @Override
-    public Width loadById(Integer id) {
+    public void delete(Type type) {
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("DELETE FROM tire_service_db.types WHERE id = ?");
+
+            statement.setInt(1, type.getId());
+
+            statement.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public Type loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Width width = null;
+        Type type = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width from tire_service_db.widths where id = ?");
+            statement = c.prepareStatement("select id, type from tire_service_db.types where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String widthField = set.getString("width");
-                width = new Width();
-                width.setId(objectId);
-                width.setWidth(widthField);
+                String typeField = set.getString("type");
+                type = new Type();
+                type.setId(objectId);
+                type.setType(typeField);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return width;
+        return type;
     }
 
     @Override
-    public List<Width> loadAll() {
-        List<Width> list = new ArrayList<>();
+    public List<Type> loadAll() {
+        List<Type> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -112,16 +114,16 @@ public class WidthDao implements Dao<Width> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width from tire_service_db.widths");
+            statement = c.prepareStatement("select id, type from tire_service_db.types");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String widthField = set.getString("width");
-                Width width = new Width();
-                width.setId(objectId);
-                width.setWidth(widthField);
-                list.add(width);
+                String typeField = set.getString("type");
+                Type type = new Type();
+                type.setId(objectId);
+                type.setType(typeField);
+                list.add(type);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
@@ -131,30 +133,31 @@ public class WidthDao implements Dao<Width> {
         return list;
     }
 
-    public Width loadBySize(String size) {
+    @Override
+    public Type loadByType(String type) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Width width = null;
+        Type typeElem = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, width from tire_service_db.widths where width = ?");
-            statement.setString(1, size);
+            statement = c.prepareStatement("select id, type from tire_service_db.types where type = ?");
+            statement.setString(1, type);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String widthField = set.getString("width");
-                width = new Width();
-                width.setId(objectId);
-                width.setWidth(widthField);
+                String typeField = set.getString("type");
+                typeElem = new Type();
+                typeElem.setId(objectId);
+                typeElem.setType(typeField);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return width;
+        return typeElem;
     }
 }

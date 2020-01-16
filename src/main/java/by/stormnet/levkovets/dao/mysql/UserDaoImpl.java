@@ -1,7 +1,7 @@
 package by.stormnet.levkovets.dao.mysql;
 
+import by.stormnet.levkovets.dao.UserDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.Dao;
 import by.stormnet.levkovets.domain.impl.User;
 
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao implements Dao<User> {
+public class UserDaoImpl implements UserDao {
 
 
     @Override

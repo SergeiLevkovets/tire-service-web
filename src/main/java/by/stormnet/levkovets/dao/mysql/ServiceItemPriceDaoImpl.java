@@ -1,6 +1,9 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.DiameterDao;
+import by.stormnet.levkovets.dao.ServiceItemDao;
+import by.stormnet.levkovets.dao.ServiceItemPriceDao;
+import by.stormnet.levkovets.dao.TypeDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.Diameter;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
@@ -14,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
+public class ServiceItemPriceDaoImpl implements ServiceItemPriceDao {
 
 
     @Override
@@ -92,9 +95,9 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         PreparedStatement statement = null;
         ResultSet set = null;
         ServiceItemPrice serviceItemPrice = null;
-        ServiceItemDao serviceItemDao = new ServiceItemDao();
-        TypeDao typeDao = new TypeDao();
-        DiameterDao diameterDao = new DiameterDao();
+        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -129,9 +132,9 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        ServiceItemDao serviceItemDao = new ServiceItemDao();
-        TypeDao typeDao = new TypeDao();
-        DiameterDao diameterDao = new DiameterDao();
+        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -160,14 +163,15 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         return list;
     }
 
+    @Override
     public List<ServiceItemPrice> loadAllByItem(ServiceItem item) {
         List<ServiceItemPrice> list = new ArrayList<>();
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        ServiceItemDao serviceItemDao = new ServiceItemDao();
-        TypeDao typeDao = new TypeDao();
-        DiameterDao diameterDao = new DiameterDao();
+        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -197,14 +201,15 @@ public class ServiceItemPriceDao implements Dao<ServiceItemPrice> {
         return list;
     }
 
+    @Override
     public List<ServiceItemPrice> loadAllByType(Type type) {
         List<ServiceItemPrice> list = new ArrayList<>();
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        ServiceItemDao serviceItemDao = new ServiceItemDao();
-        TypeDao typeDao = new TypeDao();
-        DiameterDao diameterDao = new DiameterDao();
+        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();

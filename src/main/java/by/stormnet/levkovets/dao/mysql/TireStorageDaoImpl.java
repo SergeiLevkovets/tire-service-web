@@ -1,7 +1,8 @@
 package by.stormnet.levkovets.dao.mysql;
 
+import by.stormnet.levkovets.dao.TireStorageDao;
+import by.stormnet.levkovets.dao.UserDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.Dao;
 import by.stormnet.levkovets.domain.impl.Tire;
 import by.stormnet.levkovets.domain.impl.TireStorage;
 import by.stormnet.levkovets.domain.impl.User;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class TireStorageDao implements Dao<TireStorage> {
+public class TireStorageDaoImpl implements TireStorageDao {
 
 
     @Override
@@ -88,8 +89,8 @@ public class TireStorageDao implements Dao<TireStorage> {
         PreparedStatement statement = null;
         ResultSet set = null;
         TireStorage tireStorage = null;
-        TireDao tireDao = new TireDao();
-        UserDao userDao = new UserDao();
+        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+        UserDao userDao = new UserDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -100,7 +101,7 @@ public class TireStorageDao implements Dao<TireStorage> {
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Tire tire = tireDaoImpl.loadById(set.getInt("fk_tire_id"));
                 Date dateEnd = set.getTimestamp("date_end");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
                 tireStorage = new TireStorage();
@@ -125,8 +126,8 @@ public class TireStorageDao implements Dao<TireStorage> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        TireDao tireDao = new TireDao();
-        UserDao userDao = new UserDao();
+        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+        UserDao userDao = new UserDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -136,7 +137,7 @@ public class TireStorageDao implements Dao<TireStorage> {
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
-                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Tire tire = tireDaoImpl.loadById(set.getInt("fk_tire_id"));
                 java.util.Date dateEnd = set.getTimestamp("date_end");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
                 TireStorage tireStorage = new TireStorage();

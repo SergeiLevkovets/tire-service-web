@@ -1,6 +1,8 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.OrderDao;
+import by.stormnet.levkovets.dao.TypeDao;
+import by.stormnet.levkovets.dao.UserDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.Order;
 import by.stormnet.levkovets.domain.impl.Tire;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderDao implements Dao<Order> {
+public class OrderDaoImpl implements OrderDao {
 
 
     @Override
@@ -88,9 +90,9 @@ public class OrderDao implements Dao<Order> {
         PreparedStatement statement = null;
         ResultSet set = null;
         Order order = null;
-        UserDao userDao = new UserDao();
-        TireDao tireDao = new TireDao();
-        TypeDao typeDao = new TypeDao();
+        UserDao userDao = new UserDaoImpl();
+        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -101,7 +103,7 @@ public class OrderDao implements Dao<Order> {
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
-                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Tire tire = tireDaoImpl.loadById(set.getInt("fk_tire_id"));
                 Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 java.util.Date date = set.getTimestamp("date");
                 order = new Order();
@@ -125,9 +127,9 @@ public class OrderDao implements Dao<Order> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        UserDao userDao = new UserDao();
-        TireDao tireDao = new TireDao();
-        TypeDao typeDao = new TypeDao();
+        UserDao userDao = new UserDaoImpl();
+        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -138,7 +140,7 @@ public class OrderDao implements Dao<Order> {
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
-                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Tire tire = tireDaoImpl.loadById(set.getInt("fk_tire_id"));
                 Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 java.util.Date date = set.getTimestamp("date");
                 Order order = new Order();
@@ -157,14 +159,15 @@ public class OrderDao implements Dao<Order> {
         return list;
     }
 
+    @Override
     public List<Order> loadAllByDates(Date startDate, Date endDate) {
         List<Order> list = new ArrayList<>();
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        UserDao userDao = new UserDao();
-        TireDao tireDao = new TireDao();
-        TypeDao typeDao = new TypeDao();
+        UserDao userDao = new UserDaoImpl();
+        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+        TypeDao typeDao = new TypeDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -178,7 +181,7 @@ public class OrderDao implements Dao<Order> {
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 User user = userDao.loadById(set.getInt("fk_user_id"));
-                Tire tire = tireDao.loadById(set.getInt("fk_tire_id"));
+                Tire tire = tireDaoImpl.loadById(set.getInt("fk_tire_id"));
                 Type type = typeDao.loadById(set.getInt("fk_type_id"));
                 java.util.Date date = set.getTimestamp("date");
                 Order order = new Order();

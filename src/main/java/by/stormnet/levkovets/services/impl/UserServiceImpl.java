@@ -1,9 +1,8 @@
 package by.stormnet.levkovets.services.impl;
 
-import by.stormnet.levkovets.dao.mysql.OrderDao;
-import by.stormnet.levkovets.dao.mysql.UserDao;
+import by.stormnet.levkovets.dao.UserDao;
+import by.stormnet.levkovets.dao.mysql.UserDaoImpl;
 import by.stormnet.levkovets.domain.impl.User;
-import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.dto.impl.UserDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -11,11 +10,11 @@ import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserServiceImpl implements DtoService<UserDto> {
+public class UserServiceImpl implements by.stormnet.levkovets.services.UserService {
 
     @Override
     public UserDto getById(Integer id) {
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDaoImpl();
 
         UserDto userDto = EntityDtoConverter.transformToUserDto(userDao.loadById(id));
 
@@ -25,7 +24,7 @@ public class UserServiceImpl implements DtoService<UserDto> {
     @Override
     public List<UserDto> getAll() {
 
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDaoImpl();
         List<UserDto> list = new ArrayList<>();
         for (User user : userDao.loadAll()) {
             UserDto userDto = EntityDtoConverter.transformToUserDto(user);
@@ -36,13 +35,13 @@ public class UserServiceImpl implements DtoService<UserDto> {
 
     @Override
     public void delete(UserDto obj) {
-        UserDao dao = new UserDao();
+        UserDao dao = new UserDaoImpl();
         dao.delete(EntityDtoConverter.transformToUserEntity(obj));
     }
 
     @Override
     public void saveOrUpdate(UserDto userDto) {
-        UserDao userDao = new UserDao();
+        UserDao userDao = new UserDaoImpl();
 
         if (userDto.getId() == null) {
             userDao.save(EntityDtoConverter.transformToUserEntity(userDto));

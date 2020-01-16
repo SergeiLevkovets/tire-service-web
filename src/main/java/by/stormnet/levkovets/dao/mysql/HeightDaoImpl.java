@@ -1,8 +1,8 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.HeightDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.domain.impl.Type;
+import by.stormnet.levkovets.domain.impl.Height;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeDao implements Dao<Type> {
+public class HeightDaoImpl implements HeightDao {
 
 
     @Override
-    public void save(Type type) {
+    public void save(Height height) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -23,9 +23,9 @@ public class TypeDao implements Dao<Type> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.types (type) VALUES (?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.heights (height) VALUES (?)");
 
-            statement.setString(1, type.getType());
+            statement.setString(1, height.getHeight());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -36,36 +36,16 @@ public class TypeDao implements Dao<Type> {
     }
 
     @Override
-    public void update(Type type) {
+    public void update(Height height) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.types SET type = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.heights SET height = ? WHERE id = ?");
 
-            statement.setString(1, type.getType());
-            statement.setInt(2, type.getId());
-
-            statement.executeUpdate();
-
-        } catch(SQLException e) {
-            throw new RuntimeException("Some errors occurred during DB access!", e);
-        } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
-        }
-    }
-
-    @Override
-    public void delete(Type type) {
-        Connection c = null;
-        PreparedStatement statement = null;
-
-        try {
-            c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.types WHERE id = ?");
-
-            statement.setInt(1, type.getId());
+            statement.setString(1, height.getHeight());
+            statement.setInt(2, height.getId());
 
             statement.executeUpdate();
 
@@ -77,36 +57,56 @@ public class TypeDao implements Dao<Type> {
     }
 
     @Override
-    public Type loadById(Integer id) {
+    public void delete(Height height) {
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("DELETE FROM tire_service_db.heights WHERE id = ?");
+
+            statement.setInt(1, height.getId());
+
+            statement.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public Height loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Type type = null;
+        Height height = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, type from tire_service_db.types where id = ?");
+            statement = c.prepareStatement("select id, height from tire_service_db.heights where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String typeField = set.getString("type");
-                type = new Type();
-                type.setId(objectId);
-                type.setType(typeField);
+                String heightField = set.getString("height");
+                height = new Height();
+                height.setId(objectId);
+                height.setHeight(heightField);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return type;
+        return height;
     }
 
     @Override
-    public List<Type> loadAll() {
-        List<Type> list = new ArrayList<>();
+    public List<Height> loadAll() {
+        List<Height> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -114,16 +114,16 @@ public class TypeDao implements Dao<Type> {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, type from tire_service_db.types");
+            statement = c.prepareStatement("select id, height from tire_service_db.heights");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String typeField = set.getString("type");
-                Type type = new Type();
-                type.setId(objectId);
-                type.setType(typeField);
-                list.add(type);
+                String heightField = set.getString("height");
+                Height height = new Height();
+                height.setId(objectId);
+                height.setHeight(heightField);
+                list.add(height);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
@@ -133,30 +133,31 @@ public class TypeDao implements Dao<Type> {
         return list;
     }
 
-    public Type loadByType(String type) {
+    @Override
+    public Height loadBySize(String size) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Type typeElem = null;
+        Height height = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, type from tire_service_db.types where type = ?");
-            statement.setString(1, type);
+            statement = c.prepareStatement("select id, height from tire_service_db.heights where height = ?");
+            statement.setString(1, size);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String typeField = set.getString("type");
-                typeElem = new Type();
-                typeElem.setId(objectId);
-                typeElem.setType(typeField);
+                String heightField = set.getString("height");
+                height = new Height();
+                height.setId(objectId);
+                height.setHeight(heightField);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return typeElem;
+        return height;
     }
 }

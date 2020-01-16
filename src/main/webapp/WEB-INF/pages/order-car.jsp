@@ -57,7 +57,7 @@
                                                         onclick="$('#wheel_count').val(4)">4
                                                 </button>
                                             </div>
-                                            <div class="form-group col-sm-3">
+                                            <div class="btn-group col-sm-3">
                                                 <input type="number" class="form-control" id="wheel_count"
                                                        value="${param.wheel_count}" name="wheelCount" min="1"
                                                        required>
@@ -223,7 +223,7 @@
                                                                 onclick="$('#valve_count').val(4)">4
                                                         </button>
                                                     </div>
-                                                    <div class="form-group col-sm-3">
+                                                    <div class="btn-group col-sm-3">
                                                         <input type="number" class="form-control" id="valve_count"
                                                                name="valve_count" min="1" value="${param.valve_count}">
                                                     </div>
@@ -266,7 +266,7 @@
                                                                 onclick="$('#sealing_count').val(4)">4
                                                         </button>
                                                     </div>
-                                                    <div class="form-group col-sm-3">
+                                                    <div class="btn-group col-sm-3">
                                                         <input type="number" class="form-control" id="sealing_count"
                                                                name="sealing_count" min="1"
                                                                value="${param.sealing_count}">
@@ -300,7 +300,7 @@
                                                             onclick="$('#repair_count').val(4)">4
                                                     </button>
                                                 </div>
-                                                <div class="form-group col-sm-3">
+                                                <div class="btn-group col-sm-3">
                                                     <input type="number" class="form-control" id="repair_count"
                                                            name="repair_count" min="1" value="${param.repair_count}">
                                                 </div>

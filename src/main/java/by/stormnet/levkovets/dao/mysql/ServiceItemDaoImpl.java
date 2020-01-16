@@ -1,8 +1,8 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.ServiceItemDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.domain.impl.Height;
+import by.stormnet.levkovets.domain.impl.ServiceItem;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeightDao implements Dao<Height> {
+public class ServiceItemDaoImpl implements ServiceItemDao {
 
 
     @Override
-    public void save(Height height) {
+    public void save(ServiceItem serviceItem) {
 
         Connection c = null;
         PreparedStatement statement = null;
@@ -23,9 +23,9 @@ public class HeightDao implements Dao<Height> {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.heights (height) VALUES (?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_items (name) VALUES (?)");
 
-            statement.setString(1, height.getHeight());
+            statement.setString(1, serviceItem.getName());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -36,36 +36,16 @@ public class HeightDao implements Dao<Height> {
     }
 
     @Override
-    public void update(Height height) {
+    public void update(ServiceItem serviceItem) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.heights SET height = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_items SET name = ? WHERE id = ?");
 
-            statement.setString(1, height.getHeight());
-            statement.setInt(2, height.getId());
-
-            statement.executeUpdate();
-
-        } catch(SQLException e) {
-            throw new RuntimeException("Some errors occurred during DB access!", e);
-        } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
-        }
-    }
-
-    @Override
-    public void delete(Height height) {
-        Connection c = null;
-        PreparedStatement statement = null;
-
-        try {
-            c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("DELETE FROM tire_service_db.heights WHERE id = ?");
-
-            statement.setInt(1, height.getId());
+            statement.setString(1, serviceItem.getName());
+            statement.setInt(2, serviceItem.getId());
 
             statement.executeUpdate();
 
@@ -77,53 +57,72 @@ public class HeightDao implements Dao<Height> {
     }
 
     @Override
-    public Height loadById(Integer id) {
+    public void delete(ServiceItem serviceItem) {
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("DELETE FROM tire_service_db.service_items WHERE id = ?");
+
+            statement.setInt(1, serviceItem.getId());
+
+            statement.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public ServiceItem loadById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Height height = null;
+        ServiceItem serviceItem = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, height from tire_service_db.heights where id = ?");
+            statement = c.prepareStatement("select id, name from tire_service_db.service_items where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String heightField = set.getString("height");
-                height = new Height();
-                height.setId(objectId);
-                height.setHeight(heightField);
+                String name = set.getString("name");
+                serviceItem = new ServiceItem();
+                serviceItem.setId(objectId);
+                serviceItem.setName(name);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return height;
+        return serviceItem;
     }
 
     @Override
-    public List<Height> loadAll() {
-        List<Height> list = new ArrayList<>();
-
+    public List<ServiceItem> loadAll() {
+        List<ServiceItem> list = new ArrayList<>();
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, height from tire_service_db.heights");
+            statement = c.prepareStatement("select id, name from tire_service_db.service_items");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String heightField = set.getString("height");
-                Height height = new Height();
-                height.setId(objectId);
-                height.setHeight(heightField);
-                list.add(height);
+                String name = set.getString("name");
+                ServiceItem serviceItem = new ServiceItem();
+                serviceItem.setId(objectId);
+                serviceItem.setName(name);
+                list.add(serviceItem);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
@@ -133,30 +132,31 @@ public class HeightDao implements Dao<Height> {
         return list;
     }
 
-    public Height loadBySize(String size) {
+    @Override
+    public ServiceItem loadByName(String name) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        Height height = null;
+        ServiceItem serviceItem = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, height from tire_service_db.heights where height = ?");
-            statement.setString(1, size);
+            statement = c.prepareStatement("select id, name from tire_service_db.service_items where name = ?");
+            statement.setString(1, name);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String heightField = set.getString("height");
-                height = new Height();
-                height.setId(objectId);
-                height.setHeight(heightField);
+                String itemName = set.getString("name");
+                serviceItem = new ServiceItem();
+                serviceItem.setId(objectId);
+                serviceItem.setName(itemName);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
-        return height;
+        return serviceItem;
     }
 }

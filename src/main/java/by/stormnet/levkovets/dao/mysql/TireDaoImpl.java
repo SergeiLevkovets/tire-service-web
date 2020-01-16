@@ -1,7 +1,10 @@
 package by.stormnet.levkovets.dao.mysql;
 
+import by.stormnet.levkovets.dao.DiameterDao;
+import by.stormnet.levkovets.dao.HeightDao;
+import by.stormnet.levkovets.dao.TireDao;
+import by.stormnet.levkovets.dao.WidthDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
-import by.stormnet.levkovets.dao.Dao;
 import by.stormnet.levkovets.domain.impl.Diameter;
 import by.stormnet.levkovets.domain.impl.Height;
 import by.stormnet.levkovets.domain.impl.Tire;
@@ -11,7 +14,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TireDao implements Dao<Tire> {
+public class TireDaoImpl implements TireDao {
 
 
     @Override
@@ -87,9 +90,9 @@ public class TireDao implements Dao<Tire> {
         PreparedStatement statement = null;
         ResultSet set = null;
         Tire tire = null;
-        WidthDao widthDao = new WidthDao();
-        HeightDao heightDao = new HeightDao();
-        DiameterDao diameterDao = new DiameterDao();
+        WidthDao widthDao = new WidthDaoImpl();
+        HeightDao heightDao = new HeightDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -125,9 +128,9 @@ public class TireDao implements Dao<Tire> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        WidthDao widthDao = new WidthDao();
-        HeightDao heightDao = new HeightDao();
-        DiameterDao diameterDao = new DiameterDao();
+        WidthDao widthDao = new WidthDaoImpl();
+        HeightDao heightDao = new HeightDaoImpl();
+        DiameterDao diameterDao = new DiameterDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();

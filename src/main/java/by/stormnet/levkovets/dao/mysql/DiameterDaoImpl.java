@@ -1,6 +1,6 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.DiameterDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.Diameter;
 
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiameterDao implements Dao<Diameter> {
+public class DiameterDaoImpl implements DiameterDao {
 
 
     @Override
@@ -133,6 +133,7 @@ public class DiameterDao implements Dao<Diameter> {
         return list;
     }
 
+    @Override
     public Diameter loadBySize(String size) {
         Connection c = null;
         PreparedStatement statement = null;

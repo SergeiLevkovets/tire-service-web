@@ -1,6 +1,8 @@
 package by.stormnet.levkovets.dao.mysql;
 
-import by.stormnet.levkovets.dao.Dao;
+import by.stormnet.levkovets.dao.OrderDao;
+import by.stormnet.levkovets.dao.OrderServiceItemPriceDao;
+import by.stormnet.levkovets.dao.ServiceItemPriceDao;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.*;
 
@@ -8,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderServiceItemPriceDao implements Dao<OrderServiceItemPrice> {
+public class OrderServiceItemPriceDaoImpl implements OrderServiceItemPriceDao {
     @Override
     public void save(OrderServiceItemPrice obj) {
         Connection c = null;
@@ -72,6 +74,7 @@ public class OrderServiceItemPriceDao implements Dao<OrderServiceItemPrice> {
         }
     }
 
+    @Override
     public void deleteByOrder(Order obj) {
         Connection c = null;
         PreparedStatement statement = null;
@@ -97,8 +100,8 @@ public class OrderServiceItemPriceDao implements Dao<OrderServiceItemPrice> {
         PreparedStatement statement = null;
         ResultSet set = null;
         OrderServiceItemPrice orderServiceItemPrice = null;
-        OrderDao orderDao = new OrderDao();
-        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDao();
+        OrderDao orderDao = new OrderDaoImpl();
+        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -130,8 +133,8 @@ public class OrderServiceItemPriceDao implements Dao<OrderServiceItemPrice> {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        OrderDao orderDao = new OrderDao();
-        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDao();
+        OrderDao orderDao = new OrderDaoImpl();
+        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -157,14 +160,15 @@ public class OrderServiceItemPriceDao implements Dao<OrderServiceItemPrice> {
         return list;
     }
 
+    @Override
     public List<OrderServiceItemPrice> loadAllByOrder(Order obj) {
         List<OrderServiceItemPrice> list = new ArrayList<>();
 
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
-        OrderDao orderDao = new OrderDao();
-        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDao();
+        OrderDao orderDao = new OrderDaoImpl();
+        ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
 
         try {
             c = ConnectionManager.getManager().getConnection();
