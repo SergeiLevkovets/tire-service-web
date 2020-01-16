@@ -1,9 +1,11 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.OrderDao;
 import by.stormnet.levkovets.dao.mysql.ServiceItemPriceDao;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
 import by.stormnet.levkovets.domain.impl.ServiceItemPrice;
 import by.stormnet.levkovets.domain.impl.Type;
+import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.dto.impl.ServiceItemPriceDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -53,6 +55,12 @@ public class ServiceItemPriceServiceImpl implements DtoService<ServiceItemPriceD
             serviceItemPriceDtoList.add(serviceItemPriceDto);
         }
         return serviceItemPriceDtoList;
+    }
+
+    @Override
+    public void delete(ServiceItemPriceDto obj) {
+        ServiceItemPriceDao dao = new ServiceItemPriceDao();
+        dao.delete(EntityDtoConverter.transformToServiceItemPriceEntity(obj));
     }
 
     @Override

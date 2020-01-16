@@ -1,7 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.OrderDao;
 import by.stormnet.levkovets.dao.mysql.TypeDao;
 import by.stormnet.levkovets.domain.impl.Type;
+import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.dto.impl.TypeDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -24,6 +26,12 @@ public class TypeServiceImpl implements DtoService<TypeDto> {
         Type type = typeDao.loadByType(name);
         TypeDto typeDto = EntityDtoConverter.transformToTypeDto(type);
         return typeDto;
+    }
+
+    @Override
+    public void delete(TypeDto obj) {
+        TypeDao dao = new TypeDao();
+        dao.delete(EntityDtoConverter.transformToTypeEntity(obj));
     }
 
     @Override

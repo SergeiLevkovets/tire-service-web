@@ -82,8 +82,9 @@ CREATE TABLE `tire_service_db`.`orders`
 
 );
 
-CREATE TABLE `orders_to_service_item_prices`
+CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
 (
+    `id`                       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `fk_orders_id`             INTEGER NOT NULL,
     `fk_service_item_price_id` INTEGER NOT NULL,
     CONSTRAINT `fk_to_order` FOREIGN KEY (`fk_orders_id`) REFERENCES `orders` (`id`),

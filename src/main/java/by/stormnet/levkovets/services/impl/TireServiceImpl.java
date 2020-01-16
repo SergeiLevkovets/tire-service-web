@@ -1,7 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.OrderDao;
 import by.stormnet.levkovets.dao.mysql.TireDao;
 import by.stormnet.levkovets.domain.impl.Tire;
+import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.dto.impl.TireDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -30,6 +32,12 @@ public class TireServiceImpl implements DtoService<TireDto> {
         }
 
         return list;
+    }
+
+    @Override
+    public void delete(TireDto obj) {
+        TireDao dao = new TireDao();
+        dao.delete(EntityDtoConverter.transformToTireEntity(obj));
     }
 
     @Override

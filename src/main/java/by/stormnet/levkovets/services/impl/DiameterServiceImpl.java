@@ -27,6 +27,12 @@ public class DiameterServiceImpl implements DtoService<DiameterDto> {
     }
 
     @Override
+    public void delete(DiameterDto obj) {
+        DiameterDao dao = new DiameterDao();
+        dao.delete(EntityDtoConverter.transformToDiameterEntity(obj));
+    }
+
+    @Override
     public List<DiameterDto> getAll() {
         DiameterDao diameterDao = new DiameterDao();
         List<Diameter> diameterList = diameterDao.loadAll();

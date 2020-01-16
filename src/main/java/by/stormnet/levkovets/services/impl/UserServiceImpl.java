@@ -1,7 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.OrderDao;
 import by.stormnet.levkovets.dao.mysql.UserDao;
 import by.stormnet.levkovets.domain.impl.User;
+import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.dto.impl.UserDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -30,6 +32,12 @@ public class UserServiceImpl implements DtoService<UserDto> {
             list.add(userDto);
         }
         return list;
+    }
+
+    @Override
+    public void delete(UserDto obj) {
+        UserDao dao = new UserDao();
+        dao.delete(EntityDtoConverter.transformToUserEntity(obj));
     }
 
     @Override

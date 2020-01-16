@@ -1,7 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.DiameterDao;
 import by.stormnet.levkovets.dao.mysql.HeightDao;
 import by.stormnet.levkovets.domain.impl.Height;
+import by.stormnet.levkovets.dto.impl.DiameterDto;
 import by.stormnet.levkovets.dto.impl.HeightDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -24,6 +26,12 @@ public class HeightServiceImpl implements DtoService<HeightDto> {
         Height height = heightDao.loadBySize(name);
         HeightDto heightDto = EntityDtoConverter.transformToHeightDto(height);
         return heightDto;
+    }
+
+    @Override
+    public void delete(HeightDto obj) {
+        HeightDao dao = new HeightDao();
+        dao.delete(EntityDtoConverter.transformToHeightEntity(obj));
     }
 
     @Override

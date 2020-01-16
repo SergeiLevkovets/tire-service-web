@@ -9,6 +9,22 @@ public class EntityDtoConverter {
         throw new AssertionError("Class contains static methods only. You should not instantiate it!");
     }
 
+    public static OrderServiceItemPriceDto transformToOrderServiceItemPriceDto(OrderServiceItemPrice orderServiceItemPrice){
+        OrderServiceItemPriceDto orderServiceItemPriceDto = new OrderServiceItemPriceDto();
+        orderServiceItemPriceDto.setId(orderServiceItemPrice.getId());
+        orderServiceItemPriceDto.setOrder(transformToOrderDto(orderServiceItemPrice.getOrder()));
+        orderServiceItemPriceDto.setServiceItemPrice(transformToServiceItemPriceDto(orderServiceItemPrice.getServiceItemPrice()));
+        return orderServiceItemPriceDto;
+    }
+
+    public static OrderServiceItemPrice transformToOrderServiceItemPriceEntity(OrderServiceItemPriceDto orderServiceItemPriceDto){
+        OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
+        orderServiceItemPrice.setId(orderServiceItemPrice.getId());
+        orderServiceItemPrice.setOrder(transformToOrderEntity(orderServiceItemPriceDto.getOrder()));
+        orderServiceItemPrice.setServiceItemPrice(transformToServiceItemPriceEntity(orderServiceItemPriceDto.getServiceItemPrice()));
+        return orderServiceItemPrice;
+    }
+
     public static OrderDto transformToOrderDto(Order order){
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());

@@ -1,7 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
+import by.stormnet.levkovets.dao.mysql.HeightDao;
 import by.stormnet.levkovets.dao.mysql.OrderDao;
 import by.stormnet.levkovets.domain.impl.Order;
+import by.stormnet.levkovets.dto.impl.HeightDto;
 import by.stormnet.levkovets.dto.impl.OrderDto;
 import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
@@ -27,6 +29,12 @@ public class OrderServiceImpl implements DtoService<OrderDto> {
             list.add(orderDto);
         }
         return list;
+    }
+
+    @Override
+    public void delete(OrderDto obj) {
+        OrderDao dao = new OrderDao();
+        dao.delete(EntityDtoConverter.transformToOrderEntity(obj));
     }
 
     @Override
