@@ -46,12 +46,12 @@ public class RegistrationController extends HttpServlet {
         userDto.setPhone(phone);
         userDto.setPassword(password);
 
-        UserService userService = new UserServiceImpl();
-        userService.saveOrUpdateUser(userDto);
+        UserServiceImpl userService = new UserServiceImpl();
+        userService.saveOrUpdate(userDto);
 
         HttpSession session = req.getSession();
 
-        List<UserDto> allUsers = userService.getAllUsers();
+        List<UserDto> allUsers = userService.getAll();
         for (UserDto user : allUsers) {
             if (user.getEmail().equals(email)){
                 session.setAttribute("authorizedUserId", user.getId());
@@ -67,8 +67,8 @@ public class RegistrationController extends HttpServlet {
     private boolean isNoValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword){
         Map<String, String> errorMap = new HashMap<>();
 
-        UserService userService = new UserServiceImpl();
-        List<UserDto> allUsers = userService.getAllUsers();
+        UserServiceImpl userService = new UserServiceImpl();
+        List<UserDto> allUsers = userService.getAll();
 
         if (StringUtils.isBlank(name)){
             errorMap.put("name_error", MESSAGE);

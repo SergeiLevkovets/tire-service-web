@@ -1,8 +1,17 @@
 $(document).ready(function () {
 
-    $('#wheel_size_count').click(function () {
-        let elem = $('#wheel_size')
-        $('#wheel_size_btn').before('<div class="form-group row">' + elem.html() + '</div>')
+    $('#wheel_save').click(function () {
+        let width = $('#width').value();
+        let height = $('#height').value();
+        let diameter = $('#diameter').value();
+        alert('save to DB')
+        alert( width +'/'+ height +'/'+ diameter)
+    })
+
+    $('#complex').click(function () {
+        $('#mounting').prop('checked', 'true');
+        $('#wheel_remove').prop('checked', 'true');
+        $('#balancing').prop('checked', 'true');
     })
 
     $('#valve_replacement').click(function () {
@@ -69,18 +78,18 @@ $(document).ready(function () {
 
 
     $('#submit_login').click(function () {
-        if (isEmpty($('#email').val()) & isEmpty($('#phone').val())){
+        if (isEmpty($('#email').val()) & isEmpty($('#phone').val())) {
             alert(" Заполните поле «Email» или «Phone»");
             return;
         }
-        if (isNotEmpty( $('#email').val() )) {
-            if (!(($('#email').val().match(/.+?\@.+/g) || []).length === 1)){
+        if (isNotEmpty($('#email').val())) {
+            if (!(($('#email').val().match(/.+?\@.+/g) || []).length === 1)) {
                 alert(" Заполните правильно поле «Email»");
                 return;
             }
         }
         if (isNotEmpty($('#phone').val())) {
-            if (!(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone').val())))){
+            if (!(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone').val())))) {
                 alert(" Заполните правильно поле «Phone»");
                 return;
             }
@@ -159,6 +168,7 @@ $(document).ready(function () {
 function isEmpty(value) {
     return value.trim() === '';
 }
+
 function isNotEmpty(value) {
     return !isEmpty(value);
 }

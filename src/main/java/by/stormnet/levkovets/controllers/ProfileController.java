@@ -27,8 +27,8 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         Integer id = (Integer) session.getAttribute("authorizedUserId");
-        UserService userService = new UserServiceImpl();
-        UserDto userDto = userService.getUserById(id);
+        UserServiceImpl userService = new UserServiceImpl();
+        UserDto userDto = userService.getById(id);
         req.setAttribute("name", userDto.getName());
         req.setAttribute("email", userDto.getEmail());
         req.setAttribute("password", userDto.getPassword());
@@ -50,8 +50,8 @@ public class ProfileController extends HttpServlet {
             return;
         }
 
-        UserService userService = new UserServiceImpl();
-        UserDto userDto = userService.getUserById(id);
+        UserServiceImpl userService = new UserServiceImpl();
+        UserDto userDto = userService.getById(id);
         if (StringUtils.isNotBlank(name)) {
             userDto.setName(name);
         }
@@ -64,7 +64,7 @@ public class ProfileController extends HttpServlet {
         if (StringUtils.isNotBlank(password)) {
             userDto.setPassword(password);
         }
-        userService.saveOrUpdateUser(userDto);
+        userService.saveOrUpdate(userDto);
 
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + "/authorized/profile");
@@ -73,8 +73,8 @@ public class ProfileController extends HttpServlet {
     private boolean isNoValid(HttpServletRequest req, Integer id, String email, String phone) {
         Map<String, String> errorMap = new HashMap<>();
 
-        UserService userService = new UserServiceImpl();
-        List<UserDto> allUsers = userService.getAllUsers();
+        UserServiceImpl userService = new UserServiceImpl();
+        List<UserDto> allUsers = userService.getAll();
 
         for (UserDto user : allUsers) {
             Integer userId = user.getId();

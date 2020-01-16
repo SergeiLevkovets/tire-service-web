@@ -205,36 +205,25 @@ VALUES ('115'),
        ('400'),
        ('405');
 
-INSERT INTO `tire_service_db`.types (type)
-VALUES ('universal'),
-       ('car'),
-       ('suv'),
-       ('bus'),
-       ('dual'),
-       ('truck'),
-       ('ring'),
-       ('heavy'),
-       ('patch'),
-       ('valve');
-
 INSERT INTO `tire_service_db`.service_items (name)
 VALUES ('mounting'),
        ('balancing'),
        ('wheel_remove'),
+       ('explosive_pumping'),
        ('valve_replacement'),
        ('balance_weights_adhesive'),
        ('balance_weights_add'),
-       ('cleaning'),
        ('camera_insert'),
+       ('cleaning'),
+       ('pumping'),
+       ('using_key_jack'),
+       ('valve_replacement'),
+       ('sealing'),
        ('diagnostic'),
        ('puncture_repair'),
        ('cut_repair'),
        ('big_cut_repair'),
        ('vertical_cut_repair'),
-       ('sealing'),
-       ('using_key_jack'),
-       ('pumping'),
-       ('explosive_pumping'),
        ('patch_up40'),
        ('patch_up50'),
        ('patch_up6'),
@@ -250,6 +239,18 @@ VALUES ('mounting'),
        ('valve_tr413c'),
        ('valve_tk'),
        ('valve_gk135');
+
+INSERT INTO `tire_service_db`.types (type)
+VALUES ('universal'),
+       ('car'),
+       ('suv'),
+       ('bus'),
+       ('dual'),
+       ('truck'),
+       ('ring'),
+       ('heavy'),
+       ('patch'),
+       ('valve');
 
 
 INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_type_id, fk_diameter_id, price)

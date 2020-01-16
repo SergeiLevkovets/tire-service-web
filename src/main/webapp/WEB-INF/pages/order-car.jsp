@@ -18,8 +18,10 @@
                 <div class="panel-body">
                     <div class="container">
                         <ul class="nav nav-pills">
-                            <li class="active"><a href="${pageContext.request.contextPath}/authorized/order-car">Легвой</a></li>
-                            <li><a href="${pageContext.request.contextPath}/authorized/order-suv">Микроавтобус / джип</a></li>
+                            <li class="active"><a
+                                    href="${pageContext.request.contextPath}/authorized/order-car">Легвой</a></li>
+                            <li><a href="${pageContext.request.contextPath}/authorized/order-suv">Микроавтобус /
+                                джип</a></li>
                             <li><a href="${pageContext.request.contextPath}/authorized/order-truck">Грузовой</a></li>
                         </ul>
                     </div>
@@ -29,29 +31,30 @@
                             <div class="panel-title">Заказ</div>
                         </div>
                         <div class="panel-body">
-                            <form name="car_order" action="${pageContext.request.contextPath}/authorized/order-car" method="post">
+                            <form name="car_order" action="${pageContext.request.contextPath}/authorized/order-car"
+                                  method="post">
                                 <fieldset class="content-box-large">
                                     <div class="row panel-heading">
                                         <div class="panel-title"> Размер и количество колес</div>
                                     </div>
                                     <div class="form-group">
                                         <label>Количество колес</label>
-                                        ${car_wheel_count}
+                                        ${wheel_count}
                                         <div class="btn-toolbar mb-3" role="toolbar"
                                              aria-label="Toolbar with button groups">
                                             <div class="btn-group mr-2" id="car_btn_count" role="group"
                                                  aria-label="First group">
                                                 <button type="button" class="btn btn-default"
-                                                        onclick="$('#car_wheel_count').val(1)">1
+                                                        onclick="$('#wheel_count').val(1)">1
                                                 </button>
                                                 <button type="button" class="btn btn-default"
-                                                        onclick="$('#car_wheel_count').val(2)">2
+                                                        onclick="$('#wheel_count').val(2)">2
                                                 </button>
                                                 <button type="button" class="btn btn-default"
-                                                        onclick="$('#car_wheel_count').val(3)">3
+                                                        onclick="$('#wheel_count').val(3)">3
                                                 </button>
                                                 <button type="button" class="btn btn-default"
-                                                        onclick="$('#car_wheel_count').val(4)">4
+                                                        onclick="$('#wheel_count').val(4)">4
                                                 </button>
                                             </div>
                                             <div class="form-group col-sm-3">
@@ -70,7 +73,9 @@
                                                 <select class="form-control" name="width" id="width"
                                                         required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.width.stream().anyMatch(v->v == '235').get() ? 'selected' : ''}>235</option>
+                                                    <option ${paramValues.width.stream().anyMatch(v->v == '235').get() ? 'selected' : ''}>
+                                                        235
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
@@ -79,24 +84,27 @@
                                                 <select class="form-control" name="height"
                                                         id="height" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.height.stream().anyMatch(v->v == '55').get() ? 'selected' : ''}>55</option>
+                                                    <option ${paramValues.height.stream().anyMatch(v->v == '55').get() ? 'selected' : ''}>
+                                                        55
+                                                    </option>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
                                                 <label>Диаметр диска</label>
                                                 ${diameter}
-                                                <select class="form-control" name="diameter" required>
+                                                <select class="form-control" name="diameter" id="diameter" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.diameter.stream().anyMatch(v->v == 'r13').get() ? 'selected' : ''}>r13</option>
+                                                    <option ${paramValues.diameter.stream().anyMatch(v->v == 'r13').get() ? 'selected' : ''}>
+                                                        r13
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
 
 
-                                        <div class="form-group row" id="wheel_size_btn">
+                                        <div class="form-group row" id="wheel_save_btn">
                                             <div class="col-sm-6 ">
-                                                <button type="button" class="btn btn-default" id="wheel_size_count"> +
-                                                    добавить элемент
+                                                <button type="button" class="btn btn-default" id="wheel_save"> Сохранить в базу
                                                 </button>
                                             </div>
                                         </div>
@@ -106,50 +114,33 @@
                                     <div class="row panel-heading">
                                         <div class="panel-title">Операции</div>
                                     </div>
+                                    <div class="row btn">
+                                        <button type="button" class="btn btn-default" id="complex"
+                                                name="complex">Комплекс</button>
+                                    </div>
 
                                     <div class=" row">
                                         <div class="col-md-4">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"
-                                                           name="complex" ${param.complex == 'on' ? 'checked' : ''}>Комплекс
+                                                    <input type="checkbox" id="mounting"
+                                                           name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж-монтаж
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"
-                                                           name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="installation" ${param.installation == 'on' ? 'checked' : ''}>Монтаж
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="balancing" ${param.balancing == 'on' ? 'checked' : ''}>Балансировка
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="remove_wheel" ${param.remove_wheel == 'on' ? 'checked' : ''}>Снятие
+                                                    <input type="checkbox" id="wheel_remove"
+                                                           name="wheel_remove" ${param.wheel_remove == 'on' ? 'checked' : ''}>Снятие
+                                                    установка
                                                     с а/м
                                                 </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
-                                                    <input type="checkbox"
-                                                           name="install_wheel" ${param.install_wheel == 'on' ? 'checked' : ''}>Установка
-                                                    на а/м
+                                                    <input type="checkbox" id="balancing"
+                                                           name="balancing" ${param.balancing == 'on' ? 'checked' : ''}>Балансировка
                                                 </label>
                                             </div>
-                                        </div>
-
-                                        <div class="col-md-4">
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
@@ -160,26 +151,39 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
+                                                           name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
+                                                    Диагностика колеса</label>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
                                                            name="camera_insert" ${param.camera_insert == 'on' ? 'checked' : ''}>
                                                     Вставка камеры </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="tire_pumping" ${param.tire_pumping == 'on' ? 'checked' : ''}>
+                                                           name="pumping" ${param.tire_pumping == 'on' ? 'checked' : ''}>
                                                     Подкачка колеса </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"
+                                                           name="explosive_pumping" ${param.explosive_pumping == 'on' ? 'checked' : ''}>Взрывная
+                                                    накачка
+                                                </label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
                                                            name="cleaning" ${param.cleaning == 'on' ? 'checked' : ''}>
                                                     Удаление грязи с диска</label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
-                                                    Диагностика колеса</label>
                                             </div>
                                             <div class="checkbox">
                                                 <label>
@@ -229,7 +233,9 @@
                                             ${valve_type_error}
                                             <select class="form-control" id="valve_type" name="valve">
                                                 <option hidden></option>
-                                                <option ${paramValues.valve.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
+                                                <option ${paramValues.valve.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>
+                                                    name
+                                                </option>
                                             </select></div>
                                     </div>
 
@@ -262,7 +268,8 @@
                                                     </div>
                                                     <div class="form-group col-sm-3">
                                                         <input type="number" class="form-control" id="sealing_count"
-                                                               name="sealing_count" min="1" value="${param.sealing_count}">
+                                                               name="sealing_count" min="1"
+                                                               value="${param.sealing_count}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -306,6 +313,11 @@
                                             <div class="col-md-4" id="repair">
                                                 <div class="checkbox">
                                                     <label><input type="checkbox"
+                                                                  id="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}
+                                                                  name="diagnostic">Диагностика </label>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox"
                                                                   id="puncture_repair" ${param.puncture_repair == 'on' ? 'checked' : ''}
                                                                   name="puncture_repair">Прокол </label>
                                                 </div>
@@ -316,11 +328,13 @@
                                                     </label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="big_cut_repair" ${param.big_cut_repair == 'on' ? 'checked' : ''}
+                                                    <label><input type="checkbox"
+                                                                  id="big_cut_repair" ${param.big_cut_repair == 'on' ? 'checked' : ''}
                                                                   name="big_cut_repair">Большой порез </label>
                                                 </div>
                                                 <div class="checkbox">
-                                                    <label><input type="checkbox" id="vertical_cut_repair" ${param.vertical_cut_repair == 'on' ? 'checked' : ''}
+                                                    <label><input type="checkbox"
+                                                                  id="vertical_cut_repair" ${param.vertical_cut_repair == 'on' ? 'checked' : ''}
                                                                   name="vertical_cut_repair">Вертикальный порез
                                                     </label>
                                                 </div>
@@ -332,7 +346,9 @@
                                                     ${patch_type_error}
                                                     <select class="form-control" id="patch_type" name="patch">
                                                         <option hidden></option>
-                                                        <option ${paramValues.patch.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>name</option>
+                                                        <option ${paramValues.patch.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>
+                                                            name
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
