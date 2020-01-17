@@ -31,6 +31,7 @@ public class EntityDtoConverter {
         orderDto.setUser(transformToUserDto(order.getUser()));
         orderDto.setTire(transformToTireDto(order.getTire()));
         orderDto.setType(transformToTypeDto(order.getType()));
+        orderDto.setTotalPrice(order.getTotalPrice());
         orderDto.setDate(order.getDate());
         return orderDto;
     }
@@ -41,6 +42,7 @@ public class EntityDtoConverter {
         order.setUser(transformToUserEntity(orderDto.getUser()));
         order.setTire(transformToTireEntity(orderDto.getTire()));
         order.setType(transformToTypeEntity(orderDto.getType()));
+        order.setTotalPrice(orderDto.getTotalPrice());
         order.setDate(orderDto.getDate());
         return order;
     }

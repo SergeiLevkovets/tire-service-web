@@ -32,7 +32,7 @@
                         </div>
                         <div class="panel-body">
                             <form name="car_order" action="${pageContext.request.contextPath}/authorized/order-car"
-                                  method="post">
+                                  method="get">
                                 <fieldset class="content-box-large">
                                     <div class="row panel-heading">
                                         <div class="panel-title"> Размер и количество колес</div>
@@ -144,7 +144,7 @@
                                             <div class="checkbox">
                                                 <label>
                                                     <input type="checkbox"
-                                                           name="balance_weights_adhesive" ${param.car_balance_weights_adhesive == 'on' ? 'checked' : ''}>Клеящиеся
+                                                           name="balance_weights_adhesive" ${param.car_balance_weights_adhesive == 'on' ? 'checked' : ''}>Клеящиеся или дополнительные
                                                     грузы
                                                 </label>
                                             </div>
