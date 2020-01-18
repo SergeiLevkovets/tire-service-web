@@ -23,7 +23,7 @@ public class ServiceItemPriceServiceImpl implements ServiceItemPriceService {
     }
 
     @Override
-    public List<ServiceItemPriceDto> getAllServiceItemPriceByType(TypeDto type) {
+    public List<ServiceItemPriceDto> getAllByType(TypeDto type) {
         ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
         List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByType(EntityDtoConverter.transformToTypeEntity(type));
         List<ServiceItemPriceDto> serviceItemPriceDtoList = new ArrayList<>();

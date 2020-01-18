@@ -21,7 +21,7 @@ public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.Se
     }
 
     @Override
-    public ServiceItemDto getServiceItemByName(String name) {
+    public ServiceItemDto getByName(String name) {
         ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
         ServiceItem serviceItem = serviceItemDao.loadByName(name);
         ServiceItemDto serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);

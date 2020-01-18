@@ -12,7 +12,7 @@ public interface ServiceItemPriceService extends DtoService<ServiceItemPriceDto>
     @Override
     ServiceItemPriceDto getById(Integer id);
 
-    List<ServiceItemPriceDto> getAllServiceItemPriceByType(TypeDto type);
+    List<ServiceItemPriceDto> getAllByType(TypeDto type);
 
     List<ServiceItemPriceDto> getAllServiceItemPriceByServiceItem(ServiceItemDto serviceItem);
 

@@ -8,7 +8,7 @@ public interface HeightService extends DtoService<HeightDto> {
     @Override
     HeightDto getById(Integer id);
 
-    HeightDto getHeightByName(String name);
+    HeightDto getByName(String name);
 
     @Override
     void delete(HeightDto obj);

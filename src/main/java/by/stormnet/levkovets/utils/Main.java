@@ -8,6 +8,7 @@ public class Main {
         String s2 = s1.replaceAll("\\D+", "");
         int num = s2.length();
         String s3 = s2.substring(num-9, num);
+        System.out.println(s3);
 
     }
 }

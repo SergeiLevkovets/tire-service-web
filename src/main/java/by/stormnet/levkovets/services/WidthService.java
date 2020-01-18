@@ -8,7 +8,7 @@ public interface WidthService extends DtoService<WidthDto> {
     @Override
     WidthDto getById(Integer id);
 
-    WidthDto getWidthByName(String name);
+    WidthDto getByName(String name);
 
     @Override
     List<WidthDto> getAll();

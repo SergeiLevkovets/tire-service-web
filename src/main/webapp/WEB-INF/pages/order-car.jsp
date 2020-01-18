@@ -17,23 +17,24 @@
                     <div class="panel-title">Оформление заказа</div>
                 </div>
                 <div class="panel-body">
-                    <div class="container">
-                        <ul class="nav nav-pills">
-                            <li class="active"><a
-                                    href="${pageContext.request.contextPath}/authorized/order-car">Легвой</a></li>
-                            <li><a href="${pageContext.request.contextPath}/authorized/order-suv">Микроавтобус /
-                                джип</a></li>
-                            <li><a href="${pageContext.request.contextPath}/authorized/order-truck">Грузовой</a></li>
-                        </ul>
-                    </div>
-
-                    <div id="car">
-                        <div class="panel-heading">
-                            <div class="panel-title">Заказ</div>
-                        </div>
                         <div class="panel-body">
-                            <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car"
-                                  method="get">
+
+                            <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car" method="get">
+
+                                <fieldset class="content-box-large">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="car" value="car" checked required> Легвой
+                                        </label>
+                                        <label class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="suv"  value="suv" ${param.type == 'suv' ? 'checked' : ''} required> Микроавтобус / джип
+                                        </label>
+                                        <label class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="truck" value="truck" ${param.type == 'truck' ? 'checked' : ''} required> Грузовой
+                                        </label>
+                                    </div>
+                                </fieldset>
+
                                 <fieldset class="content-box-large">
                                     <div class="row panel-heading">
                                         <div class="panel-title"> Размер и количество колес</div>
@@ -60,7 +61,7 @@
                                             </div>
                                             <div class="btn-group col-sm-3">
                                                 <input type="number" class="form-control" id="wheel_count"
-                                                       value="${param.wheel_count}" name="wheelCount" min="1"
+                                                       value="${param.wheel_count}" name="wheel_count" min="1"
                                                        required>
                                             </div>
                                         </div>
@@ -86,7 +87,7 @@
                                                         id="height" required>
                                                     <option hidden></option>
                                                     <c:forEach items="${heightList}" var="height">
-                                                        <option ${paramValues.height.stream().anyMatch(v->v == '${height.height}' ).get() ? 'selected' : ''}>${height.height}</option>
+                                                        <option ${paramValues.height.stream().anyMatch(v->fn:containsIgnoreCase(v, height.height)).get() ? 'selected' : ''}>${height.height}</option>
                                                     </c:forEach>
                                                 </select>
                                             </div>
@@ -235,7 +236,7 @@
                                             <select class="form-control" id="valve_type" name="valve">
                                                 <option hidden></option>
                                                 <c:forEach items="${valveList}" var="valve">
-                                                    <option ${paramValues.valve.stream().anyMatch(v->fn:startsWith(v, diameter.diameter)).get() ? 'selected' : ''}>${valve.serviceItem.name}</option>
+                                                    <option ${paramValues.valve.stream().anyMatch(v->v == valve.serviceItem.name).get() ? 'selected' : ''}>${valve.serviceItem.name}</option>
                                                 </c:forEach>
                                             </select></div>
                                     </div>
@@ -364,13 +365,9 @@
                                                    value="Оформить заказ">
                                         </div>
                                     </div>
-
                                 </fieldset>
-
                             </form>
                         </div>
-                    </div>
-
                 </div>
             </div>
         </div>

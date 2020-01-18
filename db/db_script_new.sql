@@ -75,7 +75,7 @@ CREATE TABLE `tire_service_db`.`orders`
     `fk_user_id` INTEGER   NOT NULL,
     `fk_tire_id` INTEGER   NOT NULL,
     `fk_type_id` INTEGER   NOT NULL,
-    `price`                 NUMERIC(10, 2) NOT NULL,
+    `price`      NUMERIC(10, 2) NOT NULL,
     `date`       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`),
     CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`),
@@ -88,6 +88,7 @@ CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
     `id`                       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `fk_orders_id`             INTEGER NOT NULL,
     `fk_service_item_price_id` INTEGER NOT NULL,
+    `count`                    INTEGER NOT NULL DEFAULT 1,
     CONSTRAINT `fk_to_order` FOREIGN KEY (`fk_orders_id`) REFERENCES `orders` (`id`),
     CONSTRAINT `fk_to_service_item_price` FOREIGN KEY (`fk_service_item_price_id`) REFERENCES `service_item_prices` (`id`)
 );

@@ -21,7 +21,7 @@ public class HeightServiceImpl implements by.stormnet.levkovets.services.HeightS
     }
 
     @Override
-    public HeightDto getHeightByName(String name) {
+    public HeightDto getByName(String name) {
         HeightDao heightDao = new HeightDaoImpl();
         Height height = heightDao.loadBySize(name);
         HeightDto heightDto = EntityDtoConverter.transformToHeightDto(height);

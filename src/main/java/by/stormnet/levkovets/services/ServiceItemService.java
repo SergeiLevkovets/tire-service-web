@@ -8,7 +8,7 @@ public interface ServiceItemService extends DtoService<ServiceItemDto> {
     @Override
     ServiceItemDto getById(Integer id);
 
-    ServiceItemDto getServiceItemByName(String name);
+    ServiceItemDto getByName(String name);
 
     @Override
     List<ServiceItemDto> getAll();

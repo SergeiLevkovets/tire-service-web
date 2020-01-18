@@ -8,7 +8,7 @@ public interface TypeService extends DtoService<TypeDto> {
     @Override
     TypeDto getById(Integer id);
 
-    TypeDto getTypeByName(String name);
+    TypeDto getByName(String name);
 
     @Override
     void delete(TypeDto obj);

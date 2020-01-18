@@ -14,6 +14,7 @@ public class EntityDtoConverter {
         orderServiceItemPriceDto.setId(orderServiceItemPrice.getId());
         orderServiceItemPriceDto.setOrder(transformToOrderDto(orderServiceItemPrice.getOrder()));
         orderServiceItemPriceDto.setServiceItemPrice(transformToServiceItemPriceDto(orderServiceItemPrice.getServiceItemPrice()));
+        orderServiceItemPriceDto.setCount(orderServiceItemPrice.getCount());
         return orderServiceItemPriceDto;
     }
 
@@ -22,6 +23,11 @@ public class EntityDtoConverter {
         orderServiceItemPrice.setId(orderServiceItemPrice.getId());
         orderServiceItemPrice.setOrder(transformToOrderEntity(orderServiceItemPriceDto.getOrder()));
         orderServiceItemPrice.setServiceItemPrice(transformToServiceItemPriceEntity(orderServiceItemPriceDto.getServiceItemPrice()));
+        if (orderServiceItemPriceDto.getCount() == null){
+            orderServiceItemPrice.setCount(1);
+        }else {
+            orderServiceItemPrice.setCount(orderServiceItemPriceDto.getCount());
+        }
         return orderServiceItemPrice;
     }
 

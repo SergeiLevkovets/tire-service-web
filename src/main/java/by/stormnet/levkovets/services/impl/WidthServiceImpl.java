@@ -21,7 +21,7 @@ public class WidthServiceImpl implements by.stormnet.levkovets.services.WidthSer
     }
 
     @Override
-    public WidthDto getWidthByName(String name) {
+    public WidthDto getByName(String name) {
         WidthDao widthDao = new WidthDaoImpl();
         Width width = widthDao.loadBySize(name);
         WidthDto widthDto = EntityDtoConverter.transformToWidthDto(width);

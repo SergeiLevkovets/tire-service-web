@@ -22,7 +22,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public TypeDto getTypeByName(String name) {
+    public TypeDto getByName(String name) {
         TypeDao typeDao = new TypeDaoImpl();
         Type type = typeDao.loadByType(name);
         TypeDto typeDto = EntityDtoConverter.transformToTypeDto(type);

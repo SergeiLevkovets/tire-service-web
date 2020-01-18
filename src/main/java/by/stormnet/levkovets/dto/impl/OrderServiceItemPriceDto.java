@@ -8,6 +8,7 @@ public class OrderServiceItemPriceDto implements Dto {
     private Integer id;
     private OrderDto order;
     private ServiceItemPriceDto serviceItemPrice;
+    private Integer count;
 
     public OrderServiceItemPriceDto() {
     }
@@ -36,6 +37,14 @@ public class OrderServiceItemPriceDto implements Dto {
         this.serviceItemPrice = serviceItemPrice;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,11 +52,12 @@ public class OrderServiceItemPriceDto implements Dto {
         OrderServiceItemPriceDto that = (OrderServiceItemPriceDto) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(order, that.order) &&
-                Objects.equals(serviceItemPrice, that.serviceItemPrice);
+                Objects.equals(serviceItemPrice, that.serviceItemPrice) &&
+                Objects.equals(count, that.count);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, order, serviceItemPrice);
+        return Objects.hash(id, order, serviceItemPrice, count);
     }
 }

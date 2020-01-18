@@ -33,7 +33,11 @@ public class StringUtils {
     public static String simplePhoneNumber(String str) {
         String number = str.replaceAll("\\D+", "");
         int num = number.length();
-        return number.substring(num-9, num);
+        if (num <= 9){
+            return number;
+        }
+        String substring = number.substring(num - 9, num);
+        return substring;
     }
 
 
