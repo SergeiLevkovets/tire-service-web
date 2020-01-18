@@ -126,7 +126,9 @@ public class EntityDtoConverter {
     public static ServiceItemPriceDto transformToServiceItemPriceDto(ServiceItemPrice serviceItem){
         ServiceItemPriceDto serviceItemPriceDto = new ServiceItemPriceDto();
         serviceItemPriceDto.setId(serviceItem.getId());
-        serviceItemPriceDto.setDiameter(transformToDiameterDto(serviceItem.getDiameter()));
+        if (serviceItem.getDiameter() != null) {
+            serviceItemPriceDto.setDiameter(transformToDiameterDto(serviceItem.getDiameter()));
+        }
         serviceItemPriceDto.setServiceItem(transformToServiceItemDto(serviceItem.getServiceItem()));
         serviceItemPriceDto.setType(transformToTypeDto(serviceItem.getType()));
         serviceItemPriceDto.setPrice(serviceItem.getPrice());
@@ -136,7 +138,9 @@ public class EntityDtoConverter {
     public static ServiceItemPrice transformToServiceItemPriceEntity(ServiceItemPriceDto serviceItemPriceDto){
         ServiceItemPrice serviceItemPrice = new ServiceItemPrice();
         serviceItemPrice.setId(serviceItemPriceDto.getId());
-        serviceItemPrice.setDiameter(transformToDiameterEntity(serviceItemPriceDto.getDiameter()));
+        if (serviceItemPriceDto.getDiameter() != null) {
+            serviceItemPrice.setDiameter(transformToDiameterEntity(serviceItemPriceDto.getDiameter()));
+        }
         serviceItemPrice.setServiceItem(transformToServiceItemEntity(serviceItemPriceDto.getServiceItem()));
         serviceItemPrice.setType(transformToTypeEntity(serviceItemPriceDto.getType()));
         serviceItemPrice.setPrice(serviceItemPriceDto.getPrice());

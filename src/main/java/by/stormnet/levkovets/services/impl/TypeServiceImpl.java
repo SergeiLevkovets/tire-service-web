@@ -5,12 +5,13 @@ import by.stormnet.levkovets.dao.mysql.TypeDaoImpl;
 import by.stormnet.levkovets.domain.impl.Type;
 import by.stormnet.levkovets.dto.impl.TypeDto;
 import by.stormnet.levkovets.services.DtoService;
+import by.stormnet.levkovets.services.TypeService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypeServiceImpl implements by.stormnet.levkovets.services.TypeService {
+public class TypeServiceImpl implements TypeService {
 
     @Override
     public TypeDto getById(Integer id) {

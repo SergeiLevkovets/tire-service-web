@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ page isELIgnored="false" %>
 <%@include file="/WEB-INF/pages/head.jsp" %>
@@ -31,7 +32,7 @@
                             <div class="panel-title">Заказ</div>
                         </div>
                         <div class="panel-body">
-                            <form name="car_order" action="${pageContext.request.contextPath}/authorized/order-car"
+                            <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car"
                                   method="get">
                                 <fieldset class="content-box-large">
                                     <div class="row panel-heading">
@@ -73,9 +74,9 @@
                                                 <select class="form-control" name="width" id="width"
                                                         required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.width.stream().anyMatch(v->v == '235').get() ? 'selected' : ''}>
-                                                        235
-                                                    </option>
+                                                    <c:forEach items="${widthList}" var="width">
+                                                    <option ${paramValues.width.stream().anyMatch(v->fn:startsWith(v, width.width)).get() ? 'selected' : ''}>${width.width}</option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
@@ -84,9 +85,9 @@
                                                 <select class="form-control" name="height"
                                                         id="height" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.height.stream().anyMatch(v->v == '55').get() ? 'selected' : ''}>
-                                                        55
-                                                    </option>
+                                                    <c:forEach items="${heightList}" var="height">
+                                                        <option ${paramValues.height.stream().anyMatch(v->v == '${height.height}' ).get() ? 'selected' : ''}>${height.height}</option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                             <div class="col-sm-3">
@@ -94,9 +95,9 @@
                                                 ${diameter}
                                                 <select class="form-control" name="diameter" id="diameter" required>
                                                     <option hidden></option>
-                                                    <option ${paramValues.diameter.stream().anyMatch(v->v == 'r13').get() ? 'selected' : ''}>
-                                                        r13
-                                                    </option>
+                                                    <c:forEach items="${diameterList}" var="diameter">
+                                                        <option ${paramValues.diameter.stream().anyMatch(v->fn:startsWith(v, diameter.diameter)).get() ? 'selected' : ''}>${diameter.diameter}</option>
+                                                    </c:forEach>
                                                 </select>
                                             </div>
                                         </div>
@@ -233,9 +234,9 @@
                                             ${valve_type_error}
                                             <select class="form-control" id="valve_type" name="valve">
                                                 <option hidden></option>
-                                                <option ${paramValues.valve.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>
-                                                    name
-                                                </option>
+                                                <c:forEach items="${valveList}" var="valve">
+                                                    <option ${paramValues.valve.stream().anyMatch(v->fn:startsWith(v, diameter.diameter)).get() ? 'selected' : ''}>${valve.serviceItem.name}</option>
+                                                </c:forEach>
                                             </select></div>
                                     </div>
 
@@ -346,9 +347,9 @@
                                                     ${patch_type_error}
                                                     <select class="form-control" id="patch_type" name="patch">
                                                         <option hidden></option>
-                                                        <option ${paramValues.patch.stream().anyMatch(v->v == 'name').get() ? 'selected' : ''}>
-                                                            name
-                                                        </option>
+                                                        <c:forEach items="${patchList}" var="patch">
+                                                            <option ${paramValues.patch.stream().anyMatch(v->fn:startsWith(v, patch.serviceItem.name)).get() ? 'selected' : ''}>${patch.serviceItem.name}</option>
+                                                        </c:forEach>
                                                     </select>
                                                 </div>
                                             </div>

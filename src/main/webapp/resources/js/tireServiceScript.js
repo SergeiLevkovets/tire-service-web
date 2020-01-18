@@ -34,7 +34,8 @@ $(document).ready(function () {
     })
 
     $('#repair input').click(function () {
-        if ($('#puncture_repair').prop('checked')
+        if ($('#diagnostic').prop('checked')
+            || $('#puncture_repair').prop('checked')
             || $('#cut_repair').prop('checked')
             || $('#big_cut_repair').prop('checked')
             || $('#vertical_cut_repair').prop('checked')
@@ -52,7 +53,7 @@ $(document).ready(function () {
             alert("Поле «Количество колес» не может быть пустым");
             return;
         }
-        $('#').submit();
+        $('#order').submit();
     })
 
 

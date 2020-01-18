@@ -2,17 +2,17 @@ package by.stormnet.levkovets.services.impl;
 
 import by.stormnet.levkovets.dao.ServiceItemPriceDao;
 import by.stormnet.levkovets.dao.mysql.ServiceItemPriceDaoImpl;
-import by.stormnet.levkovets.domain.impl.ServiceItem;
 import by.stormnet.levkovets.domain.impl.ServiceItemPrice;
-import by.stormnet.levkovets.domain.impl.Type;
+import by.stormnet.levkovets.dto.impl.ServiceItemDto;
 import by.stormnet.levkovets.dto.impl.ServiceItemPriceDto;
-import by.stormnet.levkovets.services.DtoService;
+import by.stormnet.levkovets.dto.impl.TypeDto;
+import by.stormnet.levkovets.services.ServiceItemPriceService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceItemPriceServiceImpl implements by.stormnet.levkovets.services.ServiceItemPriceService {
+public class ServiceItemPriceServiceImpl implements ServiceItemPriceService {
 
     @Override
     public ServiceItemPriceDto getById(Integer id) {
@@ -23,9 +23,9 @@ public class ServiceItemPriceServiceImpl implements by.stormnet.levkovets.servic
     }
 
     @Override
-    public List<ServiceItemPriceDto> getAllServiceItemPriceByType(Type type) {
+    public List<ServiceItemPriceDto> getAllServiceItemPriceByType(TypeDto type) {
         ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
-        List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByType(type);
+        List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByType(EntityDtoConverter.transformToTypeEntity(type));
         List<ServiceItemPriceDto> serviceItemPriceDtoList = new ArrayList<>();
         for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
             ServiceItemPriceDto serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
@@ -35,9 +35,9 @@ public class ServiceItemPriceServiceImpl implements by.stormnet.levkovets.servic
     }
 
     @Override
-    public List<ServiceItemPriceDto> getAllServiceItemPriceByServiceItem(ServiceItem serviceItem) {
+    public List<ServiceItemPriceDto> getAllServiceItemPriceByServiceItem(ServiceItemDto serviceItem) {
         ServiceItemPriceDao serviceItemPriceDao = new ServiceItemPriceDaoImpl();
-        List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByItem(serviceItem);
+        List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByItem(EntityDtoConverter.transformToServiceItemEntity(serviceItem));
         List<ServiceItemPriceDto> serviceItemPriceDtoList = new ArrayList<>();
         for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
             ServiceItemPriceDto serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
@@ -70,7 +70,7 @@ public class ServiceItemPriceServiceImpl implements by.stormnet.levkovets.servic
 
         if (serviceItemPriceDto.getId() == null) {
             serviceItemPriceDao.save(EntityDtoConverter.transformToServiceItemPriceEntity(serviceItemPriceDto));
-        }else {
+        } else {
             serviceItemPriceDao.update(EntityDtoConverter.transformToServiceItemPriceEntity(serviceItemPriceDto));
         }
     }
