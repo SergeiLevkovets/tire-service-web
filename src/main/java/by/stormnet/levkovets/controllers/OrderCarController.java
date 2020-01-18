@@ -19,21 +19,37 @@ public class OrderCarController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        WidthServiceImpl widthService = new WidthServiceImpl();
-        HeightServiceImpl heightService = new HeightServiceImpl();
-        DiameterService diameterService = new DiameterServiceImpl();
-        ServiceItemPriceServiceImpl serviceItemPriceService = new ServiceItemPriceServiceImpl();
-        TypeServiceImpl typeService = new TypeServiceImpl();
-        List<WidthDto> widthList = widthService.getAll();
-        List<HeightDto> heightList = heightService.getAll();
-        List<DiameterDto> diameterList = diameterService.getAll();
-        List<ServiceItemPriceDto> valveList = serviceItemPriceService.getAllByType(typeService.getByName("valve"));
-        List<ServiceItemPriceDto> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
-        req.setAttribute("widthList", widthList);
-        req.setAttribute("heightList", heightList);
-        req.setAttribute("diameterList", diameterList);
-        req.setAttribute("valveList", valveList);
-        req.setAttribute("patchList", patchList);
+        if (req.getAttribute("widthList") == null) {
+            WidthServiceImpl widthService = new WidthServiceImpl();
+            List<WidthDto> widthList = widthService.getAll();
+            req.setAttribute("widthList", widthList);
+
+        }
+        if (req.getAttribute("heightList") == null) {
+            HeightServiceImpl heightService = new HeightServiceImpl();
+            List<HeightDto> heightList = heightService.getAll();
+            req.setAttribute("heightList", heightList);
+
+        }
+        if (req.getAttribute("diameterList") == null) {
+            DiameterService diameterService = new DiameterServiceImpl();
+            List<DiameterDto> diameterList = diameterService.getAll();
+            req.setAttribute("diameterList", diameterList);
+
+        }
+
+        if ((req.getAttribute("patchList") == null) || (req.getAttribute("valveList") == null)) {
+            ServiceItemPriceServiceImpl serviceItemPriceService = new ServiceItemPriceServiceImpl();
+            TypeServiceImpl typeService = new TypeServiceImpl();
+            if (req.getAttribute("patchList") == null){
+                List<ServiceItemPriceDto> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
+                req.setAttribute("patchList", patchList);
+            }
+            if (req.getAttribute("valveList") == null) {
+                List<ServiceItemPriceDto> valveList = serviceItemPriceService.getAllByType(typeService.getByName("valve"));
+                req.setAttribute("valveList", valveList);
+            }
+        }
 
         req.getRequestDispatcher("/WEB-INF/pages/order-car.jsp").forward(req, resp);
     }
@@ -42,14 +58,17 @@ public class OrderCarController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
-        Integer UserId = Integer.valueOf((String) session.getAttribute("authorizedUserId"));
+//        Integer UserId = Integer.valueOf((String) session.getAttribute("authorizedUserId"));
+
+        String type = req.getParameter("type");
+        TypeDto typeDto = new TypeServiceImpl().getByName(type);
+
+//        Integer wheelCount = req.getAttribute("");
 
         String width = req.getParameter("width");
         String height = req.getParameter("height");
         String diameter = req.getParameter("diameter");
 
-        String type = req.getParameter("type");
-        TypeDto typeDto = new TypeServiceImpl().getByName(type);
 
         WidthDto widthDto = new WidthServiceImpl().getByName(width);
         HeightDto heightDto = new HeightServiceImpl().getByName(height);
@@ -61,7 +80,7 @@ public class OrderCarController extends HttpServlet {
         tireDto.setDiameter(diameterDto);
 
         OrderDto orderDto = new OrderDto();
-        orderDto.setUser(new UserServiceImpl().getById(UserId));
+//        orderDto.setUser(new UserServiceImpl().getById(UserId));
         orderDto.setTire(tireDto);
 //        orderDto.setType();
 //        orderDto.setTotalPrice();
@@ -70,7 +89,7 @@ public class OrderCarController extends HttpServlet {
         while (parameterNames.hasMoreElements()) {
             String parameterName = parameterNames.nextElement();
             String parameter = req.getParameter(parameterName);
-            if (parameter != null){
+            if (parameter != null) {
 
             }
 

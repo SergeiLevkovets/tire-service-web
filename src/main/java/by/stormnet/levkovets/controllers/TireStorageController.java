@@ -11,6 +11,7 @@ import java.io.IOException;
 public class TireStorageController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.getRequestDispatcher("/WEB-INF/pages/tire-storage.jsp").forward(req, resp);
     }
 }

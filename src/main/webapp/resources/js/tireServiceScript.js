@@ -1,59 +1,110 @@
 $(document).ready(function () {
 
-    $('#wheel_save').click(function () {
-        let width = $('#width').value();
-        let height = $('#height').value();
-        let diameter = $('#diameter').value();
-        alert('save to DB')
-        alert( width +'/'+ height +'/'+ diameter)
+    $('#tireSaveBtn').click(function () {
+        if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
+            alert("Поля «Размер колес» не могут быть пустыми");
+            return;
+        }
+        let url = $(this).val();
+        let dataString = 'width=' + $('#width').val() + '&height=' + $('#height').val() + '&diameter=' + $('#diameter').val();
+        $.ajax({
+            url: url,
+            type: 'get',
+            data: dataString,
+        }).success(function () {
+            alert("Данные сохранены")
+        }).error(function () {
+            alert("Данные не отправлены")
+        })
+
     })
+
 
     $('#complex').click(function () {
         $('#mounting').prop('checked', 'true');
-        $('#wheel_remove').prop('checked', 'true');
+        $('#wheelRemove').prop('checked', 'true');
         $('#balancing').prop('checked', 'true');
     })
 
-    $('#valve_replacement').click(function () {
-        if ($('#valve_replacement').prop('checked')) {
-            $('#valve_count').prop('required', 'true')
+    $('#valveReplacement').click(function () {
+        if ($('#valveReplacement').prop('checked')) {
+            $('#valveCount').prop('required', 'true')
         } else {
-            $('#valve_count').prop('required', null)
-            $('#valve_count').val('')
-            $('#valve_type').val('')
+            $('#valveCount').prop('required', null)
+            $('#valveCount').val('')
+            $('#valve').val('')
         }
     })
 
     $('#sealing').click(function () {
         if ($('#sealing').prop('checked')) {
-            $('#sealing_count').prop('required', 'true')
+            $('#sealingCount').prop('required', 'true')
         } else {
-            $('#sealing_count').prop('required', null)
-            $('#sealing_count').val('')
+            $('#sealingCount').prop('required', null)
+            $('#sealingCount').val('')
         }
     })
 
     $('#repair input').click(function () {
         if ($('#diagnostic').prop('checked')
-            || $('#puncture_repair').prop('checked')
-            || $('#cut_repair').prop('checked')
-            || $('#big_cut_repair').prop('checked')
-            || $('#vertical_cut_repair').prop('checked')
-            || $('#repair_diagnostic').prop('checked')) {
-            $('#repair_count').prop('required', 'true')
+            || $('#punctureRepair').prop('checked')
+            || $('#cutRepair').prop('checked')
+            || $('#bigCutRepair').prop('checked')
+            || $('#verticalCutRepair').prop('checked')
+            || $('#diagnostic').prop('checked')) {
+            $('#repairCount').prop('required', 'true')
         } else {
-            $('#repair_count').prop('required', null)
-            $('#repair_count').val('')
-            $('#patch_type').val('')
+            $('#repairCount').prop('required', null)
+            $('#repairCount').val('')
+            $('#patch').val('')
         }
     })
 
     $('#submit_order').click(function () {
-        if (isEmpty($('#wheel_count').val())) {
+        if (isEmpty($('#wheelCount').val())) {
             alert("Поле «Количество колес» не может быть пустым");
             return;
         }
-        $('#order').submit();
+        if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
+            alert("Поля «Размер колес» не могут быть пустыми");
+            return;
+        }
+        if ($('#valveReplacement').prop('checked')) {
+            if (isEmpty($('#valveCount').val())) {
+                alert("Поле «Количество вентелей» не может быть пустым");
+                return;
+            }
+        }
+        if ($('#sealing').prop('checked')) {
+            if (isEmpty($('#sealingCount').val())) {
+                alert("Поле «Количество колес для гермитизации» не может быть пустым");
+                return;
+            }
+        }
+        if ($('#diagnostic').prop('checked')
+            || $('#punctureRepair').prop('checked')
+            || $('#cutRepair').prop('checked')
+            || $('#bigCutRepair').prop('checked')
+            || $('#verticalCutRepair').prop('checked')
+            || $('#diagnostic').prop('checked')) {
+
+            if (isEmpty($('#repairCount').val())) {
+                alert("Поле «Количество колес для ремонта» не может быть пустым");
+                return;
+            }
+        }
+
+        let url = $('#order').attr('action');
+        let param = $('#order').serialize();
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: param,
+        }).success(function () {
+            alert("Данные формы сохранены")
+        }).error(function () {
+            alert("Данные формы не отправлены")
+        })
     })
 
 
@@ -167,6 +218,9 @@ $(document).ready(function () {
 
 
 function isEmpty(value) {
+    if (value == null){
+        return true;
+    }
     return value.trim() === '';
 }
 

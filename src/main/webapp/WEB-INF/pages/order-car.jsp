@@ -17,58 +17,64 @@
                     <div class="panel-title">Оформление заказа</div>
                 </div>
                 <div class="panel-body">
-                        <div class="panel-body">
+                    <div class="panel-body">
 
-                            <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car" method="get">
+                        <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car"
+                              method="get">
 
-                                <fieldset class="content-box-large">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
-                                            <input type="radio" name="type" id="car" value="car" checked required> Легвой
-                                        </label>
-                                        <label class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
-                                            <input type="radio" name="type" id="suv"  value="suv" ${param.type == 'suv' ? 'checked' : ''} required> Микроавтобус / джип
-                                        </label>
-                                        <label class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
-                                            <input type="radio" name="type" id="truck" value="truck" ${param.type == 'truck' ? 'checked' : ''} required> Грузовой
-                                        </label>
-                                    </div>
-                                </fieldset>
+                            <fieldset class="content-box-large">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
+                                        <input type="radio" name="type" id="car" value="car" checked required> Легвой
+                                    </label>
+                                    <label class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
+                                        <input type="radio" name="type" id="suv"
+                                               value="suv" ${param.type == 'suv' ? 'checked' : ''} required>
+                                        Микроавтобус / джип
+                                    </label>
+                                    <label class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
+                                        <input type="radio" name="type" id="truck"
+                                               value="truck" ${param.type == 'truck' ? 'checked' : ''} required>
+                                        Грузовой
+                                    </label>
+                                </div>
+                            </fieldset>
 
-                                <fieldset class="content-box-large">
-                                    <div class="row panel-heading">
-                                        <div class="panel-title"> Размер и количество колес</div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Количество колес</label>
-                                        ${wheel_count}
-                                        <div class="btn-toolbar mb-3" role="toolbar"
-                                             aria-label="Toolbar with button groups">
-                                            <div class="btn-group mr-2" id="car_btn_count" role="group"
-                                                 aria-label="First group">
-                                                <button type="button" class="btn btn-default"
-                                                        onclick="$('#wheel_count').val(1)">1
-                                                </button>
-                                                <button type="button" class="btn btn-default"
-                                                        onclick="$('#wheel_count').val(2)">2
-                                                </button>
-                                                <button type="button" class="btn btn-default"
-                                                        onclick="$('#wheel_count').val(3)">3
-                                                </button>
-                                                <button type="button" class="btn btn-default"
-                                                        onclick="$('#wheel_count').val(4)">4
-                                                </button>
-                                            </div>
-                                            <div class="btn-group col-sm-3">
-                                                <input type="number" class="form-control" id="wheel_count"
-                                                       value="${param.wheel_count}" name="wheel_count" min="1"
-                                                       required>
-                                            </div>
+                            <fieldset class="content-box-large">
+                                <div class="row panel-heading">
+                                    <div class="panel-title"> Размер и количество колес</div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Количество колес</label>
+                                    ${wheelCount}
+                                    <div class="btn-toolbar mb-3" role="toolbar"
+                                         aria-label="Toolbar with button groups">
+                                        <div class="btn-group mr-2" id="car_btn_count" role="group"
+                                             aria-label="First group">
+                                            <button type="button" class="btn btn-default"
+                                                    onclick="$('#wheelCount').val(1)">1
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    onclick="$('#wheelCount').val(2)">2
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    onclick="$('#wheelCount').val(3)">3
+                                            </button>
+                                            <button type="button" class="btn btn-default"
+                                                    onclick="$('#wheelCount').val(4)">4
+                                            </button>
+                                        </div>
+                                        <div class="btn-group col-sm-3">
+                                            <input type="number" class="form-control" id="wheelCount"
+                                                   value="${param.wheelCount}" name="wheelCount" min="1"
+                                                   required>
                                         </div>
                                     </div>
-
+                                </div>
                                     <div class="content-box-large">
                                         <div class="form-group row" id="wheel_size">
+                                            <div class="hidden" id="saveTireUrl">${pageContext.request.contextPath}/authorized/tire-save</div>
+
                                             <div class="col-sm-3">
                                                 <label>Ширина колеса</label>
                                                 ${width}
@@ -76,7 +82,7 @@
                                                         required>
                                                     <option hidden></option>
                                                     <c:forEach items="${widthList}" var="width">
-                                                    <option ${paramValues.width.stream().anyMatch(v->fn:startsWith(v, width.width)).get() ? 'selected' : ''}>${width.width}</option>
+                                                        <option ${paramValues.width.stream().anyMatch(v->fn:startsWith(v, width.width)).get() ? 'selected' : ''}>${width.width}</option>
                                                     </c:forEach>
                                                 </select>
                                             </div>
@@ -101,273 +107,276 @@
                                                     </c:forEach>
                                                 </select>
                                             </div>
+
                                         </div>
 
 
                                         <div class="form-group row" id="wheel_save_btn">
                                             <div class="col-sm-6 ">
-                                                <button type="button" class="btn btn-default" id="wheel_save"> Сохранить в базу
+                                                <button type="button" class="btn btn-default" id="tireSaveBtn" value="${pageContext.request.contextPath}/authorized/tire-save">
+                                                    Сохранить в базу
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
 
+                                <div class="row panel-heading">
+                                    <div class="panel-title">Операции</div>
+                                </div>
+                                <div class="row btn">
+                                    <button type="button" class="btn btn-default" id="complex"
+                                            name="complex">Комплекс
+                                    </button>
+                                </div>
 
-                                    <div class="row panel-heading">
-                                        <div class="panel-title">Операции</div>
-                                    </div>
-                                    <div class="row btn">
-                                        <button type="button" class="btn btn-default" id="complex"
-                                                name="complex">Комплекс</button>
-                                    </div>
-
-                                    <div class=" row">
-                                        <div class="col-md-4">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="mounting"
-                                                           name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж-монтаж
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="wheel_remove"
-                                                           name="wheel_remove" ${param.wheel_remove == 'on' ? 'checked' : ''}>Снятие
-                                                    установка
-                                                    с а/м
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" id="balancing"
-                                                           name="balancing" ${param.balancing == 'on' ? 'checked' : ''}>Балансировка
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="balance_weights_adhesive" ${param.car_balance_weights_adhesive == 'on' ? 'checked' : ''}>Клеящиеся или дополнительные
-                                                    грузы
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
-                                                    Диагностика колеса</label>
-                                            </div>
-
-
+                                <div class=" row">
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="mounting"
+                                                       name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж-монтаж
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="wheelRemove"
+                                                       name="wheelRemove" ${param.wheelRemove == 'on' ? 'checked' : ''}>Снятие
+                                                установка
+                                                с а/м
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" id="balancing"
+                                                       name="balancing" ${param.balancing == 'on' ? 'checked' : ''}>Балансировка
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="balanceWeightsAdhesive" ${param.balanceWeightsAdhesive == 'on' ? 'checked' : ''}>Клеящиеся
+                                                или дополнительные
+                                                грузы
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
+                                                Диагностика колеса</label>
                                         </div>
 
-                                        <div class="col-md-4">
 
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="camera_insert" ${param.camera_insert == 'on' ? 'checked' : ''}>
-                                                    Вставка камеры </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="pumping" ${param.tire_pumping == 'on' ? 'checked' : ''}>
-                                                    Подкачка колеса </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="explosive_pumping" ${param.explosive_pumping == 'on' ? 'checked' : ''}>Взрывная
-                                                    накачка
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="cleaning" ${param.cleaning == 'on' ? 'checked' : ''}>
-                                                    Удаление грязи с диска</label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="using_key_jack" ${param.using_key_jack == 'on' ? 'checked' : ''}>
-                                                    использование ключа, домкрата</label>
-                                            </div>
+                                    </div>
 
+                                    <div class="col-md-4">
 
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="cameraInsert" ${param.cameraInsert == 'on' ? 'checked' : ''}>
+                                                Вставка камеры </label>
                                         </div>
-                                    </div>
-                                    <div class="content-box-large form-group row">
-                                        <div class="col-sm-8">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox"
-                                                           name="valve_replacement" ${param.valve_replacement == 'on' ? 'checked' : ''}
-                                                           id="valve_replacement">Замена вентиля</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>количество</label>
-                                                ${valve_count_error}
-                                                <div class="btn-toolbar mb-3" role="toolbar"
-                                                     aria-label="Toolbar with button groups">
-                                                    <div class="btn-group mr-2" id="btn_car_valve" role="group"
-                                                         aria-label="First group">
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#valve_count').val(1)">1
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#valve_count').val(2)">2
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#valve_count').val(3)">3
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#valve_count').val(4)">4
-                                                        </button>
-                                                    </div>
-                                                    <div class="btn-group col-sm-3">
-                                                        <input type="number" class="form-control" id="valve_count"
-                                                               name="valve_count" min="1" value="${param.valve_count}">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <label>Вентиль</label>
-                                            ${valve_type_error}
-                                            <select class="form-control" id="valve_type" name="valve">
-                                                <option hidden></option>
-                                                <c:forEach items="${valveList}" var="valve">
-                                                    <option ${paramValues.valve.stream().anyMatch(v->v == valve.serviceItem.name).get() ? 'selected' : ''}>${valve.serviceItem.name}</option>
-                                                </c:forEach>
-                                            </select></div>
-                                    </div>
-
-                                    <div class="content-box-large form-group row">
-                                        <div class="col-sm-8">
-                                            <div class="checkbox">
-                                                <label>
-                                                    <input type="checkbox" name="sealing"
-                                                           id="sealing" ${param.sealing == 'on' ? 'checked' : ''}>Гермитизация</label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>количество</label>
-                                                ${sealing_count_error}
-                                                <div class="btn-toolbar mb-3" role="toolbar"
-                                                     aria-label="Toolbar with button groups">
-                                                    <div class="btn-group mr-2" id="btn_car_sealing" role="group"
-                                                         aria-label="First group">
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#sealing_count').val(1)">1
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#sealing_count').val(2)">2
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#sealing_count').val(3)">3
-                                                        </button>
-                                                        <button type="button" class="btn btn-default"
-                                                                onclick="$('#sealing_count').val(4)">4
-                                                        </button>
-                                                    </div>
-                                                    <div class="btn-group col-sm-3">
-                                                        <input type="number" class="form-control" id="sealing_count"
-                                                               name="sealing_count" min="1"
-                                                               value="${param.sealing_count}">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="pumping" ${param.pumping == 'on' ? 'checked' : ''}>
+                                                Подкачка колеса </label>
                                         </div>
-                                    </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="explosivePumping" ${param.explosivePumping == 'on' ? 'checked' : ''}>Взрывная
+                                                накачка
+                                            </label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="cleaning" ${param.cleaning == 'on' ? 'checked' : ''}>
+                                                Удаление грязи с диска</label>
+                                        </div>
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="usingKeyJack" ${param.usingKeyJack == 'on' ? 'checked' : ''}>
+                                                использование ключа, домкрата</label>
+                                        </div>
 
-                                    <div class="row panel-heading">
-                                        <div class="panel-title"> Ремонт</div>
+
                                     </div>
-                                    <div class="content-box-large form-group row">
+                                </div>
+                                <div class="content-box-large form-group row">
+                                    <div class="col-sm-8">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox"
+                                                       name="valveReplacement" ${param.valveReplacement == 'on' ? 'checked' : ''}
+                                                       id="valveReplacement">Замена вентиля</label>
+                                        </div>
                                         <div class="form-group">
-                                            <label>количество колес</label>
-                                            ${repair_count_error}
+                                            <label>количество</label>
+                                            ${valveCountError}
                                             <div class="btn-toolbar mb-3" role="toolbar"
                                                  aria-label="Toolbar with button groups">
-                                                <div class="btn-group mr-2" id="btn_car_repair" role="group"
+                                                <div class="btn-group mr-2" id="btn_car_valve" role="group"
                                                      aria-label="First group">
                                                     <button type="button" class="btn btn-default"
-                                                            onclick="$('#repair_count').val(1)">1
+                                                            onclick="$('#valveCount').val(1)">1
                                                     </button>
                                                     <button type="button" class="btn btn-default"
-                                                            onclick="$('#repair_count').val(2)">2
+                                                            onclick="$('#valveCount').val(2)">2
                                                     </button>
                                                     <button type="button" class="btn btn-default"
-                                                            onclick="$('#repair_count').val(3)">3
+                                                            onclick="$('#valveCount').val(3)">3
                                                     </button>
                                                     <button type="button" class="btn btn-default"
-                                                            onclick="$('#repair_count').val(4)">4
+                                                            onclick="$('#valveCount').val(4)">4
                                                     </button>
                                                 </div>
                                                 <div class="btn-group col-sm-3">
-                                                    <input type="number" class="form-control" id="repair_count"
-                                                           name="repair_count" min="1" value="${param.repair_count}">
+                                                    <input type="number" class="form-control" id="valveCount"
+                                                           name="valveCount" min="1" value="${param.valveCount}">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row panel-heading">
-                                            <div class="panel-title">Операции</div>
-                                        </div>
-                                        <div class=" row">
-                                            <div class="col-md-4" id="repair">
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                                  id="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}
-                                                                  name="diagnostic">Диагностика </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                                  id="puncture_repair" ${param.puncture_repair == 'on' ? 'checked' : ''}
-                                                                  name="puncture_repair">Прокол </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                                  id="cut_repair" ${param.cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="cut_repair">Порез
-                                                    </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                                  id="big_cut_repair" ${param.big_cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="big_cut_repair">Большой порез </label>
-                                                </div>
-                                                <div class="checkbox">
-                                                    <label><input type="checkbox"
-                                                                  id="vertical_cut_repair" ${param.vertical_cut_repair == 'on' ? 'checked' : ''}
-                                                                  name="vertical_cut_repair">Вертикальный порез
-                                                    </label>
-                                                </div>
-                                            </div>
+                                        <label>Вентиль</label>
+                                        ${valveError}
+                                        <select class="form-control" id="valve" name="valve">
+                                            <option hidden></option>
+                                            <c:forEach items="${valveList}" var="valveItem">
+                                                <option ${paramValues.valve.stream().anyMatch(v->v == valveItem.serviceItem.name).get() ? 'selected' : ''}>${valveItem.serviceItem.name}</option>
+                                            </c:forEach>
+                                        </select></div>
+                                </div>
 
-                                            <div class="col-md-4">
-                                                <div class="col-sm-8">
-                                                    <label>Латка</label>
-                                                    ${patch_type_error}
-                                                    <select class="form-control" id="patch_type" name="patch">
-                                                        <option hidden></option>
-                                                        <c:forEach items="${patchList}" var="patch">
-                                                            <option ${paramValues.patch.stream().anyMatch(v->fn:startsWith(v, patch.serviceItem.name)).get() ? 'selected' : ''}>${patch.serviceItem.name}</option>
-                                                        </c:forEach>
-                                                    </select>
+                                <div class="content-box-large form-group row">
+                                    <div class="col-sm-8">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="sealing"
+                                                       id="sealing" ${param.sealing == 'on' ? 'checked' : ''}>Гермитизация</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>количество</label>
+                                            ${sealingCountError}
+                                            <div class="btn-toolbar mb-3" role="toolbar"
+                                                 aria-label="Toolbar with button groups">
+                                                <div class="btn-group mr-2" id="btn_car_sealing" role="group"
+                                                     aria-label="First group">
+                                                    <button type="button" class="btn btn-default"
+                                                            onclick="$('#sealingCount').val(1)">1
+                                                    </button>
+                                                    <button type="button" class="btn btn-default"
+                                                            onclick="$('#sealingCount').val(2)">2
+                                                    </button>
+                                                    <button type="button" class="btn btn-default"
+                                                            onclick="$('#sealingCount').val(3)">3
+                                                    </button>
+                                                    <button type="button" class="btn btn-default"
+                                                            onclick="$('#sealingCount').val(4)">4
+                                                    </button>
+                                                </div>
+                                                <div class="btn-group col-sm-3">
+                                                    <input type="number" class="form-control" id="sealingCount"
+                                                           name="sealingCount" min="1"
+                                                           value="${param.sealingCount}">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-4 ">
-                                            <input type="button" class="btn btn-default" value="Очистить форму">
-                                        </div>
-                                        <div class="col-sm-4 ">
-                                            <input type="button" class="btn btn-primary" id="submit_order"
-                                                   value="Оформить заказ">
+                                </div>
+
+                                <div class="row panel-heading">
+                                    <div class="panel-title"> Ремонт</div>
+                                </div>
+                                <div class="content-box-large form-group row">
+                                    <div class="form-group">
+                                        <label>количество колес</label>
+                                        ${repairCountError}
+                                        <div class="btn-toolbar mb-3" role="toolbar"
+                                             aria-label="Toolbar with button groups">
+                                            <div class="btn-group mr-2" id="btn_car_repair" role="group"
+                                                 aria-label="First group">
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="$('#repairCount').val(1)">1
+                                                </button>
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="$('#repairCount').val(2)">2
+                                                </button>
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="$('#repairCount').val(3)">3
+                                                </button>
+                                                <button type="button" class="btn btn-default"
+                                                        onclick="$('#repairCount').val(4)">4
+                                                </button>
+                                            </div>
+                                            <div class="btn-group col-sm-3">
+                                                <input type="number" class="form-control" id="repairCount"
+                                                       name="repairCount" min="1" value="${param.repairCount}">
+                                            </div>
                                         </div>
                                     </div>
-                                </fieldset>
-                            </form>
-                        </div>
+                                    <div class="row panel-heading">
+                                        <div class="panel-title">Операции</div>
+                                    </div>
+                                    <div class=" row">
+                                        <div class="col-md-4" id="repair">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"
+                                                              id="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}
+                                                              name="diagnostic">Диагностика </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"
+                                                              id="punctureRepair" ${param.punctureRepair == 'on' ? 'checked' : ''}
+                                                              name="punctureRepair">Прокол </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"
+                                                              id="cutRepair" ${param.cutRepair == 'on' ? 'checked' : ''}
+                                                              name="cutRepair">Порез
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"
+                                                              id="bigCutRepair" ${param.bigCutRepair == 'on' ? 'checked' : ''}
+                                                              name="bigCutRepair">Большой порез </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type="checkbox"
+                                                              id="verticalCutRepair" ${param.verticalCutRepair == 'on' ? 'checked' : ''}
+                                                              name="verticalCutRepair">Вертикальный порез
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="col-sm-8">
+                                                <label>Латка</label>
+                                                ${patch_type_error}
+                                                <select class="form-control" id="patch" name="patch">
+                                                    <option hidden></option>
+                                                    <c:forEach items="${patchList}" var="patchItem">
+                                                        <option ${paramValues.patch.stream().anyMatch(v->fn:startsWith(v, patchItem.serviceItem.name)).get() ? 'selected' : ''}>${patchItem.serviceItem.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 ">
+                                        <input type="button" class="btn btn-default" value="Очистить форму">
+                                    </div>
+                                    <div class="col-sm-4 ">
+                                        <input type="button" class="btn btn-primary" id="submit_order"
+                                               value="Оформить заказ">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
