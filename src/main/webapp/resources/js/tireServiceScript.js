@@ -187,38 +187,6 @@ $(document).ready(function () {
         $('#forgot_form').submit();
     })
 
-    $('#submit_storage').click(function () {
-        if (isEmpty($('#tire_name').val())) {
-            alert("Поле «Производитель и модель» не может быть пустым");
-            return;
-        }
-        if ($('#tire_name').val().match(/^[0-9@_-]{3,50}$/u)) {
-            alert("Поле «Производитель и модель» не может состоять только из цифр");
-            return;
-        }
-        if (isEmpty($('#width_tire').val())) {
-            alert("Поле «Ширина колеса» не может быть пустым");
-            return;
-        }
-        if (isEmpty($('#height_tire').val())) {
-            alert("Поле «Высота профиля» не может быть пустым");
-            return;
-        }
-        if (isEmpty($('#diameter_wheel').val())) {
-            alert("Поле «Диаметр диска» не может быть пустым");
-            return;
-        }
-        if (isEmpty($('#placement_date').val())) {
-            alert("Поле «Дата размещения» не может быть пустым");
-            return;
-        }
-        if (isEmpty($('#end_date').val())) {
-            alert("Поле «Дата окончания хранения» не может быть пустым");
-            return;
-        }
-        $('#storage_form').submit();
-    })
-
     $('#profile_submit').click(function () {
         if (isEmpty($('#profile_name ').val())) {
             alert("Поле «Name» не может быть пустым");

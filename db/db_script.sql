@@ -12,157 +12,313 @@ CREATE TABLE `tire_service_db`.`users`
     `email`    VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `phone`    VARCHAR(255) NOT NULL,
-    `role`     VARCHAR(255) NOT NULL
+    `role`     VARCHAR(255) NULL
 );
 
-CREATE TABLE `tire_service_db`.`service_price_truck`
+CREATE TABLE `tire_service_db`.`widths`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`    INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `width` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`service_price_car`
+CREATE TABLE `tire_service_db`.`heights`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`     INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `height` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`service_price_suv`
+CREATE TABLE `tire_service_db`.`diameters`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`       INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `diameter` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`service_price`
+CREATE TABLE `tire_service_db`.`types`
 (
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
+    `id`   INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `type` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `tire_service_db`.`materials_patch`
-(
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `count` INTEGER        NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
-);
-
-CREATE TABLE `tire_service_db`.`materials_valve`
-(
-    `id`    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`  VARCHAR(255)   NOT NULL,
-    `count` INTEGER        NOT NULL,
-    `price` NUMERIC(10, 2) NOT NULL
-);
-
-CREATE TABLE `tire_service_db`.tires
-(
-    `id`       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `width`    INTEGER   NOT NULL,
-    `height`   INTEGER   NOT NULL,
-    `diameter` INTEGER   NOT NULL,
-    `date`     TIMESTAMP NOT NULL
-);
-
-CREATE TABLE `tire_service_db`.`tire_storage`
+CREATE TABLE `tire_service_db`.`service_items`
 (
     `id`         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `name`       VARCHAR(255) NOT NULL,
-    `fk_tire_id` INTEGER      NOT NULL,
-    `date_end`   TIMESTAMP    NOT NULL,
-    `fk_user_id` INTEGER      NOT NULL,
-    CONSTRAINT `fk_to_tires` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`),
-    CONSTRAINT `fk_to_users` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`)
+    `name`       VARCHAR(255) NOT NULL
 );
 
---     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES user (`user_id`)
+CREATE TABLE `tire_service_db`.`tires`
+(
+    `id`             INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_width_id`    INTEGER   NOT NULL,
+    `fk_height_id`   INTEGER   NOT NULL,
+    `fk_diameter_id` INTEGER   NOT NULL,
+    `date`           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_to_width` FOREIGN KEY (`fk_width_id`) REFERENCES widths (`id`),
+    CONSTRAINT `fk_to_height` FOREIGN KEY (`fk_height_id`) REFERENCES heights (`id`),
+    CONSTRAINT `fk_to_diameter` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
+);
 
-INSERT INTO `tire_service_db`.service_price_truck (name, price)
-VALUES ('truck_mounting', 5.00),
-       ('truck_mounting_r20k', 8.00),
-       ('truck_mounting_heavy', 17.00),
-       ('truck_balancing', 5.00),
-       ('truck_sealing', 2.00),
-       ('truck_pumping', 1.00),
-       ('truck_pumping_heavy', 1.50),
-       ('truck_wheel_remove', 3.00),
-       ('truck_wheel_remove_heavy', 5.00),
-       ('truck_wheel_install', 3.00),
-       ('truck_wheel_install_heavy', 5.00),
+CREATE TABLE `tire_service_db`.`service_item_prices`
+(
+    `id`                    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_service_item_id`    INTEGER        NOT NULL,
+    `fk_type_id`            INTEGER        NOT NULL,
+    `fk_diameter_id`        INTEGER        NULL,
+    `price`                 NUMERIC(10, 2) NOT NULL,
+    CONSTRAINT `fk_to_items` FOREIGN KEY (fk_service_item_id) REFERENCES service_items (`id`),
+    CONSTRAINT `fk_to_types` FOREIGN KEY (fk_type_id) REFERENCES types (`id`),
+    CONSTRAINT `fk_to_diameters` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
+);
 
-       ('truck_full_service', 19.00),
-       ('truck_full_service_r20k', 26.00),
-       ('truck_full_service_heavy', 45.50),
-       ('truck_full_service_with_balancing', 24.00);
+CREATE TABLE `tire_service_db`.`orders`
+(
+    `id`         INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_user_id` INTEGER   NOT NULL,
+    `fk_tire_id` INTEGER   NOT NULL,
+    `fk_type_id` INTEGER   NOT NULL,
+    `price`      NUMERIC(10, 2) NOT NULL,
+    `date`       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`),
+    CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`),
+    CONSTRAINT `fk_to_type` FOREIGN KEY (fk_type_id) REFERENCES types (`id`)
 
-INSERT INTO `tire_service_db`.service_price_car (`name`, `price`)
-VALUES ('car_mounting_r13_r14', 3.00),
-       ('car_mounting_r15_r16', 4.00),
-       ('car_mounting_r17_r18', 5.00),
-       ('car_mounting_r19_r20', 6.00),
-       ('car_mounting_r21_r22', 7.00),
-       ('car_balancing_r13_r14_r15', 3.00),
-       ('car_balancing_r16_r17', 4.00),
-       ('car_balancing_r18', 5.00),
-       ('car_balancing_r19_r20', 6.00),
-       ('car_balancing_r21_r22', 7.00),
-       ('car_wheel_remove', 2.00);
+);
+
+CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
+(
+    `id`                       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_orders_id`             INTEGER NOT NULL,
+    `fk_service_item_price_id` INTEGER NOT NULL,
+    `count`                    INTEGER NOT NULL DEFAULT 1,
+    CONSTRAINT `fk_to_order` FOREIGN KEY (`fk_orders_id`) REFERENCES `orders` (`id`),
+    CONSTRAINT `fk_to_service_item_price` FOREIGN KEY (`fk_service_item_price_id`) REFERENCES `service_item_prices` (`id`)
+);
+
+################################################
+
+INSERT INTO `tire_service_db`.diameters (diameter)
+VALUES ('r13'),
+       ('r14'),
+       ('r14c'),
+       ('r15'),
+       ('r15c'),
+       ('r16'),
+       ('r16c'),
+       ('r17'),
+       ('r17c'),
+       ('r17.5'),
+       ('r18'),
+       ('r19'),
+       ('r19.5'),
+       ('r20'),
+       ('r21'),
+       ('r22'),
+       ('r22.5');
+
+INSERT INTO tire_service_db.heights (height)
+VALUES ('15'),
+       ('20'),
+       ('25'),
+       ('30'),
+       ('35'),
+       ('40'),
+       ('45'),
+       ('50'),
+       ('55'),
+       ('60'),
+       ('65'),
+       ('70'),
+       ('75'),
+       ('80'),
+       ('85'),
+       ('90'),
+       ('95'),
+       ('100'),
+       ('105');
+
+INSERT INTO tire_service_db.widths (width)
+VALUES ('115'),
+       ('120'),
+       ('125'),
+       ('130'),
+       ('135'),
+       ('140'),
+       ('145'),
+       ('150'),
+       ('155'),
+       ('160'),
+       ('165'),
+       ('170'),
+       ('175'),
+       ('180'),
+       ('185'),
+       ('190'),
+       ('195'),
+       ('200'),
+       ('205'),
+       ('215'),
+       ('220'),
+       ('225'),
+       ('230'),
+       ('235'),
+       ('240'),
+       ('245'),
+       ('250'),
+       ('255'),
+       ('260'),
+       ('265'),
+       ('270'),
+       ('275'),
+       ('280'),
+       ('285'),
+       ('290'),
+       ('295'),
+       ('300'),
+       ('305'),
+       ('310'),
+       ('315'),
+       ('320'),
+       ('325'),
+       ('330'),
+       ('335'),
+       ('340'),
+       ('345'),
+       ('350'),
+       ('355'),
+       ('360'),
+       ('365'),
+       ('370'),
+       ('375'),
+       ('380'),
+       ('385'),
+       ('390'),
+       ('395'),
+       ('400'),
+       ('405');
+
+INSERT INTO `tire_service_db`.service_items (name)
+VALUES
+       ('mounting'),
+       ('balancing'),
+       ('wheelRemove'),
+       ('explosivePumping'),
+       ('valveReplacement'),
+       ('balanceWeightsAdhesive'),
+       ('cameraInsert'),
+       ('cleaning'),
+       ('pumping'),
+       ('usingKeyJack'),
+       ('sealing'),
+       ('diagnostic'),
+       ('punctureRepair'),
+       ('cutRepair'),
+       ('bigCutRepair'),
+       ('verticalCutRepair'),
+       ('patch_up40'),
+       ('patch_up50'),
+       ('patch_up6'),
+       ('patch_rad11'),
+       ('patch_rad19'),
+       ('patch_rad20'),
+       ('patch_rad40'),
+       ('patch_rs35'),
+       ('patch_r35'),
+       ('patch_tl110'),
+       ('patch_tl115'),
+       ('valve_tr413'),
+       ('valve_tr413c'),
+       ('valve_tk'),
+       ('valve_gk135');
+
+INSERT INTO `tire_service_db`.types (type)
+VALUES ('universal'),
+       ('car'),
+       ('suv'),
+       ('bus'),
+       ('dual'),
+       ('truck'),
+       ('ring'),
+       ('heavy'),
+       ('patch'),
+       ('valve');
+
+
+INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_type_id, fk_diameter_id, price)
+VALUES
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'ring'), null, 8.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'heavy'), null, 17.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'sealing' ),(Select id from tire_service_db.types where type = 'truck'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'pumping' ),(Select id from tire_service_db.types where type = 'truck'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'pumping' ),(Select id from tire_service_db.types where type = 'heavy'), null, 1.50),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'truck'), null, 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'heavy'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r13'), 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r14'), 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r15'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r16'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r17'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r18'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r19'), 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r20'), 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r21'), 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r22'), 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r13'), 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r14'), 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r15'), 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r16'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r17'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r18'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r19'), 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r20'), 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r21'), 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r22'), 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'car'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r14c'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r15c'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r16c'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r17c'), 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'suv'), null, 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'bus'), null, 8.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r14c'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r15c'), 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r16c'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'suv'), (Select id from tire_service_db.diameters where diameter = 'r17c'), 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'suv'), null, 6.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balancing' ),(Select id from tire_service_db.types where type = 'bus'), null, 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'suv'), null, 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'bus'), null, 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'dual'), null, 6.00),
+
+       ((SELECT id from tire_service_db.service_items where name = 'valveReplacement' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'balanceWeightsAdhesive' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'mounting' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'cameraInsert' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'cleaning' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'diagnostic' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'punctureRepair' ),(Select id from tire_service_db.types where type = 'universal'), null, 3.00),
+       ((SELECT id from tire_service_db.service_items where name = 'cutRepair' ),(Select id from tire_service_db.types where type = 'universal'), null, 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'bigCutRepair' ),(Select id from tire_service_db.types where type = 'universal'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'verticalCutRepair' ),(Select id from tire_service_db.types where type = 'universal'), null, 7.00),
+       ((SELECT id from tire_service_db.service_items where name = 'sealing' ),(Select id from tire_service_db.types where type = 'universal'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'usingKeyJack' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'pumping' ),(Select id from tire_service_db.types where type = 'universal'), null, 0.50),
+       ((SELECT id from tire_service_db.service_items where name = 'explosivePumping' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_up40' ),(Select id from tire_service_db.types where type = 'patch'), null, 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_up50' ),(Select id from tire_service_db.types where type = 'patch'), null, 4.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_up6' ),(Select id from tire_service_db.types where type = 'patch'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_rad11' ),(Select id from tire_service_db.types where type = 'patch'), null, 8.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_rad19' ),(Select id from tire_service_db.types where type = 'patch'), null, 10.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_rad20' ),(Select id from tire_service_db.types where type = 'patch'), null, 11.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_rad40' ),(Select id from tire_service_db.types where type = 'patch'), null, 35.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_rs35' ),(Select id from tire_service_db.types where type = 'patch'), null, 45.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_r35' ),(Select id from tire_service_db.types where type = 'patch'), null, 40.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_tl110' ),(Select id from tire_service_db.types where type = 'patch'), null, 9.00),
+       ((SELECT id from tire_service_db.service_items where name = 'patch_tl115' ),(Select id from tire_service_db.types where type = 'patch'), null, 11.00),
+       ((SELECT id from tire_service_db.service_items where name = 'valve_tr413' ),(Select id from tire_service_db.types where type = 'valve'), null, 1.00),
+       ((SELECT id from tire_service_db.service_items where name = 'valve_tr413c' ),(Select id from tire_service_db.types where type = 'valve'), null, 2.00),
+       ((SELECT id from tire_service_db.service_items where name = 'valve_tk' ),(Select id from tire_service_db.types where type = 'valve'), null, 35.00),
+       ((SELECT id from tire_service_db.service_items where name = 'valve_gk135' ),(Select id from tire_service_db.types where type = 'valve'), null, 25.00);
 
 
 
-INSERT INTO `tire_service_db`.service_price_suv (`name`, `price`)
-VALUES ('suv_mounting_r14c_r15c', 4.00),
-       ('suv_mounting_r16c', 5.00),
-       ('suv_mounting_r17c', 6.00),
-       ('suv_mounting_suv', 7.00),
-       ('suv_mounting_bus', 8.00),
-       ('suv_balancing_r14c_r15c', 4.00),
-       ('suv_balancing_r16c_r17c', 5.00),
-       ('suv_balancing_suv', 6.00),
-       ('suv_balancing_bus', 7.00),
-       ('suv_wheel_remove', 3.00),
-       ('suv_wheel_remove_bus', 4.00),
-       ('suv_wheel_remove_dual', 6.00);
-
-
-INSERT INTO `tire_service_db`.service_price (`name`, `price`)
-VALUES ('valve_replacement', 1.00),
-       ('balance_weights_adhesive', 1.00),
-       ('balance_weights_add', 2.00),
-       ('installation', 2.00),
-       ('reinstalling', 2.00),
-       ('camera_insert', 2.00),
-       ('cleaning', 1.00),
-       ('diagnostic', 2.00),
-       ('puncture_repair', 3.00),
-       ('cut_repair', 4.00),
-       ('big_cut_repair', 5.00),
-       ('vertical_cut_repair', 7.00),
-       ('tire_sealing', 5.00),
-       ('using_key_jack', 1.00),
-       ('tire_diagnostic', 2.00),
-       ('tire_pumping', 0.50),
-       ('explosive_pumping', 2.00);
-
-INSERT INTO `tire_service_db`.`materials_patch` (`name`, `count`, `price`)
-VALUES ('patch_up40', 50, 4.00),
-       ('patch_up50', 50, 4.00),
-       ('patch_up6', 50, 5.00),
-       ('patch_rad11', 50, 8.00),
-       ('patch_rad19', 50, 10.00),
-       ('patch_rad20', 50, 11.00),
-       ('patch_rad40', 50, 35.00),
-       ('patch_rs35', 50, 45.00),
-       ('patch_r35', 50, 40.00),
-       ('patch_tl110', 50, 9.00),
-       ('patch_tl115', 50, 11.00);
-
-INSERT INTO `tire_service_db`.`materials_valve` (`name`, `count`, `price`)
-VALUES ('valve_tr413', 50, 2.00),
-       ('valve_tr413c', 50, 3.00),
-       ('valve_tk', 50, 35.00),
-       ('valve_gk135', 50, 25.00);

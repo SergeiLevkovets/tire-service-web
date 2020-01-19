@@ -26,7 +26,7 @@
                         ${email_error}
                         <input class="form-control" type="email" id="email" name="email"
                                value="${param.email}" placeholder="E-mail address" required>
-                        <p>or</p>
+                        <h5>or</h5>
                         ${phone_error}
                         <input class="form-control" type="text" id="phone" name="phone"
                                value="${param.phone}" placeholder="Phone number" required>
@@ -35,7 +35,7 @@
                         <input class="form-control" type="password" id="password" name="password"
                                value="${param.password}" placeholder="Password" required>
                         <div class="col text-right">
-                            <a href="forgot-password">Forgot Password ?</a>
+                            <a href="${pageContext.request.contextPath}/forgot-password">Forgot Password ?</a>
                         </div>
                         <div class="action">
                             <input type="button" class="btn btn-primary signup" id="submit_login" value="Login">
@@ -45,7 +45,7 @@
 
                 <div class="already">
                     <p>Don't have an account?</p>
-                    <a href="registration">Create an account</a>
+                    <a href="${pageContext.request.contextPath}/registration">Create an account</a>
                 </div>
             </div>
         </div>

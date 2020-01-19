@@ -33,7 +33,7 @@
 
                 <div class="already">
                     <p>Not a member?</p>
-                    <a href="registration">Create an account</a>
+                    <a href="${pageContext.request.contextPath}/registration">Create an account</a>
                 </div>
             </div>
         </div>

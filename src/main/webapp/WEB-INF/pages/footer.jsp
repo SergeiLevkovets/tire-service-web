@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 copy center">
-                Copyright 2019 <a href='#'>Website</a>
+                Copyright 2019 <a href='${pageContext.request.contextPath}/index.html'>Website</a>
             </div>
             <div class="col-md-4 copy text-center">
                 <i class="glyphicon glyphicon-exclamation-sign"></i> Contacts:<br>

@@ -45,7 +45,7 @@
 
                 <div class="already">
                     <p>Have an account already?</p>
-                    <a href="login">Login</a>
+                    <a href="${pageContext.request.contextPath}/login">Login</a>
                 </div>
             </div>
         </div>

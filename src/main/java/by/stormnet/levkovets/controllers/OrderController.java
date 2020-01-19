@@ -16,7 +16,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 @WebServlet("/authorized/order-car")
-public class OrderCarController extends HttpServlet {
+public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
