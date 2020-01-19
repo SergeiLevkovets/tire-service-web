@@ -1,5 +1,29 @@
 $(document).ready(function () {
 
+
+    $('#carBtn').click(function () {
+            $('#suv_form').prop('hidden', 'true');
+            $('#truck_form').prop('hidden', 'true');
+            $('#bus').prop('checked', null);
+            $('#dual').prop('checked', null);
+            $('#ring').prop('checked', null);
+            $('#heavy').prop('checked', null);
+    })
+
+    $('#suvBtn').click(function () {
+            $('#suv_form').prop('hidden', null);
+            $('#truck_form').prop('hidden', 'true');
+            $('#ring').prop('checked', null);
+            $('#heavy').prop('checked', null);
+    })
+
+    $('#truckBtn').click(function () {
+            $('#truck_form').prop('hidden', null);
+            $('#suv_form').prop('hidden', 'true');
+            $('#bus').prop('checked', null);
+            $('#dual').prop('checked', null);
+    })
+
     $('#tireSaveBtn').click(function () {
         if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
             alert("Поля «Размер колес» не могут быть пустыми");
@@ -94,7 +118,9 @@ $(document).ready(function () {
             }
         }
 
-        let url = $('#order').attr('action');
+        $('#order').submit();
+
+        /*let url = $('#order').attr('action');
         let param = $('#order').serialize();
         $.ajax({
             url: url,
@@ -104,7 +130,7 @@ $(document).ready(function () {
             alert("Данные формы сохранены")
         }).error(function () {
             alert("Данные формы не отправлены")
-        })
+        })*/
     })
 
 

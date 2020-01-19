@@ -4,16 +4,12 @@ import by.stormnet.levkovets.dto.impl.TireDto;
 
 import java.util.List;
 
-public interface TireService extends DtoService<TireDto> {
-    @Override
+public interface TireService {
     TireDto getById(Integer id);
 
-    @Override
     List<TireDto> getAll();
 
-    @Override
     void delete(TireDto obj);
 
-    @Override
-    void saveOrUpdate(TireDto tireDto);
+    Integer saveOrUpdate(TireDto tireDto);
 }

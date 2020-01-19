@@ -18,13 +18,16 @@ public class TireDaoImpl implements TireDao {
 
 
     @Override
-    public void save(Tire tire) {
+    public Integer save(Tire tire) {
 
         Connection c = null;
         PreparedStatement statement = null;
+        Integer id = null;
+        ResultSet set = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
+
 
             statement = c.prepareStatement("INSERT INTO tire_service_db.tires (fk_width_id, fk_height_id, fk_diameter_id) VALUES (?, ?, ?)");
 
@@ -33,11 +36,20 @@ public class TireDaoImpl implements TireDao {
             statement.setInt(3, tire.getDiameter().getId());
 
             statement.executeUpdate();
+
+            set = statement.executeQuery("SELECT LAST_INSERT_ID()");
+
+            while (set.next()) {
+                id = set.getInt(1);
+            }
+
         } catch(SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
+
+        return id;
     }
 
     @Override

@@ -3,7 +3,6 @@ package by.stormnet.levkovets.services.impl;
 import by.stormnet.levkovets.dao.mysql.TireDaoImpl;
 import by.stormnet.levkovets.domain.impl.Tire;
 import by.stormnet.levkovets.dto.impl.TireDto;
-import by.stormnet.levkovets.services.DtoService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
@@ -39,12 +38,14 @@ public class TireServiceImpl implements by.stormnet.levkovets.services.TireServi
     }
 
     @Override
-    public void saveOrUpdate(TireDto tireDto) {
+    public Integer saveOrUpdate(TireDto tireDto) {
         TireDaoImpl tireDaoImpl = new TireDaoImpl();
-        if (tireDto.getId() == null){
-            tireDaoImpl.save(EntityDtoConverter.transformToTireEntity(tireDto));
+        Integer id = tireDto.getId();
+        if (id == null){
+            id = tireDaoImpl.save(EntityDtoConverter.transformToTireEntity(tireDto));
         }else {
             tireDaoImpl.update(EntityDtoConverter.transformToTireEntity(tireDto));
         }
+        return id;
     }
 }

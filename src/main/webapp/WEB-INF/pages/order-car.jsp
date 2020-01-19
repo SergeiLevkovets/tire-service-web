@@ -23,21 +23,56 @@
                               method="get">
 
                             <fieldset class="content-box-large">
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
-                                        <input type="radio" name="type" id="car" value="car" checked required> Легвой
-                                    </label>
-                                    <label class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
-                                        <input type="radio" name="type" id="suv"
-                                               value="suv" ${param.type == 'suv' ? 'checked' : ''} required>
-                                        Микроавтобус / джип
-                                    </label>
-                                    <label class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
-                                        <input type="radio" name="type" id="truck"
-                                               value="truck" ${param.type == 'truck' ? 'checked' : ''} required>
-                                        Грузовой
-                                    </label>
+                                <div class="form-group">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="typeParam">
+                                        <label id="carBtn" class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="car" value="car" checked required>
+                                            Легвой
+                                        </label>
+                                        <label id="suvBtn" class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="suv"
+                                                   value="suv" ${param.type == 'suv' ? 'checked' : ''} required>
+                                            Микроавтобус / джип
+                                        </label>
+                                        <label id="truckBtn" class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="truck"
+                                                   value="truck" ${param.type == 'truck' ? 'checked' : ''} required>
+                                            Грузовой
+                                        </label>
+                                    </div>
                                 </div>
+
+                                <div class="form-group" id="truck_form" ${param.type == 'truck' ? '' : 'hidden'}>
+                                    <div class="radio-inline col-md-3">
+                                        <label>
+                                            <input type="radio" id="ring"
+                                                   name="truckType" value="ring" ${param.truckType == 'ring' ? 'checked' : ''}>С монтажным кольцом
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline col-md-3">
+                                        <label>
+                                            <input type="radio" id="heavy"
+                                                   name="truckType" value="heavy" ${param.truckType == 'heavy' ? 'checked' : ''}>Сельхоз шина
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="suv_form" ${param.type == 'suv' ? '' : 'hidden'}>
+                                    <div class="checkbox-inline col-md-3">
+                                        <label>
+                                            <input type="checkbox" id="bus"
+                                                   name="bus" ${param.bus == 'on' ? 'checked' : ''}>Микроавтобус
+                                        </label>
+                                    </div>
+                                    <div class="checkbox-inline col-md-3">
+                                        <label>
+                                            <input type="checkbox" id="dual"
+                                                   name="dual" ${param.dual == 'on' ? 'checked' : ''}>Спарка
+                                        </label>
+                                    </div>
+                                </div>
+
+
                             </fieldset>
 
                             <fieldset class="content-box-large">

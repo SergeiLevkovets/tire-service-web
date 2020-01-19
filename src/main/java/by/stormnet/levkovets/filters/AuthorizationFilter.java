@@ -11,7 +11,7 @@ public class AuthorizationFilter implements Filter {
         @Override
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-            /*HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+            HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpSession session = httpServletRequest.getSession();
             Integer authorizedUserId = (Integer) session.getAttribute("authorizedUserId");
             if (authorizedUserId == null) {
@@ -19,7 +19,7 @@ public class AuthorizationFilter implements Filter {
                 String reqURI = requestURI.replaceAll("/tire_service", "");
                 session.setAttribute("requestURI", reqURI);
                 servletRequest.getServletContext().getRequestDispatcher("/login").forward(servletRequest, servletResponse);
-            }*/
+            }
             filterChain.doFilter(servletRequest, servletResponse);
         }
 

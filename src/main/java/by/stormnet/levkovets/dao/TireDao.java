@@ -5,7 +5,7 @@ import by.stormnet.levkovets.domain.impl.Tire;
 import java.util.List;
 
 public interface TireDao {
-    void save(Tire tire);
+    Integer save(Tire tire);
 
     void update(Tire tire);
 
