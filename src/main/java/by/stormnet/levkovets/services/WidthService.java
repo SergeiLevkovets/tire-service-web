@@ -1,21 +1,17 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.WidthDto;
+import by.stormnet.levkovets.dto.impl.WidthDTO;
 
 import java.util.List;
 
-public interface WidthService extends DtoService<WidthDto> {
-    @Override
-    WidthDto getById(Integer id);
+public interface WidthService {
+    WidthDTO getById(Integer id);
 
-    WidthDto getByName(String name);
+    WidthDTO getByName(String name);
 
-    @Override
-    List<WidthDto> getAll();
+    List<WidthDTO> getAll();
 
-    @Override
-    void delete(WidthDto obj);
+    void delete(WidthDTO obj);
 
-    @Override
-    void saveOrUpdate(WidthDto widthDto);
+    void saveOrUpdate(WidthDTO widthDto);
 }

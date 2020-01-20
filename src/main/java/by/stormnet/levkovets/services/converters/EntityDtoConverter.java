@@ -9,8 +9,8 @@ public class EntityDtoConverter {
         throw new AssertionError("Class contains static methods only. You should not instantiate it!");
     }
 
-    public static OrderServiceItemPriceDto transformToOrderServiceItemPriceDto(OrderServiceItemPrice orderServiceItemPrice){
-        OrderServiceItemPriceDto orderServiceItemPriceDto = new OrderServiceItemPriceDto();
+    public static OrderServiceItemPriceDTO transformToOrderServiceItemPriceDto(OrderServiceItemPrice orderServiceItemPrice){
+        OrderServiceItemPriceDTO orderServiceItemPriceDto = new OrderServiceItemPriceDTO();
         orderServiceItemPriceDto.setId(orderServiceItemPrice.getId());
         orderServiceItemPriceDto.setOrder(transformToOrderDto(orderServiceItemPrice.getOrder()));
         orderServiceItemPriceDto.setServiceItemPrice(transformToServiceItemPriceDto(orderServiceItemPrice.getServiceItemPrice()));
@@ -18,7 +18,7 @@ public class EntityDtoConverter {
         return orderServiceItemPriceDto;
     }
 
-    public static OrderServiceItemPrice transformToOrderServiceItemPriceEntity(OrderServiceItemPriceDto orderServiceItemPriceDto){
+    public static OrderServiceItemPrice transformToOrderServiceItemPriceEntity(OrderServiceItemPriceDTO orderServiceItemPriceDto){
         OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
         orderServiceItemPrice.setId(orderServiceItemPrice.getId());
         orderServiceItemPrice.setOrder(transformToOrderEntity(orderServiceItemPriceDto.getOrder()));
@@ -31,8 +31,8 @@ public class EntityDtoConverter {
         return orderServiceItemPrice;
     }
 
-    public static OrderDto transformToOrderDto(Order order){
-        OrderDto orderDto = new OrderDto();
+    public static OrderDTO transformToOrderDto(Order order){
+        OrderDTO orderDto = new OrderDTO();
         orderDto.setId(order.getId());
         orderDto.setUser(transformToUserDto(order.getUser()));
         orderDto.setTire(transformToTireDto(order.getTire()));
@@ -42,7 +42,7 @@ public class EntityDtoConverter {
         return orderDto;
     }
 
-    public static Order transformToOrderEntity(OrderDto orderDto){
+    public static Order transformToOrderEntity(OrderDTO orderDto){
         Order order = new Order();
         order.setId(order.getId());
         order.setUser(transformToUserEntity(orderDto.getUser()));
@@ -53,8 +53,8 @@ public class EntityDtoConverter {
         return order;
     }
 
-    public static TireDto transformToTireDto(Tire tire){
-        TireDto tireDto = new TireDto();
+    public static TireDTO transformToTireDto(Tire tire){
+        TireDTO tireDto = new TireDTO();
         tireDto.setId(tire.getId());
         tireDto.setWidth(transformToWidthDto(tire.getWidth()));
         tireDto.setHeight(transformToHeightDto(tire.getHeight()));
@@ -63,7 +63,7 @@ public class EntityDtoConverter {
         return tireDto;
     }
 
-    public static Tire transformToTireEntity(TireDto tireDto){
+    public static Tire transformToTireEntity(TireDTO tireDto){
         Tire tire = new Tire();
         tire.setId(tire.getId());
         tire.setWidth(transformToWidthEntity(tireDto.getWidth()));
@@ -73,64 +73,64 @@ public class EntityDtoConverter {
         return tire;
     }
 
-    public static DiameterDto transformToDiameterDto(Diameter diameter){
-        DiameterDto diameterDto = new DiameterDto();
+    public static DiameterDTO transformToDiameterDto(Diameter diameter){
+        DiameterDTO diameterDto = new DiameterDTO();
         diameterDto.setId(diameter.getId());
         diameterDto.setDiameter(diameter.getDiameter());
         return diameterDto;
     }
 
-    public static Diameter transformToDiameterEntity(DiameterDto diameterDto){
+    public static Diameter transformToDiameterEntity(DiameterDTO diameterDto){
         Diameter diameter = new Diameter();
         diameter.setId(diameterDto.getId());
         diameter.setDiameter(diameterDto.getDiameter());
         return diameter;
     }
 
-    public static HeightDto transformToHeightDto(Height height){
-        HeightDto heightDto = new HeightDto();
+    public static HeightDTO transformToHeightDto(Height height){
+        HeightDTO heightDto = new HeightDTO();
         heightDto.setId(height.getId());
         heightDto.setHeight(height.getHeight());
         return heightDto;
     }
 
-    public static Height transformToHeightEntity(HeightDto heightDto){
+    public static Height transformToHeightEntity(HeightDTO heightDto){
         Height height = new Height();
         height.setId(heightDto.getId());
         height.setHeight(heightDto.getHeight());
         return height;
     }
 
-    public static WidthDto transformToWidthDto(Width width){
-        WidthDto widthDto = new WidthDto();
+    public static WidthDTO transformToWidthDto(Width width){
+        WidthDTO widthDto = new WidthDTO();
         widthDto.setId(width.getId());
         widthDto.setWidth(width.getWidth());
         return widthDto;
     }
 
-    public static Width transformToWidthEntity(WidthDto widthDto){
+    public static Width transformToWidthEntity(WidthDTO widthDto){
         Width width = new Width();
         width.setId(widthDto.getId());
         width.setWidth(widthDto.getWidth());
         return width;
     }
 
-    public static ServiceItemDto transformToServiceItemDto(ServiceItem serviceItem){
-        ServiceItemDto serviceItemDto = new ServiceItemDto();
+    public static ServiceItemDTO transformToServiceItemDto(ServiceItem serviceItem){
+        ServiceItemDTO serviceItemDto = new ServiceItemDTO();
         serviceItemDto.setId(serviceItem.getId());
         serviceItemDto.setName(serviceItem.getName());
         return serviceItemDto;
     }
 
-    public static ServiceItem transformToServiceItemEntity(ServiceItemDto serviceItemDto){
+    public static ServiceItem transformToServiceItemEntity(ServiceItemDTO serviceItemDto){
         ServiceItem ServiceItem = new ServiceItem();
         ServiceItem.setId(serviceItemDto.getId());
         ServiceItem.setName(serviceItemDto.getName());
         return ServiceItem;
     }
 
-    public static ServiceItemPriceDto transformToServiceItemPriceDto(ServiceItemPrice serviceItem){
-        ServiceItemPriceDto serviceItemPriceDto = new ServiceItemPriceDto();
+    public static ServiceItemPriceDTO transformToServiceItemPriceDto(ServiceItemPrice serviceItem){
+        ServiceItemPriceDTO serviceItemPriceDto = new ServiceItemPriceDTO();
         serviceItemPriceDto.setId(serviceItem.getId());
         if (serviceItem.getDiameter() != null) {
             serviceItemPriceDto.setDiameter(transformToDiameterDto(serviceItem.getDiameter()));
@@ -141,7 +141,7 @@ public class EntityDtoConverter {
         return serviceItemPriceDto;
     }
 
-    public static ServiceItemPrice transformToServiceItemPriceEntity(ServiceItemPriceDto serviceItemPriceDto){
+    public static ServiceItemPrice transformToServiceItemPriceEntity(ServiceItemPriceDTO serviceItemPriceDto){
         ServiceItemPrice serviceItemPrice = new ServiceItemPrice();
         serviceItemPrice.setId(serviceItemPriceDto.getId());
         if (serviceItemPriceDto.getDiameter() != null) {
@@ -153,22 +153,22 @@ public class EntityDtoConverter {
         return serviceItemPrice;
     }
 
-    public static TypeDto transformToTypeDto(Type type){
-        TypeDto typeDto = new TypeDto();
+    public static TypeDTO transformToTypeDto(Type type){
+        TypeDTO typeDto = new TypeDTO();
         typeDto.setId(type.getId());
         typeDto.setType(type.getType());
         return typeDto;
     }
 
-    public static Type transformToTypeEntity(TypeDto typeDto){
+    public static Type transformToTypeEntity(TypeDTO typeDto){
         Type type = new Type();
         type.setId(typeDto.getId());
         type.setType(typeDto.getType());
         return type;
     }
 
-    public static UserDto transformToUserDto(User user) {
-        UserDto userDto = new UserDto();
+    public static UserDTO transformToUserDto(User user) {
+        UserDTO userDto = new UserDTO();
 
         userDto.setId(user.getId());
         userDto.setName(user.getName());
@@ -179,7 +179,7 @@ public class EntityDtoConverter {
         return userDto;
     }
 
-    public static User transformToUserEntity(UserDto userDto) {
+    public static User transformToUserEntity(UserDTO userDto) {
         User user = new User();
 
         user.setId(userDto.getId());

@@ -1,7 +1,8 @@
 package by.stormnet.levkovets.controllers;
 
 import by.stormnet.levkovets.dto.impl.*;
-import by.stormnet.levkovets.services.DiameterService;
+import by.stormnet.levkovets.services.*;
+import by.stormnet.levkovets.services.factory.ServiceFactory;
 import by.stormnet.levkovets.services.impl.*;
 
 import javax.servlet.ServletException;
@@ -22,33 +23,33 @@ public class OrderController extends HttpServlet {
 
 
         if (req.getAttribute("widthList") == null) {
-            WidthServiceImpl widthService = new WidthServiceImpl();
-            List<WidthDto> widthList = widthService.getAll();
+            WidthService widthService = ServiceFactory.getFactory().getWidthService();
+            List<WidthDTO> widthList = widthService.getAll();
             req.setAttribute("widthList", widthList);
 
         }
         if (req.getAttribute("heightList") == null) {
-            HeightServiceImpl heightService = new HeightServiceImpl();
-            List<HeightDto> heightList = heightService.getAll();
+            HeightService heightService = ServiceFactory.getFactory().getHeightService();
+            List<HeightDTO> heightList = heightService.getAll();
             req.setAttribute("heightList", heightList);
 
         }
         if (req.getAttribute("diameterList") == null) {
-            DiameterService diameterService = new DiameterServiceImpl();
-            List<DiameterDto> diameterList = diameterService.getAll();
+            DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
+            List<DiameterDTO> diameterList = diameterService.getAll();
             req.setAttribute("diameterList", diameterList);
 
         }
 
         if ((req.getAttribute("patchList") == null) || (req.getAttribute("valveList") == null)) {
-            ServiceItemPriceServiceImpl serviceItemPriceService = new ServiceItemPriceServiceImpl();
-            TypeServiceImpl typeService = new TypeServiceImpl();
+            ServiceItemPriceService serviceItemPriceService = ServiceFactory.getFactory().getServiceItemPriceService();
+            TypeService typeService = ServiceFactory.getFactory().getTypeService();
             if (req.getAttribute("patchList") == null) {
-                List<ServiceItemPriceDto> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
+                List<ServiceItemPriceDTO> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
                 req.setAttribute("patchList", patchList);
             }
             if (req.getAttribute("valveList") == null) {
-                List<ServiceItemPriceDto> valveList = serviceItemPriceService.getAllByType(typeService.getByName("valve"));
+                List<ServiceItemPriceDTO> valveList = serviceItemPriceService.getAllByType(typeService.getByName("valve"));
                 req.setAttribute("valveList", valveList);
             }
         }
@@ -60,10 +61,18 @@ public class OrderController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
-//        Integer UserId = Integer.valueOf((String) session.getAttribute("authorizedUserId"));
+        Integer userId = Integer.valueOf((String) session.getAttribute("authorizedUserId"));
+// ----- refactor this ------
+        if (userId == null){
+            userId = 1;
+        }
+        UserService userService = ServiceFactory.getFactory().getUserService();
+        UserDTO user = userService.getById(userId);
+
+        TypeService typeService = ServiceFactory.getFactory().getTypeService();
 
         String type = req.getParameter("type");
-        TypeDto typeDto = new TypeServiceImpl().getByName(type);
+        TypeDTO typeDto = typeService.getByName(type);
 
         Integer wheelCount = Integer.valueOf(req.getParameter("wheelCount"));
 
@@ -71,13 +80,17 @@ public class OrderController extends HttpServlet {
         String height = req.getParameter("height");
         String diameter = req.getParameter("diameter");
 
+        WidthService widthService = ServiceFactory.getFactory().getWidthService();
+        HeightService heightService = ServiceFactory.getFactory().getHeightService();
+        DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
 
-        WidthDto widthDto = new WidthServiceImpl().getByName(width);
-        HeightDto heightDto = new HeightServiceImpl().getByName(height);
-        DiameterDto diameterDto = new DiameterServiceImpl().getByName(diameter);
+        WidthDTO widthDto = widthService.getByName(width);
+        HeightDTO heightDto = heightService.getByName(height);
+        DiameterDTO diameterDto = diameterService.getByName(diameter);
 
-        TireServiceImpl tireService = new TireServiceImpl();
-        TireDto tireDto = new TireDto();
+        TireService tireService = ServiceFactory.getFactory().getTireService();
+
+        TireDTO tireDto = new TireDTO();
         tireDto.setWidth(widthDto);
         tireDto.setHeight(heightDto);
         tireDto.setDiameter(diameterDto);
@@ -85,23 +98,33 @@ public class OrderController extends HttpServlet {
         tireDto.setId(tireId);
 
 
-        OrderDto orderDto = new OrderDto();
+        OrderDTO orderDto = new OrderDTO();
 
-// refactor this
-        orderDto.setUser(new UserServiceImpl().getById(1));
+        orderDto.setUser(user);
         orderDto.setTire(tireDto);
         orderDto.setType(typeDto);
-//        orderDto.setTotalPrice();
+        orderDto.setTotalPrice(null);
+
+
+        String contextPath = req.getContextPath();
+        resp.sendRedirect(contextPath + "/authorized/order-car");
+    }
+
+
+    public List<ServiceItemPriceDTO> findAllServiceItemPriceInOrder(HttpServletRequest req){
+        List<ServiceItemPriceDTO> serviceItemPriceDtoList = new ArrayList<>();
 
         Enumeration<String> parameterNames = req.getParameterNames();
+
         while (parameterNames.hasMoreElements()) {
+
             String parameterName = parameterNames.nextElement();
             String parameter = req.getParameter(parameterName);
 
             if (parameter != null) {
                 switch (parameterName) {
                     case "mounting": {
-                        break;
+
                     }
                     case "balancing": {
                         break;
@@ -119,44 +142,55 @@ public class OrderController extends HttpServlet {
                                 errorsMap.put(parameterName, MESSAGE);
                             }
                         }*/
-                        break;
                     }
 
 
                 }
 
 
-                String contextPath = req.getContextPath();
-                resp.sendRedirect(contextPath + "/authorized/order-car");
+
             }
         }
+
+        return serviceItemPriceDtoList;
     }
 
+    public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type, DiameterDTO diameter) {
+        ServiceItemPriceDTO itemPriceDto = null;
 
-    public ServiceItemPriceDto findServiceItemPrice(List<ServiceItemPriceDto> list, ServiceItemDto serviceItem, TypeDto type, DiameterDto diameter) {
-        ServiceItemPriceDto itemPriceDto = null;
-        List<ServiceItemPriceDto> serviceItemPriceByItemList = new ArrayList<>();
-        for (ServiceItemPriceDto serviceItemPrice : list) {
+        List<ServiceItemPriceDTO> serviceItemPriceByItemList = new ArrayList<>();
+
+        for (ServiceItemPriceDTO serviceItemPrice : list) {
+
             if (serviceItemPrice.getServiceItem().equals(serviceItem)) {
                 serviceItemPriceByItemList.add(serviceItemPrice);
             }
+
         }
-        List<ServiceItemPriceDto> serviceItemPriceDtoByTypeList = new ArrayList<>();
-        for (ServiceItemPriceDto serviceItemPrice : serviceItemPriceByItemList) {
+
+        List<ServiceItemPriceDTO> serviceItemPriceDtoByTypeList = new ArrayList<>();
+
+        for (ServiceItemPriceDTO serviceItemPrice : serviceItemPriceByItemList) {
             if (serviceItemPrice.getType().equals(type)) {
                 serviceItemPriceDtoByTypeList.add(serviceItemPrice);
             }
         }
+
         if (serviceItemPriceDtoByTypeList.size() == 1) {
+
             itemPriceDto = serviceItemPriceDtoByTypeList.get(1);
+
         } else {
-            for (ServiceItemPriceDto serviceItemPrice : serviceItemPriceDtoByTypeList) {
+
+            for (ServiceItemPriceDTO serviceItemPrice : serviceItemPriceDtoByTypeList) {
                 if (serviceItemPrice.getDiameter().equals(diameter)) {
                     itemPriceDto = serviceItemPrice;
                 }
             }
         }
+
         return itemPriceDto;
+
     }
 
 }

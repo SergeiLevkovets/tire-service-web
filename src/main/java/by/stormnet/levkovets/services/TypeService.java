@@ -1,21 +1,17 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.TypeDto;
+import by.stormnet.levkovets.dto.impl.TypeDTO;
 
 import java.util.List;
 
-public interface TypeService extends DtoService<TypeDto> {
-    @Override
-    TypeDto getById(Integer id);
+public interface TypeService {
+    TypeDTO getById(Integer id);
 
-    TypeDto getByName(String name);
+    TypeDTO getByName(String name);
 
-    @Override
-    void delete(TypeDto obj);
+    void delete(TypeDTO obj);
 
-    @Override
-    List<TypeDto> getAll();
+    List<TypeDTO> getAll();
 
-    @Override
-    void saveOrUpdate(TypeDto typeDto);
+    void saveOrUpdate(TypeDTO typeDto);
 }

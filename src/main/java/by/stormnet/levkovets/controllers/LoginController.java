@@ -1,7 +1,8 @@
 package by.stormnet.levkovets.controllers;
 
-import by.stormnet.levkovets.dto.impl.UserDto;
-import by.stormnet.levkovets.services.impl.UserServiceImpl;
+import by.stormnet.levkovets.dto.impl.UserDTO;
+import by.stormnet.levkovets.services.UserService;
+import by.stormnet.levkovets.services.factory.ServiceFactory;
 import by.stormnet.levkovets.utils.StringUtils;
 
 import javax.servlet.ServletException;
@@ -36,42 +37,42 @@ public class LoginController extends HttpServlet {
         String phone = req.getParameter("phone");
         String password = req.getParameter("password");
 
-        if (isNoValid(req, email, phone, password)){
+        if (isNoValid(req, email, phone, password)) {
 
             req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
             return;
+
         }
 
         HttpSession session = req.getSession();
 
-        String uri = "/index.html";
+        String uri = req.getContextPath() + "/index.html";
         String requestURI = (String) session.getAttribute("requestURI");
 
 
-        if (StringUtils.isNotBlank(requestURI)){
+        if (StringUtils.isNotBlank(requestURI)) {
 
             uri = requestURI;
             session.removeAttribute("requestURI");
 
         }
 
-        String contextPath = req.getContextPath();
-        resp.sendRedirect(contextPath + uri);
+        resp.sendRedirect(uri);
 
     }
 
-    private boolean isNoValid(HttpServletRequest req, String email, String phone, String password){
+    private boolean isNoValid(HttpServletRequest req, String email, String phone, String password) {
 
         Map<String, String> errorMap = new HashMap<>();
 
-        Boolean isEmailExist = true;
-        Boolean isPhoneExist = true;
+        boolean isEmailExist = true;
+        boolean isPhoneExist = true;
 
-        UserServiceImpl userService = new UserServiceImpl();
-        List<UserDto> allUsers = userService.getAll();
+        UserService userService = ServiceFactory.getFactory().getUserService();
+        List<UserDTO> allUsers = userService.getAll();
         HttpSession session = req.getSession();
 
-        if (StringUtils.isBlank(email) && StringUtils.isBlank(phone)){
+        if (StringUtils.isBlank(email) && StringUtils.isBlank(phone)) {
 
             errorMap.put("email_error", MESSAGE);
 
@@ -84,13 +85,13 @@ public class LoginController extends HttpServlet {
         }
 
         if (errorMap.isEmpty()) {
-            for (UserDto user : allUsers) {
+            for (UserDTO user : allUsers) {
 
                 String userEmail = user.getEmail();
                 String userPhone = user.getPhone();
                 String userPassword = user.getPassword();
 
-                if (userEmail.equals(email)){
+                if (userEmail.equals(email)) {
 
                     if (userPassword.equals(password)) {
 
@@ -104,7 +105,7 @@ public class LoginController extends HttpServlet {
 
                 }
 
-                if (userPhone.equals(phone)){
+                if (userPhone.equals(phone)) {
 
                     if (userPassword.equals(password)) {
 
@@ -121,11 +122,11 @@ public class LoginController extends HttpServlet {
 
             if (StringUtils.isNotBlank(email)) {
 
-                if (isEmailExist){
+                if (isEmailExist) {
 
                     errorMap.put("email_error", EMAIL_MESSAGE);
 
-                }else {
+                } else {
 
                     errorMap.put("password_error", PASSWORD_MESSAGE);
 
@@ -134,11 +135,11 @@ public class LoginController extends HttpServlet {
 
             if (StringUtils.isNotBlank(phone)) {
 
-                if (isPhoneExist){
+                if (isPhoneExist) {
 
                     errorMap.put("phone_error", PHONE_MESSAGE);
 
-                }else {
+                } else {
 
                     errorMap.put("password_error", PASSWORD_MESSAGE);
 

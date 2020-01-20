@@ -1,19 +1,15 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.UserDto;
+import by.stormnet.levkovets.dto.impl.UserDTO;
 
 import java.util.List;
 
-public interface UserService extends DtoService<UserDto> {
-    @Override
-    UserDto getById(Integer id);
+public interface UserService {
+    UserDTO getById(Integer id);
 
-    @Override
-    List<UserDto> getAll();
+    List<UserDTO> getAll();
 
-    @Override
-    void delete(UserDto obj);
+    void delete(UserDTO obj);
 
-    @Override
-    void saveOrUpdate(UserDto userDto);
+    void saveOrUpdate(UserDTO userDto);
 }

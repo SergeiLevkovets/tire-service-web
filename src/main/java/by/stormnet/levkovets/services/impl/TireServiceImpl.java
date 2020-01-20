@@ -1,8 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
-import by.stormnet.levkovets.dao.mysql.TireDaoImpl;
+import by.stormnet.levkovets.dao.TireDAO;
+import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.Tire;
-import by.stormnet.levkovets.dto.impl.TireDto;
+import by.stormnet.levkovets.dto.impl.TireDTO;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
@@ -10,21 +11,21 @@ import java.util.List;
 
 public class TireServiceImpl implements by.stormnet.levkovets.services.TireService {
     @Override
-    public TireDto getById(Integer id) {
-        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+    public TireDTO getById(Integer id) {
+        TireDAO tireDaoImpl = DAOFactory.getFactory().getTireDAO();
 
-        TireDto tireDto = EntityDtoConverter.transformToTireDto(tireDaoImpl.loadById(id));
+        TireDTO tireDto = EntityDtoConverter.transformToTireDto(tireDaoImpl.loadById(id));
 
         return tireDto;
     }
 
     @Override
-    public List<TireDto> getAll() {
-        TireDaoImpl tireDaoImpl = new TireDaoImpl();
-        List<TireDto> list = new ArrayList<>();
+    public List<TireDTO> getAll() {
+        TireDAO tireDaoImpl = DAOFactory.getFactory().getTireDAO();
+        List<TireDTO> list = new ArrayList<>();
 
         for (Tire tire : tireDaoImpl.loadAll()) {
-            TireDto tireDto = EntityDtoConverter.transformToTireDto(tire);
+            TireDTO tireDto = EntityDtoConverter.transformToTireDto(tire);
             list.add(tireDto);
         }
 
@@ -32,14 +33,14 @@ public class TireServiceImpl implements by.stormnet.levkovets.services.TireServi
     }
 
     @Override
-    public void delete(TireDto obj) {
-        TireDaoImpl dao = new TireDaoImpl();
+    public void delete(TireDTO obj) {
+        TireDAO dao = DAOFactory.getFactory().getTireDAO();
         dao.delete(EntityDtoConverter.transformToTireEntity(obj));
     }
 
     @Override
-    public Integer saveOrUpdate(TireDto tireDto) {
-        TireDaoImpl tireDaoImpl = new TireDaoImpl();
+    public Integer saveOrUpdate(TireDTO tireDto) {
+        TireDAO tireDaoImpl = DAOFactory.getFactory().getTireDAO();
         Integer id = tireDto.getId();
         if (id == null){
             id = tireDaoImpl.save(EntityDtoConverter.transformToTireEntity(tireDto));

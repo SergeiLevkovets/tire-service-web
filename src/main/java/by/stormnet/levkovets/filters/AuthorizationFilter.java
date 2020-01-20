@@ -18,8 +18,7 @@ public class AuthorizationFilter implements Filter {
 
             if (authorizedUserId == null || authorizedUserName == null) {
                 String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
-                String reqURI = requestURI.replaceAll("/tire_service", "");
-                session.setAttribute("requestURI", reqURI);
+                session.setAttribute("requestURI", requestURI);
                 servletRequest.getServletContext().getRequestDispatcher("/login").forward(servletRequest, servletResponse);
             }
             filterChain.doFilter(servletRequest, servletResponse);

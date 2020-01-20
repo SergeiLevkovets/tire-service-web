@@ -1,21 +1,17 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.DiameterDto;
+import by.stormnet.levkovets.dto.impl.DiameterDTO;
 
 import java.util.List;
 
-public interface DiameterService extends DtoService<DiameterDto> {
-    @Override
-    DiameterDto getById(Integer id);
+public interface DiameterService {
+    DiameterDTO getById(Integer id);
 
-    DiameterDto getByName(String name);
+    DiameterDTO getByName(String name);
 
-    @Override
-    void delete(DiameterDto obj);
+    void delete(DiameterDTO obj);
 
-    @Override
-    List<DiameterDto> getAll();
+    List<DiameterDTO> getAll();
 
-    @Override
-    void saveOrUpdate(DiameterDto diameterDto);
+    void saveOrUpdate(DiameterDTO diameterDto);
 }

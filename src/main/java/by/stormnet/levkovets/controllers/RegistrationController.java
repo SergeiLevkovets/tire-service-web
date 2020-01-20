@@ -1,7 +1,8 @@
 package by.stormnet.levkovets.controllers;
 
-import by.stormnet.levkovets.dto.impl.UserDto;
-import by.stormnet.levkovets.services.impl.UserServiceImpl;
+import by.stormnet.levkovets.dto.impl.UserDTO;
+import by.stormnet.levkovets.services.UserService;
+import by.stormnet.levkovets.services.factory.ServiceFactory;
 import by.stormnet.levkovets.utils.StringUtils;
 
 import javax.servlet.ServletException;
@@ -29,56 +30,59 @@ public class RegistrationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String password = req.getParameter("password");
         String confirmPassword = req.getParameter("confirm_password");
 
-        if (isNoValid(req, name, email, phone, password, confirmPassword)){
+        if (isNoValid(req, name, email, phone, password, confirmPassword)) {
             req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
             return;
         }
 
-        UserDto userDto = new UserDto();
+        UserDTO userDto = new UserDTO();
         userDto.setName(name);
         userDto.setEmail(email);
         userDto.setPhone(phone);
         userDto.setPassword(password);
 
-        UserServiceImpl userService = new UserServiceImpl();
+        UserService userService = ServiceFactory.getFactory().getUserService();
         userService.saveOrUpdate(userDto);
 
         HttpSession session = req.getSession();
 
-        List<UserDto> allUsers = userService.getAll();
-        for (UserDto user : allUsers) {
-            if (user.getEmail().equals(email)){
+        List<UserDTO> allUsers = userService.getAll();
+        for (UserDTO user : allUsers) {
+            if (user.getEmail().equals(email)) {
                 session.setAttribute("authorizedUserId", user.getId());
                 session.setAttribute("authorizedUserName", user.getName());
                 break;
             }
         }
+
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + "/index.html");
 
     }
 
-    private boolean isNoValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword){
+    private boolean isNoValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword) {
+
         Map<String, String> errorMap = new HashMap<>();
 
-        UserServiceImpl userService = new UserServiceImpl();
-        List<UserDto> allUsers = userService.getAll();
+        UserService userService = ServiceFactory.getFactory().getUserService();
+        List<UserDTO> allUsers = userService.getAll();
 
-        if (StringUtils.isBlank(name)){
+        if (StringUtils.isBlank(name)) {
             errorMap.put("name_error", MESSAGE);
         }
 
-        if (StringUtils.isBlank(email)){
+        if (StringUtils.isBlank(email)) {
             errorMap.put("email_error", MESSAGE);
         }
 
-        if (StringUtils.isBlank(phone)){
+        if (StringUtils.isBlank(phone)) {
             errorMap.put("phone_error", MESSAGE);
         }
 
@@ -90,19 +94,19 @@ public class RegistrationController extends HttpServlet {
             errorMap.put("confirm_password_error", MESSAGE);
         }
 
-        if (StringUtils.isNotBlank(email)){
-            for (UserDto user : allUsers) {
-                if (user.getEmail().equals(email)){
+        if (StringUtils.isNotBlank(email)) {
+            for (UserDTO user : allUsers) {
+                if (user.getEmail().equals(email)) {
                     errorMap.put("email_error", EMAIL_MESSAGE);
                     break;
                 }
             }
         }
-        if (StringUtils.isNotBlank(email)){
-            for (UserDto user : allUsers) {
+        if (StringUtils.isNotBlank(email)) {
+            for (UserDTO user : allUsers) {
                 String userPhone = StringUtils.simplePhoneNumber(user.getPhone());
                 String phoneNumber = StringUtils.simplePhoneNumber(phone);
-                if (userPhone.equals(phoneNumber)){
+                if (userPhone.equals(phoneNumber)) {
                     errorMap.put("phone_error", PHONE_MESSAGE);
                     break;
                 }
@@ -110,7 +114,7 @@ public class RegistrationController extends HttpServlet {
         }
 
 
-        if (errorMap.isEmpty()){
+        if (errorMap.isEmpty()) {
             return false;
         }
 

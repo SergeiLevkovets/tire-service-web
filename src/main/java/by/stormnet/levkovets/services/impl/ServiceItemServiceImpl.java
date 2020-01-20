@@ -1,10 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
-import by.stormnet.levkovets.dao.ServiceItemDao;
-import by.stormnet.levkovets.dao.mysql.ServiceItemDaoImpl;
+import by.stormnet.levkovets.dao.ServiceItemDAO;
+import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
-import by.stormnet.levkovets.dto.impl.ServiceItemDto;
-import by.stormnet.levkovets.services.DtoService;
+import by.stormnet.levkovets.dto.impl.ServiceItemDTO;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
@@ -13,42 +12,42 @@ import java.util.List;
 public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.ServiceItemService {
 
     @Override
-    public ServiceItemDto getById(Integer id) {
-        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+    public ServiceItemDTO getById(Integer id) {
+        ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
         ServiceItem serviceItem = serviceItemDao.loadById(id);
-        ServiceItemDto serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+        ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
         return serviceItemDto;
     }
 
     @Override
-    public ServiceItemDto getByName(String name) {
-        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+    public ServiceItemDTO getByName(String name) {
+        ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
         ServiceItem serviceItem = serviceItemDao.loadByName(name);
-        ServiceItemDto serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+        ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
         return serviceItemDto;
     }
 
     @Override
-    public List<ServiceItemDto> getAll() {
-        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+    public List<ServiceItemDTO> getAll() {
+        ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
         List<ServiceItem> serviceItemList = serviceItemDao.loadAll();
-        List<ServiceItemDto> serviceItemDtoList = new ArrayList<>();
+        List<ServiceItemDTO> serviceItemDtoList = new ArrayList<>();
         for (ServiceItem serviceItem : serviceItemList) {
-            ServiceItemDto serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+            ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
             serviceItemDtoList.add(serviceItemDto);
         }
         return serviceItemDtoList;
     }
 
     @Override
-    public void delete(ServiceItemDto obj) {
-        ServiceItemDao dao = new ServiceItemDaoImpl();
+    public void delete(ServiceItemDTO obj) {
+        ServiceItemDAO dao = DAOFactory.getFactory().getServiceItemDAO();
         dao.delete(EntityDtoConverter.transformToServiceItemEntity(obj));
     }
 
     @Override
-    public void saveOrUpdate(ServiceItemDto serviceItemDto) {
-        ServiceItemDao serviceItemDao = new ServiceItemDaoImpl();
+    public void saveOrUpdate(ServiceItemDTO serviceItemDto) {
+        ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
 
         if (serviceItemDto.getId() == null) {
             serviceItemDao.save(EntityDtoConverter.transformToServiceItemEntity(serviceItemDto));

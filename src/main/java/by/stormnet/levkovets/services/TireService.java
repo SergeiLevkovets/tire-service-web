@@ -1,15 +1,15 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.TireDto;
+import by.stormnet.levkovets.dto.impl.TireDTO;
 
 import java.util.List;
 
 public interface TireService {
-    TireDto getById(Integer id);
+    TireDTO getById(Integer id);
 
-    List<TireDto> getAll();
+    List<TireDTO> getAll();
 
-    void delete(TireDto obj);
+    void delete(TireDTO obj);
 
-    Integer saveOrUpdate(TireDto tireDto);
+    Integer saveOrUpdate(TireDTO tireDto);
 }

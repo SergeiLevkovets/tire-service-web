@@ -1,21 +1,17 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.HeightDto;
+import by.stormnet.levkovets.dto.impl.HeightDTO;
 
 import java.util.List;
 
-public interface HeightService extends DtoService<HeightDto> {
-    @Override
-    HeightDto getById(Integer id);
+public interface HeightService {
+    HeightDTO getById(Integer id);
 
-    HeightDto getByName(String name);
+    HeightDTO getByName(String name);
 
-    @Override
-    void delete(HeightDto obj);
+    void delete(HeightDTO obj);
 
-    @Override
-    List<HeightDto> getAll();
+    List<HeightDTO> getAll();
 
-    @Override
-    void saveOrUpdate(HeightDto heightDto);
+    void saveOrUpdate(HeightDTO heightDto);
 }

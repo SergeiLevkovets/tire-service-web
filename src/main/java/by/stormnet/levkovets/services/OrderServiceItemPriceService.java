@@ -1,25 +1,20 @@
 package by.stormnet.levkovets.services;
 
-import by.stormnet.levkovets.dto.impl.OrderDto;
-import by.stormnet.levkovets.dto.impl.OrderServiceItemPriceDto;
-import by.stormnet.levkovets.services.DtoService;
+import by.stormnet.levkovets.dto.impl.OrderDTO;
+import by.stormnet.levkovets.dto.impl.OrderServiceItemPriceDTO;
 
 import java.util.List;
 
-public interface OrderServiceItemPriceService extends DtoService<OrderServiceItemPriceDto> {
-    @Override
-    OrderServiceItemPriceDto getById(Integer id);
+public interface OrderServiceItemPriceService {
+    OrderServiceItemPriceDTO getById(Integer id);
 
-    @Override
-    List<OrderServiceItemPriceDto> getAll();
+    List<OrderServiceItemPriceDTO> getAll();
 
-    List<OrderServiceItemPriceDto> getAllByOrder(OrderDto dto);
+    List<OrderServiceItemPriceDTO> getAllByOrder(OrderDTO dto);
 
-    @Override
-    void delete(OrderServiceItemPriceDto obj);
+    void delete(OrderServiceItemPriceDTO obj);
 
-    void deleteByOrder(OrderDto obj);
+    void deleteByOrder(OrderDTO obj);
 
-    @Override
-    void saveOrUpdate(OrderServiceItemPriceDto dto);
+    void saveOrUpdate(OrderServiceItemPriceDTO dto);
 }

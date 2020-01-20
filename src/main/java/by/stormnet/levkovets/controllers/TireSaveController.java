@@ -1,13 +1,11 @@
 package by.stormnet.levkovets.controllers;
 
-import by.stormnet.levkovets.dto.impl.DiameterDto;
-import by.stormnet.levkovets.dto.impl.HeightDto;
-import by.stormnet.levkovets.dto.impl.TireDto;
-import by.stormnet.levkovets.dto.impl.WidthDto;
-import by.stormnet.levkovets.services.impl.DiameterServiceImpl;
-import by.stormnet.levkovets.services.impl.HeightServiceImpl;
-import by.stormnet.levkovets.services.impl.TireServiceImpl;
-import by.stormnet.levkovets.services.impl.WidthServiceImpl;
+import by.stormnet.levkovets.dto.impl.DiameterDTO;
+import by.stormnet.levkovets.dto.impl.HeightDTO;
+import by.stormnet.levkovets.dto.impl.TireDTO;
+import by.stormnet.levkovets.dto.impl.WidthDTO;
+import by.stormnet.levkovets.services.TireService;
+import by.stormnet.levkovets.services.factory.ServiceFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,16 +25,16 @@ public class TireSaveController extends HttpServlet {
         String diameter = req.getParameter("diameter");
 
 
-        WidthDto widthDto = new WidthServiceImpl().getByName(width);
-        HeightDto heightDto = new HeightServiceImpl().getByName(height);
-        DiameterDto diameterDto = new DiameterServiceImpl().getByName(diameter);
+        WidthDTO widthDto = ServiceFactory.getFactory().getWidthService().getByName(width);
+        HeightDTO heightDto = ServiceFactory.getFactory().getHeightService().getByName(height);
+        DiameterDTO diameterDto = ServiceFactory.getFactory().getDiameterService().getByName(diameter);
 
-        TireDto tireDto = new TireDto();
+        TireDTO tireDto = new TireDTO();
         tireDto.setWidth(widthDto);
         tireDto.setHeight(heightDto);
         tireDto.setDiameter(diameterDto);
 
-        TireServiceImpl tireService = new TireServiceImpl();
+        TireService tireService = ServiceFactory.getFactory().getTireService();
         tireService.saveOrUpdate(tireDto);
     }
 }

@@ -1,10 +1,9 @@
 package by.stormnet.levkovets.services.impl;
 
-import by.stormnet.levkovets.dao.UserDao;
-import by.stormnet.levkovets.dao.mysql.UserDaoImpl;
+import by.stormnet.levkovets.dao.UserDAO;
+import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.User;
-import by.stormnet.levkovets.dto.impl.UserDto;
-import by.stormnet.levkovets.services.DtoService;
+import by.stormnet.levkovets.dto.impl.UserDTO;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
@@ -13,35 +12,35 @@ import java.util.List;
 public class UserServiceImpl implements by.stormnet.levkovets.services.UserService {
 
     @Override
-    public UserDto getById(Integer id) {
-        UserDao userDao = new UserDaoImpl();
+    public UserDTO getById(Integer id) {
+        UserDAO userDao = DAOFactory.getFactory().getUserDAO();
 
-        UserDto userDto = EntityDtoConverter.transformToUserDto(userDao.loadById(id));
+        UserDTO userDto = EntityDtoConverter.transformToUserDto(userDao.loadById(id));
 
         return userDto;
     }
 
     @Override
-    public List<UserDto> getAll() {
+    public List<UserDTO> getAll() {
 
-        UserDao userDao = new UserDaoImpl();
-        List<UserDto> list = new ArrayList<>();
+        UserDAO userDao = DAOFactory.getFactory().getUserDAO();
+        List<UserDTO> list = new ArrayList<>();
         for (User user : userDao.loadAll()) {
-            UserDto userDto = EntityDtoConverter.transformToUserDto(user);
+            UserDTO userDto = EntityDtoConverter.transformToUserDto(user);
             list.add(userDto);
         }
         return list;
     }
 
     @Override
-    public void delete(UserDto obj) {
-        UserDao dao = new UserDaoImpl();
+    public void delete(UserDTO obj) {
+        UserDAO dao = DAOFactory.getFactory().getUserDAO();
         dao.delete(EntityDtoConverter.transformToUserEntity(obj));
     }
 
     @Override
-    public void saveOrUpdate(UserDto userDto) {
-        UserDao userDao = new UserDaoImpl();
+    public void saveOrUpdate(UserDTO userDto) {
+        UserDAO userDao = DAOFactory.getFactory().getUserDAO();
 
         if (userDto.getId() == null) {
             userDao.save(EntityDtoConverter.transformToUserEntity(userDto));
