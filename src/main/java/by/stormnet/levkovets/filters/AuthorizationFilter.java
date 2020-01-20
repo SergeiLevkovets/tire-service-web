@@ -14,7 +14,9 @@ public class AuthorizationFilter implements Filter {
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpSession session = httpServletRequest.getSession();
             Integer authorizedUserId = (Integer) session.getAttribute("authorizedUserId");
-            if (authorizedUserId == null) {
+            String authorizedUserName = (String) session.getAttribute("authorizedUserName");
+
+            if (authorizedUserId == null || authorizedUserName == null) {
                 String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
                 String reqURI = requestURI.replaceAll("/tire_service", "");
                 session.setAttribute("requestURI", reqURI);

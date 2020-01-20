@@ -2,12 +2,30 @@
 
 <Context path="/09.jdbc-jndi-excellent-but-bad" docBase="09.jdbc-jndi-excellent-but-bad" reloadable="true">
 
-    <!-- <Resource name="jdbc/personnel_department_db_resource" auth="Container" type="javax.sql.DataSource"
-                 maxActive="100" maxIdle="30" maxWait="10000"
-                 username="root" password="root" driverClassName="com.mysql.jdbc.Driver"
-                 url="jdbc:mysql://localhost:3306/personnel_department_db"/> -->
+    <!--
+
+    Конфигурация для TomCat
+    Поместить в файл:    tomcat/conf/server.xml
+    в секцию <GlobalNamingResources></GlobalNamingResources>
+
+    <Resource
+    	auth="Container"
+    	name="jdbc/tireServiceDb"
+    	type="javax.sql.DataSource"
+
+    	driverClassName="com.mysql.jdbc.Driver"
+    	password="root"
+    	username="root"
+    	url="jdbc:mysql://localhost:3306/tire_service_db"
+
+    	maxTotal="100"
+    	maxIdle="30"
+    	maxWait="10000"
+    	/>
+    	-->
 
     <ResourceLink name="jdbc/tireServiceDb"
                   global="jdbc/tireServiceDb"
                   type="javax.sql.DataSource"/>
+
 </Context>

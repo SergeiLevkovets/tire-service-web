@@ -34,9 +34,6 @@
                         ${password_error}
                         <input class="form-control" type="password" id="password" name="password"
                                value="${param.password}" placeholder="Password" required>
-                        <div class="col text-right">
-                            <a href="${pageContext.request.contextPath}/forgot-password">Forgot Password ?</a>
-                        </div>
                         <div class="action">
                             <input type="button" class="btn btn-primary signup" id="submit_login" value="Login">
                         </div>

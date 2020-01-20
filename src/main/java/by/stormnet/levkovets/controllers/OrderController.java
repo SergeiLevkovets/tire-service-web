@@ -20,6 +20,7 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
         if (req.getAttribute("widthList") == null) {
             WidthServiceImpl widthService = new WidthServiceImpl();
             List<WidthDto> widthList = widthService.getAll();
@@ -146,9 +147,9 @@ public class OrderController extends HttpServlet {
                 serviceItemPriceDtoByTypeList.add(serviceItemPrice);
             }
         }
-        if (serviceItemPriceDtoByTypeList.size() == 1){
+        if (serviceItemPriceDtoByTypeList.size() == 1) {
             itemPriceDto = serviceItemPriceDtoByTypeList.get(1);
-        }else {
+        } else {
             for (ServiceItemPriceDto serviceItemPrice : serviceItemPriceDtoByTypeList) {
                 if (serviceItemPrice.getDiameter().equals(diameter)) {
                     itemPriceDto = serviceItemPrice;
