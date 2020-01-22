@@ -14,7 +14,7 @@
 * MySQL
 * Maven
 
-Viev:
+View:
 * Html
 * Css Bootstrap
 * JQuery
