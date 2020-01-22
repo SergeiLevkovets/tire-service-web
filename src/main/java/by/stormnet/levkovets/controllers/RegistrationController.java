@@ -31,16 +31,16 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
+        if (isNoValid(req)) {
+            req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
+            return;
+        }
+
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String password = req.getParameter("password");
-        String confirmPassword = req.getParameter("confirm_password");
-
-        if (isNoValid(req, name, email, phone, password, confirmPassword)) {
-            req.getRequestDispatcher("/WEB-INF/pages/registration.jsp").forward(req, resp);
-            return;
-        }
 
         UserDTO userDto = new UserDTO();
         userDto.setName(name);
@@ -49,27 +49,27 @@ public class RegistrationController extends HttpServlet {
         userDto.setPassword(password);
 
         UserService userService = ServiceFactory.getFactory().getUserService();
-        userService.saveOrUpdate(userDto);
+        Integer userId = userService.saveOrUpdate(userDto);
 
         HttpSession session = req.getSession();
 
-        List<UserDTO> allUsers = userService.getAll();
-        for (UserDTO user : allUsers) {
-            if (user.getEmail().equals(email)) {
-                session.setAttribute("authorizedUserId", user.getId());
-                session.setAttribute("authorizedUserName", user.getName());
-                break;
-            }
-        }
+        session.setAttribute("authorizedUserId", userId);
+        session.setAttribute("authorizedUserName", userDto.getName());
 
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + "/index.html");
 
     }
 
-    private boolean isNoValid(HttpServletRequest req, String name, String email, String phone, String password, String confirmPassword) {
+    private boolean isNoValid(HttpServletRequest req) {
 
         Map<String, String> errorMap = new HashMap<>();
+
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String password = req.getParameter("password");
+        String confirmPassword = req.getParameter("confirm_password");
 
         UserService userService = ServiceFactory.getFactory().getUserService();
         List<UserDTO> allUsers = userService.getAll();

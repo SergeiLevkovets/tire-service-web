@@ -39,14 +39,14 @@ public class UserServiceImpl implements by.stormnet.levkovets.services.UserServi
     }
 
     @Override
-    public void saveOrUpdate(UserDTO userDto) {
+    public Integer saveOrUpdate(UserDTO userDto) {
         UserDAO userDao = DAOFactory.getFactory().getUserDAO();
-
-        if (userDto.getId() == null) {
-            userDao.save(EntityDtoConverter.transformToUserEntity(userDto));
-        }else {
+        Integer id = userDto.getId();
+        if (id == null) {
+            id = userDao.save(EntityDtoConverter.transformToUserEntity(userDto));
+        } else {
             userDao.update(EntityDtoConverter.transformToUserEntity(userDto));
         }
-
+        return id;
     }
 }

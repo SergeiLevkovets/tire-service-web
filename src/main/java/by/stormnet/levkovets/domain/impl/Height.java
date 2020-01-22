@@ -42,4 +42,12 @@ public class Height implements Entity {
     public int hashCode() {
         return Objects.hash(id, height);
     }
+
+    @Override
+    public String toString() {
+        return "Height{" +
+                "id=" + id +
+                ", height='" + height + '\'' +
+                '}';
+    }
 }

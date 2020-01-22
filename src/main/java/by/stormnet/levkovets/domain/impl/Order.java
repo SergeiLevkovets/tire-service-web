@@ -84,4 +84,16 @@ public class Order implements Entity {
     public int hashCode() {
         return Objects.hash(id, user, tire, type, date, totalPrice);
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", tire=" + tire +
+                ", type=" + type +
+                ", totalPrice=" + totalPrice +
+                ", date=" + date +
+                '}';
+    }
 }

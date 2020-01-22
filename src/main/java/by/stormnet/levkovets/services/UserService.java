@@ -11,5 +11,5 @@ public interface UserService {
 
     void delete(UserDTO obj);
 
-    void saveOrUpdate(UserDTO userDto);
+    Integer saveOrUpdate(UserDTO userDto);
 }

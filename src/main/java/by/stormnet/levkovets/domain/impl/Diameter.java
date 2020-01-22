@@ -42,4 +42,12 @@ public class Diameter implements Entity {
     public int hashCode() {
         return Objects.hash(id, diameter);
     }
+
+    @Override
+    public String toString() {
+        return "Diameter{" +
+                "id=" + id +
+                ", diameter='" + diameter + '\'' +
+                '}';
+    }
 }

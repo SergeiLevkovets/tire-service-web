@@ -73,4 +73,14 @@ public class UserDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, name, email, password, phone);
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

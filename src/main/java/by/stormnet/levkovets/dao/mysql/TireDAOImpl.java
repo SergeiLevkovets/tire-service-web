@@ -22,8 +22,8 @@ public class TireDAOImpl implements TireDAO {
 
         Connection c = null;
         PreparedStatement statement = null;
-        Integer id = null;
         ResultSet set = null;
+        Integer id = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();

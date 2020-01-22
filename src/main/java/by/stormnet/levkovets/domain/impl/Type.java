@@ -39,6 +39,14 @@ public class Type implements Entity {
     }
 
     @Override
+    public String toString() {
+        return "Type{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id, type);
     }

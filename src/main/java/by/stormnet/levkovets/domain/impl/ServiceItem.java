@@ -43,4 +43,12 @@ public class ServiceItem implements Entity {
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
+    @Override
+    public String toString() {
+        return "ServiceItem{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

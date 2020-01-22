@@ -5,7 +5,7 @@ import by.stormnet.levkovets.domain.impl.User;
 import java.util.List;
 
 public interface UserDAO {
-    void save(User user);
+    Integer save(User user);
 
     void update(User user);
 

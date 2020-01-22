@@ -36,12 +36,14 @@ public class OrderServiceImpl implements by.stormnet.levkovets.services.OrderSer
     }
 
     @Override
-    public void saveOrUpdate(OrderDTO orderDto) {
+    public Integer saveOrUpdate(OrderDTO orderDto) {
         OrderDAO orderDao = DAOFactory.getFactory().getOrderDAO();
-        if (orderDto.getId() == null){
-            orderDao.save(EntityDtoConverter.transformToOrderEntity(orderDto));
+        Integer id = orderDto.getId();
+        if (id == null){
+             id = orderDao.save(EntityDtoConverter.transformToOrderEntity(orderDto));
         }else {
             orderDao.update(EntityDtoConverter.transformToOrderEntity(orderDto));
         }
+        return id;
     }
 }

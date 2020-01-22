@@ -70,4 +70,15 @@ public class Tire implements Entity {
     public int hashCode() {
         return Objects.hash(id, date);
     }
+
+    @Override
+    public String toString() {
+        return "Tire{" +
+                "id=" + id +
+                ", width=" + width +
+                ", height=" + height +
+                ", diameter=" + diameter +
+                ", date=" + date +
+                '}';
+    }
 }

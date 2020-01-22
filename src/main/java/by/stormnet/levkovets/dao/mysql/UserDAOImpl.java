@@ -15,10 +15,12 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public void save(User user) {
+    public Integer save(User user) {
 
         Connection c = null;
         PreparedStatement statement = null;
+        ResultSet set = null;
+        Integer id = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
@@ -32,11 +34,20 @@ public class UserDAOImpl implements UserDAO {
             statement.setString(5, user.getRole());
 
             statement.executeUpdate();
+
+            set = statement.executeQuery("SELECT LAST_INSERT_ID()");
+
+            while (set.next()) {
+                id = set.getInt(1);
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
-            ConnectionManager.getManager().closeDbResources(c, statement);
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
         }
+
+        return id;
     }
 
     @Override

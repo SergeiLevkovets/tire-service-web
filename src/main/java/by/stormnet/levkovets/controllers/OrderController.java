@@ -68,17 +68,17 @@ public class OrderController extends HttpServlet {
 
     public OrderDTO createOrder(HttpServletRequest req){
         HttpSession session = req.getSession();
-        String authorizedUserId = (String) session.getAttribute("authorizedUserId");
+        Integer authorizedUserId = (Integer) session.getAttribute("authorizedUserId");
 
 // ----- refactor this ------
-        Integer userId = 1;
-        if (authorizedUserId != null) {
-            userId = Integer.parseInt(authorizedUserId);
+//        (test elem)
+        if (authorizedUserId == null) {
+            authorizedUserId = 1;
         }
 //   ------------------------
 
         UserService userService = ServiceFactory.getFactory().getUserService();
-        UserDTO user = userService.getById(userId);
+        UserDTO user = userService.getById(authorizedUserId);
 
         TypeService typeService = ServiceFactory.getFactory().getTypeService();
 
@@ -106,12 +106,9 @@ public class OrderController extends HttpServlet {
         Integer tireId = tireService.saveOrUpdate(tireDto);
         tireDto.setId(tireId);
 
-        Map<ServiceItemPriceDTO, Integer> allServiceItemPriceForOrders = findAllServiceItemPriceForOrder(req);
+        Map<ServiceItemPriceDTO, Integer> allServiceItemPricesForOrder = findAllServiceItemPricesForOrder(req);
 
-
-
-        Double totalPrice = getTotalPrice(allServiceItemPriceForOrders);
-
+        Double totalPrice = getTotalPrice(allServiceItemPricesForOrder);
 
         OrderDTO orderDto = new OrderDTO();
 
@@ -119,7 +116,7 @@ public class OrderController extends HttpServlet {
         orderDto.setTire(tireDto);
         orderDto.setType(typeDto);
         orderDto.setTotalPrice(totalPrice);
-
+//проверить сохранение в бд
         OrderService orderService = ServiceFactory.getFactory().getOrderService();
         orderService.saveOrUpdate(orderDto);
 
@@ -137,7 +134,7 @@ public class OrderController extends HttpServlet {
 
 
 
-    public Map<ServiceItemPriceDTO, Integer> findAllServiceItemPriceForOrder(HttpServletRequest req) {
+    public Map<ServiceItemPriceDTO, Integer> findAllServiceItemPricesForOrder(HttpServletRequest req) {
         Map<ServiceItemPriceDTO, Integer> serviceItemPriceDtoList = new HashMap<>();
 
         ServiceItemService serviceItemService = ServiceFactory.getFactory().getServiceItemService();
@@ -295,12 +292,12 @@ public class OrderController extends HttpServlet {
         return notNullParam;
     }
 
-    public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type) {
-        return findServiceItemPrice(list, serviceItem, type, null);
-    }
-
     public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem) {
         return findServiceItemPrice(list, serviceItem, null, null);
+    }
+
+    public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type) {
+        return findServiceItemPrice(list, serviceItem, type, null);
     }
 
     public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type, DiameterDTO diameter) {

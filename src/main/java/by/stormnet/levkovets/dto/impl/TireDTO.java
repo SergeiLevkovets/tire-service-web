@@ -73,4 +73,15 @@ public class TireDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, width, height, diameter, date);
     }
+
+    @Override
+    public String toString() {
+        return "TireDTO{" +
+                "id=" + id +
+                ", width=" + width +
+                ", height=" + height +
+                ", diameter=" + diameter +
+                ", date=" + date +
+                '}';
+    }
 }

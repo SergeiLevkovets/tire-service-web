@@ -33,11 +33,7 @@ public class LoginController extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String email = req.getParameter("email");
-        String phone = req.getParameter("phone");
-        String password = req.getParameter("password");
-
-        if (isNoValid(req, email, phone, password)) {
+        if (isNoValid(req)) {
 
             req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
             return;
@@ -47,8 +43,7 @@ public class LoginController extends HttpServlet {
         HttpSession session = req.getSession();
 
         String uri = req.getContextPath() + "/index.html";
-        String requestURI = (String) session.getAttribute("requestURI");
-
+        String requestURI = (String) session.getAttribute("requestURIFromFilter");
 
         if (StringUtils.isNotBlank(requestURI)) {
 
@@ -61,16 +56,16 @@ public class LoginController extends HttpServlet {
 
     }
 
-    private boolean isNoValid(HttpServletRequest req, String email, String phone, String password) {
+    private boolean isNoValid(HttpServletRequest req) {
 
         Map<String, String> errorMap = new HashMap<>();
 
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String password = req.getParameter("password");
+
         boolean isEmailExist = true;
         boolean isPhoneExist = true;
-
-        UserService userService = ServiceFactory.getFactory().getUserService();
-        List<UserDTO> allUsers = userService.getAll();
-        HttpSession session = req.getSession();
 
         if (StringUtils.isBlank(email) && StringUtils.isBlank(phone)) {
 
@@ -85,6 +80,11 @@ public class LoginController extends HttpServlet {
         }
 
         if (errorMap.isEmpty()) {
+
+            UserService userService = ServiceFactory.getFactory().getUserService();
+            List<UserDTO> allUsers = userService.getAll();
+            HttpSession session = req.getSession();
+
             for (UserDTO user : allUsers) {
 
                 String userEmail = user.getEmail();

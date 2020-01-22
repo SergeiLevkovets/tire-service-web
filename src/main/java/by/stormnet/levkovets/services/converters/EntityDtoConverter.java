@@ -65,7 +65,7 @@ public class EntityDtoConverter {
 
     public static Tire transformToTireEntity(TireDTO tireDto){
         Tire tire = new Tire();
-        tire.setId(tire.getId());
+        tire.setId(tireDto.getId());
         tire.setWidth(transformToWidthEntity(tireDto.getWidth()));
         tire.setHeight(transformToHeightEntity(tireDto.getHeight()));
         tire.setDiameter(transformToDiameterEntity(tireDto.getDiameter()));

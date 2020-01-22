@@ -73,4 +73,15 @@ public class ServiceItemPrice implements Entity {
     public int hashCode() {
         return Objects.hash(id, serviceItem, type, diameter, price);
     }
+
+    @Override
+    public String toString() {
+        return "ServiceItemPrice{" +
+                "id=" + id +
+                ", serviceItem=" + serviceItem +
+                ", type=" + type +
+                ", diameter=" + diameter +
+                ", price=" + price +
+                '}';
+    }
 }

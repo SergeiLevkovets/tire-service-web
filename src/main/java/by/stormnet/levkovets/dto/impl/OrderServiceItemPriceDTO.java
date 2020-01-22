@@ -62,4 +62,14 @@ public class OrderServiceItemPriceDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, order, serviceItemPrice, count);
     }
+
+    @Override
+    public String toString() {
+        return "OrderServiceItemPriceDTO{" +
+                "id=" + id +
+                ", order=" + order +
+                ", serviceItemPrice=" + serviceItemPrice +
+                ", count=" + count +
+                '}';
+    }
 }

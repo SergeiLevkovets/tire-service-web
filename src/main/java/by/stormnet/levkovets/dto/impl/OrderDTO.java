@@ -83,4 +83,16 @@ public class OrderDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, user, tire, type, totalPrice, date);
     }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", user=" + user +
+                ", tire=" + tire +
+                ", type=" + type +
+                ", totalPrice=" + totalPrice +
+                ", date=" + date +
+                '}';
+    }
 }

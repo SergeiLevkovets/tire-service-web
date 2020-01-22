@@ -11,5 +11,5 @@ public interface OrderService {
 
     void delete(OrderDTO obj);
 
-    void saveOrUpdate(OrderDTO orderDto);
+    Integer saveOrUpdate(OrderDTO orderDto);
 }

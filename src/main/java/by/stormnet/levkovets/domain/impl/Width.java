@@ -42,4 +42,12 @@ public class Width implements Entity {
     public int hashCode() {
         return Objects.hash(id, width);
     }
+
+    @Override
+    public String toString() {
+        return "Width{" +
+                "id=" + id +
+                ", width='" + width + '\'' +
+                '}';
+    }
 }
