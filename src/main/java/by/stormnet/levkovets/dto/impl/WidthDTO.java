@@ -43,4 +43,12 @@ public class WidthDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, width);
     }
+
+    @Override
+    public String toString() {
+        return "WidthDTO{" +
+                "id=" + id +
+                ", width='" + width + '\'' +
+                '}';
+    }
 }

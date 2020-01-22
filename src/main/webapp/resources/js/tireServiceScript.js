@@ -2,16 +2,16 @@ $(document).ready(function () {
 
 
     $('#carBtn').click(function () {
-            $('#suv_form').prop('hidden', 'true');
+            $('#bus_form').prop('hidden', 'true');
             $('#truck_form').prop('hidden', 'true');
-            $('#bus').prop('checked', null);
+            $('#suv').prop('checked', null);
             $('#dual').prop('checked', null);
             $('#ring').prop('checked', null);
             $('#heavy').prop('checked', null);
     })
 
-    $('#suvBtn').click(function () {
-            $('#suv_form').prop('hidden', null);
+    $('#busBtn').click(function () {
+            $('#bus_form').prop('hidden', null);
             $('#truck_form').prop('hidden', 'true');
             $('#ring').prop('checked', null);
             $('#heavy').prop('checked', null);
@@ -19,10 +19,18 @@ $(document).ready(function () {
 
     $('#truckBtn').click(function () {
             $('#truck_form').prop('hidden', null);
-            $('#suv_form').prop('hidden', 'true');
-            $('#bus').prop('checked', null);
+            $('#bus_form').prop('hidden', 'true');
+            $('#suv').prop('checked', null);
             $('#dual').prop('checked', null);
     })
+
+    $('#ring').click(function () {
+        $('#heavy').removeAttr('checked');
+    })
+    $('#heavy').click(function () {
+        $('#ring').removeAttr('checked');
+    })
+
 
     $('#tireSaveBtn').click(function () {
         if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {

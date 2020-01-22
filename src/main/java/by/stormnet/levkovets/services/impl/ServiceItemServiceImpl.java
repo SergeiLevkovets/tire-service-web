@@ -23,7 +23,10 @@ public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.Se
     public ServiceItemDTO getByName(String name) {
         ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
         ServiceItem serviceItem = serviceItemDao.loadByName(name);
-        ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+        ServiceItemDTO serviceItemDto = null;
+        if (serviceItem != null) {
+            serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+        }
         return serviceItemDto;
     }
 

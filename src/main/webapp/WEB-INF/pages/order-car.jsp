@@ -20,7 +20,7 @@
                     <div class="panel-body">
 
                         <form name="order" id="order" action="${pageContext.request.contextPath}/authorized/order-car"
-                              method="get">
+                              method="post">
 
                             <fieldset class="content-box-large">
                                 <div class="form-group">
@@ -29,9 +29,9 @@
                                             <input type="radio" name="type" id="car" value="car" checked required>
                                             Легвой
                                         </label>
-                                        <label id="suvBtn" class="btn btn-info ${param.type == 'suv' ? 'active' : ''}">
-                                            <input type="radio" name="type" id="suv"
-                                                   value="suv" ${param.type == 'suv' ? 'checked' : ''} required>
+                                        <label id="busBtn" class="btn btn-info ${param.type == 'bus' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="bus"
+                                                   value="bus" ${param.type == 'bus' ? 'checked' : ''} required>
                                             Микроавтобус / джип
                                         </label>
                                         <label id="truckBtn" class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
@@ -43,25 +43,25 @@
                                 </div>
 
                                 <div class="form-group" id="truck_form" ${param.type == 'truck' ? '' : 'hidden'}>
-                                    <div class="radio-inline col-md-3">
+                                    <div class="checkbox-inline col-md-3">
                                         <label>
-                                            <input type="radio" id="ring"
-                                                   name="truckType" value="ring" ${param.truckType == 'ring' ? 'checked' : ''}>С монтажным кольцом
+                                            <input type="checkbox" id="ring"
+                                                   name="ring" ${param.ring == 'on' ? 'checked' : ''}>С монтажным кольцом
                                         </label>
                                     </div>
-                                    <div class="radio-inline col-md-3">
+                                    <div class="checkbox-inline col-md-3">
                                         <label>
-                                            <input type="radio" id="heavy"
-                                                   name="truckType" value="heavy" ${param.truckType == 'heavy' ? 'checked' : ''}>Сельхоз шина
+                                            <input type="checkbox" id="heavy"
+                                                   name="heavy" ${param.heavy == 'on' ? 'checked' : ''}>Сельхоз шина
                                         </label>
                                     </div>
                                 </div>
 
-                                <div class="form-group" id="suv_form" ${param.type == 'suv' ? '' : 'hidden'}>
+                                <div class="form-group" id="bus_form" ${param.type == 'bus' ? '' : 'hidden'}>
                                     <div class="checkbox-inline col-md-3">
                                         <label>
-                                            <input type="checkbox" id="bus"
-                                                   name="bus" ${param.bus == 'on' ? 'checked' : ''}>Микроавтобус
+                                            <input type="checkbox" id="suv"
+                                                   name="suv" ${param.bus == 'on' ? 'checked' : ''}>Внедорожник
                                         </label>
                                     </div>
                                     <div class="checkbox-inline col-md-3">
@@ -169,15 +169,15 @@
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" id="mounting"
-                                                       name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж-монтаж
+                                                       name="mounting" ${param.mounting == 'on' ? 'checked' : ''}>Демонтаж и монтаж
                                             </label>
                                         </div>
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox" id="wheelRemove"
-                                                       name="wheelRemove" ${param.wheelRemove == 'on' ? 'checked' : ''}>Снятие
+                                                       name="wheelRemove" ${param.wheelRemove == 'on' ? 'checked' : ''}>Снятие и
                                                 установка
-                                                с а/м
+                                                на а/м
                                             </label>
                                         </div>
                                         <div class="checkbox">
@@ -197,15 +197,12 @@
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox"
-                                                       name="diagnostic" ${param.diagnostic == 'on' ? 'checked' : ''}>
-                                                Диагностика колеса</label>
+                                                       name="dismantling" ${param.balanceWeightsAdhesive == 'on' ? 'checked' : ''}>Монтаж или демонтаж
+                                            </label>
                                         </div>
-
-
                                     </div>
 
                                     <div class="col-md-4">
-
                                         <div class="checkbox">
                                             <label>
                                                 <input type="checkbox"
@@ -237,8 +234,6 @@
                                                        name="usingKeyJack" ${param.usingKeyJack == 'on' ? 'checked' : ''}>
                                                 использование ключа, домкрата</label>
                                         </div>
-
-
                                     </div>
                                 </div>
                                 <div class="content-box-large form-group row">

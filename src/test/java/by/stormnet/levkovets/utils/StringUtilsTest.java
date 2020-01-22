@@ -60,4 +60,11 @@ public class StringUtilsTest {
 
     }
 
+    @Test
+    public void simpleDiameterSize() {
+        Assert.assertEquals(StringUtils.simpleDiameterSize("r14c"), "r14");
+        Assert.assertEquals(StringUtils.simpleDiameterSize("r17.5"), "r17");
+        Assert.assertEquals(StringUtils.simpleDiameterSize("r13"), "r13");
+
+    }
 }

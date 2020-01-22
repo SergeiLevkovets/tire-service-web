@@ -43,4 +43,12 @@ public class DiameterDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, diameter);
     }
+
+    @Override
+    public String toString() {
+        return "DiameterDTO{" +
+                "id=" + id +
+                ", diameter='" + diameter + '\'' +
+                '}';
+    }
 }

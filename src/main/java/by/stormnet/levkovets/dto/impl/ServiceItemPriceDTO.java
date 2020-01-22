@@ -74,4 +74,15 @@ public class ServiceItemPriceDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, serviceItem, type, diameter, price);
     }
+
+    @Override
+    public String toString() {
+        return "ServiceItemPriceDTO{" +
+                "id=" + id +
+                ", serviceItem=" + serviceItem +
+                ", type=" + type +
+                ", diameter=" + diameter +
+                ", price=" + price +
+                '}';
+    }
 }

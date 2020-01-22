@@ -30,6 +30,7 @@ public class StringUtils {
         return !isBlank(str);
     }
 
+
     public static String simplePhoneNumber(String str) {
         String number = str.replaceAll("\\D+", "");
         int num = number.length();
@@ -38,6 +39,13 @@ public class StringUtils {
         }
         String substring = number.substring(num - 9, num);
         return substring;
+    }
+
+    public static String simpleDiameterSize(String diameter){
+        if (diameter.length() > 3){
+            return diameter.substring(0, 3);
+        }
+        return diameter;
     }
 
 

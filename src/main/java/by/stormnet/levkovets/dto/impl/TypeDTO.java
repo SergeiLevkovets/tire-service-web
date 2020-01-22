@@ -43,4 +43,12 @@ public class TypeDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, type);
     }
+
+    @Override
+    public String toString() {
+        return "TypeDTO{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

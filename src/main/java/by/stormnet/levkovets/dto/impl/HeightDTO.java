@@ -43,4 +43,12 @@ public class HeightDTO implements DTO {
     public int hashCode() {
         return Objects.hash(id, height);
     }
+
+    @Override
+    public String toString() {
+        return "HeightDTO{" +
+                "id=" + id +
+                ", height='" + height + '\'' +
+                '}';
+    }
 }
