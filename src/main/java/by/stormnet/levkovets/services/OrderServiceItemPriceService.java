@@ -17,4 +17,6 @@ public interface OrderServiceItemPriceService {
     void deleteByOrder(OrderDTO obj);
 
     void saveOrUpdate(OrderServiceItemPriceDTO dto);
+
+    void saveOrUpdateAll(List<OrderServiceItemPriceDTO> list);
 }

@@ -9,7 +9,11 @@ public interface OrderServiceItemPriceDAO {
 
     void save(OrderServiceItemPrice obj);
 
+    void saveAll(List<OrderServiceItemPrice> list);
+
     void update(OrderServiceItemPrice obj);
+
+    public void updateAll(List<OrderServiceItemPrice> list);
 
     void delete(OrderServiceItemPrice obj);
 

@@ -58,8 +58,28 @@ public class OrderServiceItemPriceServiceImpl implements OrderServiceItemPriceSe
         OrderServiceItemPriceDAO dao = DAOFactory.getFactory().getOrderServiceItemPriceDAO();
         if (dto.getId() == null) {
             dao.save(EntityDtoConverter.transformToOrderServiceItemPriceEntity(dto));
-        }else {
+        } else {
             dao.update(EntityDtoConverter.transformToOrderServiceItemPriceEntity(dto));
+        }
+    }
+
+    @Override
+    public void saveOrUpdateAll(List<OrderServiceItemPriceDTO> list) {
+        OrderServiceItemPriceDAO dao = DAOFactory.getFactory().getOrderServiceItemPriceDAO();
+        List<OrderServiceItemPrice> saveEntityList = new ArrayList<>();
+        List<OrderServiceItemPrice> updateEntityList = new ArrayList<>();
+        for (OrderServiceItemPriceDTO dto : list) {
+            if (dto.getId() == null) {
+                saveEntityList.add(EntityDtoConverter.transformToOrderServiceItemPriceEntity(dto));
+            } else {
+                updateEntityList.add(EntityDtoConverter.transformToOrderServiceItemPriceEntity(dto));
+            }
+        }
+        if (!saveEntityList.isEmpty()){
+            dao.saveAll(saveEntityList);
+        }
+        if (!updateEntityList.isEmpty()){
+            dao.updateAll(updateEntityList);
         }
     }
 

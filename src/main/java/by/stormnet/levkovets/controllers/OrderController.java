@@ -58,40 +58,60 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        OrderDTO order = createOrder(req);
+        Map<String, String> parameters = getAllNotNullParam(req);
 
+        OrderDTO order = createOrder(parameters);
 
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + "/authorized/order-car");
+
     }
 
+    public Map<String, String> getAllNotNullParam(HttpServletRequest req) {
 
-    public OrderDTO createOrder(HttpServletRequest req){
+        Map<String, String> notNullParam = new HashMap<>();
+
         HttpSession session = req.getSession();
         Integer authorizedUserId = (Integer) session.getAttribute("authorizedUserId");
+        notNullParam.put("authorizedUserId", String.valueOf(authorizedUserId));
 
-// ----- refactor this ------
-//        (test elem)
-        if (authorizedUserId == null) {
-            authorizedUserId = 1;
+        Enumeration<String> parameterNames = req.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+
+            String paramName = parameterNames.nextElement();
+            String parameter = req.getParameter(paramName);
+
+            if (StringUtils.isNotBlank(parameter)) {
+                notNullParam.put(paramName, parameter);
+            }
         }
-//   ------------------------
+
+        return notNullParam;
+    }
+
+    /**
+     * Классы, ниже, оставить здесь или перенести в OrderService
+     * */
+
+    public OrderDTO createOrder(Map<String, String> parameters) {
+
+        String authorizedUserId = parameters.get("authorizedUserId");
+        int userId = Integer.parseInt(authorizedUserId);
 
         UserService userService = ServiceFactory.getFactory().getUserService();
-        UserDTO user = userService.getById(authorizedUserId);
+        UserDTO user = userService.getById(userId);
 
         TypeService typeService = ServiceFactory.getFactory().getTypeService();
-
-        String type = req.getParameter("type");
+        String type = parameters.get("type");
         TypeDTO typeDto = typeService.getByName(type);
 
         WidthService widthService = ServiceFactory.getFactory().getWidthService();
         HeightService heightService = ServiceFactory.getFactory().getHeightService();
         DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
 
-        String width = req.getParameter("width");
-        String height = req.getParameter("height");
-        String diameter = req.getParameter("diameter");
+        String width = parameters.get("width");
+        String height = parameters.get("height");
+        String diameter = parameters.get("diameter");
 
         WidthDTO widthDto = widthService.getByName(width);
         HeightDTO heightDto = heightService.getByName(height);
@@ -103,12 +123,17 @@ public class OrderController extends HttpServlet {
         tireDto.setWidth(widthDto);
         tireDto.setHeight(heightDto);
         tireDto.setDiameter(diameterDto);
+
         Integer tireId = tireService.saveOrUpdate(tireDto);
+
         tireDto.setId(tireId);
 
-        Map<ServiceItemPriceDTO, Integer> allServiceItemPricesForOrder = findAllServiceItemPricesForOrder(req);
+        Map<ServiceItemPriceDTO, Integer> serviceItemPricesAndCountForOrder = findAllServiceItemPricesAndCountByParameters(parameters);
 
-        Double totalPrice = getTotalPrice(allServiceItemPricesForOrder);
+        Double totalPrice = Double.valueOf(0);
+        for (ServiceItemPriceDTO serviceItemPriceDTO : serviceItemPricesAndCountForOrder.keySet()) {
+            totalPrice += serviceItemPriceDTO.getPrice() * serviceItemPricesAndCountForOrder.get(serviceItemPriceDTO);
+        }
 
         OrderDTO orderDto = new OrderDTO();
 
@@ -116,25 +141,35 @@ public class OrderController extends HttpServlet {
         orderDto.setTire(tireDto);
         orderDto.setType(typeDto);
         orderDto.setTotalPrice(totalPrice);
-//проверить сохранение в бд
+
         OrderService orderService = ServiceFactory.getFactory().getOrderService();
-        orderService.saveOrUpdate(orderDto);
+        Integer orderId = orderService.saveOrUpdate(orderDto);
+
+        List<OrderServiceItemPriceDTO> orderToServiceItemPrices = createOrderToServiceItemPrices(orderDto, serviceItemPricesAndCountForOrder);
+
+        orderDto.setId(orderId);
 
         return orderDto;
 
     }
 
-    public Double getTotalPrice( Map<ServiceItemPriceDTO, Integer> allServiceItemPriceForOrders){
-        Double totalPrice = Double.valueOf(0);
-        for (ServiceItemPriceDTO serviceItemPriceDTO : allServiceItemPriceForOrders.keySet()) {
-            totalPrice += serviceItemPriceDTO.getPrice() * allServiceItemPriceForOrders.get(serviceItemPriceDTO);
+    private List<OrderServiceItemPriceDTO> createOrderToServiceItemPrices(OrderDTO orderDto, Map<ServiceItemPriceDTO, Integer> serviceItemPricesAndCountForOrder) {
+        List<OrderServiceItemPriceDTO> list = new ArrayList<>();
+        for (ServiceItemPriceDTO serviceItemPriceDTO : serviceItemPricesAndCountForOrder.keySet()) {
+
+            OrderServiceItemPriceDTO orderServiceItemPriceDTO = new OrderServiceItemPriceDTO();
+            orderServiceItemPriceDTO.setOrder(orderDto);
+            orderServiceItemPriceDTO.setServiceItemPrice(serviceItemPriceDTO);
+            orderServiceItemPriceDTO.setCount(serviceItemPricesAndCountForOrder.get(serviceItemPriceDTO));
+
+            list.add(orderServiceItemPriceDTO);
+
         }
-        return totalPrice;
+
+        return list;
     }
 
-
-
-    public Map<ServiceItemPriceDTO, Integer> findAllServiceItemPricesForOrder(HttpServletRequest req) {
+    public Map<ServiceItemPriceDTO, Integer> findAllServiceItemPricesAndCountByParameters(Map<String, String> parameters) {
         Map<ServiceItemPriceDTO, Integer> serviceItemPriceDtoList = new HashMap<>();
 
         ServiceItemService serviceItemService = ServiceFactory.getFactory().getServiceItemService();
@@ -142,49 +177,48 @@ public class OrderController extends HttpServlet {
         TypeService typeService = ServiceFactory.getFactory().getTypeService();
         DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
 
-        String typeName = req.getParameter("type");
+        String typeName = parameters.get("type");
         TypeDTO orderTypeDTO = typeService.getByName(typeName);
 
-        String diameterSize = req.getParameter("diameter");
+        String diameterSize = parameters.get("diameter");
         String simpleDiameterSize = StringUtils.simpleDiameterSize(diameterSize);
         DiameterDTO diameterDTO = diameterService.getByName(simpleDiameterSize);
 
         List<ServiceItemPriceDTO> serviceItemPriceDTOAll = serviceItemPriceService.getAll();
 
-        Map<String, String> allNotNullParameters = getAllNotNullParam(req);
-        Integer wheelCount = Integer.valueOf(req.getParameter("wheelCount"));
+        Integer wheelCount = Integer.valueOf(parameters.get("wheelCount"));
 
-        for (String parameterName : allNotNullParameters.keySet()) {
+        for (String parameterName : parameters.keySet()) {
             Integer defaultCount = wheelCount;
             ServiceItemDTO serviceItemDTO = serviceItemService.getByName(parameterName);
-            if (serviceItemDTO == null){
-                serviceItemDTO = serviceItemService.getByName(allNotNullParameters.get(parameterName));
+            if (serviceItemDTO == null) {
+                serviceItemDTO = serviceItemService.getByName(parameters.get(parameterName));
                 if (serviceItemDTO == null) {
                     continue;
                 }
-                if (parameterName.equals("valve")){
-                    defaultCount = Integer.parseInt(req.getParameter("valveCount"));
+                if (parameterName.equals("valve")) {
+                    defaultCount = Integer.parseInt(parameters.get("valveCount"));
                 }
-                if (parameterName.equals("patch")){
-                    defaultCount = Integer.parseInt(req.getParameter("repairCount"));
+                if (parameterName.equals("patch")) {
+                    defaultCount = Integer.parseInt(parameters.get("repairCount"));
                 }
 
             }
             switch (parameterName) {
                 case "mounting": {
-                    if (allNotNullParameters.containsKey("suv")) {
+                    if (parameters.containsKey("suv")) {
                         TypeDTO type = typeService.getByName("suv");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                         break;
                     }
-                    if (allNotNullParameters.containsKey("heavy")) {
+                    if (parameters.containsKey("heavy")) {
                         TypeDTO type = typeService.getByName("heavy");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                         break;
                     }
-                    if (allNotNullParameters.containsKey("ring")) {
+                    if (parameters.containsKey("ring")) {
                         TypeDTO type = typeService.getByName("ring");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
@@ -195,7 +229,7 @@ public class OrderController extends HttpServlet {
                     break;
                 }
                 case "balancing": {
-                    if (allNotNullParameters.containsKey("suv")) {
+                    if (parameters.containsKey("suv")) {
                         TypeDTO type = typeService.getByName("suv");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
@@ -207,19 +241,19 @@ public class OrderController extends HttpServlet {
 
                 }
                 case "wheelRemove": {
-                    if (allNotNullParameters.containsKey("heavy")) {
+                    if (parameters.containsKey("heavy")) {
                         TypeDTO type = typeService.getByName("heavy");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                         break;
                     }
-                    if (allNotNullParameters.containsKey("dual")) {
+                    if (parameters.containsKey("dual")) {
                         TypeDTO type = typeService.getByName("dual");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                         break;
                     }
-                    if (allNotNullParameters.containsKey("suv")) {
+                    if (parameters.containsKey("suv")) {
                         TypeDTO type = typeService.getByName("suv");
                         ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                         serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
@@ -231,7 +265,7 @@ public class OrderController extends HttpServlet {
                 }
                 case "pumping": {
                     if (typeName.equals("truck")) {
-                        if (allNotNullParameters.containsKey("heavy")) {
+                        if (parameters.containsKey("heavy")) {
                             TypeDTO type = typeService.getByName("heavy");
                             ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
                             serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
@@ -246,14 +280,14 @@ public class OrderController extends HttpServlet {
                     serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                     break;
                 }
-                case "valveReplacement":{
-                    defaultCount = Integer.parseInt(req.getParameter("valveCount"));
+                case "valveReplacement": {
+                    defaultCount = Integer.parseInt(parameters.get("valveCount"));
                     ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
                     serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                     break;
                 }
-                case "sealing":{
-                    defaultCount = Integer.parseInt(req.getParameter("sealingCount"));
+                case "sealing": {
+                    defaultCount = Integer.parseInt(parameters.get("sealingCount"));
                     ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
                     serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                     break;
@@ -262,8 +296,8 @@ public class OrderController extends HttpServlet {
                 case "punctureRepair":
                 case "cutRepair":
                 case "bigCutRepair":
-                case "verticalCutRepair":{
-                    defaultCount = Integer.parseInt(req.getParameter("repairCount"));
+                case "verticalCutRepair": {
+                    defaultCount = Integer.parseInt(parameters.get("repairCount"));
                     ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
                     serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
                     break;
@@ -279,18 +313,9 @@ public class OrderController extends HttpServlet {
         return serviceItemPriceDtoList;
     }
 
-    public Map<String, String> getAllNotNullParam(HttpServletRequest req) {
-        Map<String, String> notNullParam = new HashMap<>();
-        Enumeration<String> parameterNames = req.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String paramName = parameterNames.nextElement();
-            String parameter = req.getParameter(paramName);
-            if (StringUtils.isNotBlank(parameter)) {
-                notNullParam.put(paramName, parameter);
-            }
-        }
-        return notNullParam;
-    }
+    /**
+     * Как лучшу сделать? Эти методы добавить в DAO или один раз зделать getAll и передовать
+     */
 
     public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem) {
         return findServiceItemPrice(list, serviceItem, null, null);

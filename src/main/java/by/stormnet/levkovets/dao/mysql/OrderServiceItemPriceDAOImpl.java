@@ -28,14 +28,53 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
             statement.setInt(1, obj.getOrder().getId());
             statement.setInt(2, obj.getServiceItemPrice().getId());
-            if (obj.getCount() == null){
+            if (obj.getCount() == null) {
                 statement.setInt(3, 1);
-            }else {
+            } else {
                 statement.setInt(3, obj.getCount());
             }
 
             statement.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public void saveAll(List<OrderServiceItemPrice> list) {
+
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?");
+
+            final int batchSize = 100;
+            int count = 0;
+
+            for (OrderServiceItemPrice obj : list) {
+
+                statement.setInt(1, obj.getOrder().getId());
+                statement.setInt(2, obj.getServiceItemPrice().getId());
+                if (obj.getCount() == null) {
+                    statement.setInt(3, 1);
+                } else {
+                    statement.setInt(3, obj.getCount());
+                }
+                statement.addBatch();
+
+                if (++count % batchSize == 0) {
+                    statement.executeBatch();
+                }
+            }
+            statement.executeBatch();
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -53,16 +92,56 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
             statement.setInt(1, obj.getOrder().getId());
             statement.setInt(2, obj.getServiceItemPrice().getId());
-            if (obj.getCount() == null){
+            if (obj.getCount() == null) {
                 statement.setInt(3, 1);
-            }else {
+            } else {
                 statement.setInt(3, obj.getCount());
             }
             statement.setInt(4, obj.getId());
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement);
+        }
+    }
+
+    @Override
+    public void updateAll(List<OrderServiceItemPrice> list) {
+
+        Connection c = null;
+        PreparedStatement statement = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?");
+
+            final int batchSize = 100;
+            int count = 0;
+
+            for (OrderServiceItemPrice obj : list) {
+
+                statement.setInt(1, obj.getOrder().getId());
+                statement.setInt(2, obj.getServiceItemPrice().getId());
+                if (obj.getCount() == null) {
+                    statement.setInt(3, 1);
+                } else {
+                    statement.setInt(3, obj.getCount());
+                }
+                statement.setInt(4, obj.getId());
+                statement.addBatch();
+
+                if (++count % batchSize == 0) {
+                    statement.executeBatch();
+                }
+            }
+            statement.executeBatch();
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -82,7 +161,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -100,13 +179,12 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             statement.setInt(1, obj.getId());
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
         }
     }
-
 
 
     @Override
@@ -129,7 +207,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
-                orderServiceItemPrice =new OrderServiceItemPrice();
+                orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
@@ -164,7 +242,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
-                OrderServiceItemPrice orderServiceItemPrice =new OrderServiceItemPrice();
+                OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
@@ -201,7 +279,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
-                OrderServiceItemPrice orderServiceItemPrice =new OrderServiceItemPrice();
+                OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
