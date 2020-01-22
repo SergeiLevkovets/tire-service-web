@@ -91,7 +91,7 @@ public class OrderController extends HttpServlet {
 
     /**
      * Классы, ниже, оставить здесь или перенести в OrderService
-     * */
+     */
 
     public OrderDTO createOrder(Map<String, String> parameters) {
 
@@ -144,10 +144,12 @@ public class OrderController extends HttpServlet {
 
         OrderService orderService = ServiceFactory.getFactory().getOrderService();
         Integer orderId = orderService.saveOrUpdate(orderDto);
+        orderDto.setId(orderId);
 
         List<OrderServiceItemPriceDTO> orderToServiceItemPrices = createOrderToServiceItemPrices(orderDto, serviceItemPricesAndCountForOrder);
+        OrderServiceItemPriceService orderServiceItemPriceService = ServiceFactory.getFactory().getOrderServiceItemPriceService();
 
-        orderDto.setId(orderId);
+        orderServiceItemPriceService.saveOrUpdateAll(orderToServiceItemPrices);
 
         return orderDto;
 
@@ -314,7 +316,8 @@ public class OrderController extends HttpServlet {
     }
 
     /**
-     * Как лучшу сделать? Эти методы добавить в DAO или один раз зделать getAll и передовать
+     * Как лучшу сделать? Методы ниже добавить в DAO или один раз зделать getAll и передовать List в метод?
+     * Иногда передаем все четыре параметра в метод, а находит по двум или трем
      */
 
     public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem) {
