@@ -20,7 +20,7 @@ public class EntityDtoConverter {
 
     public static OrderServiceItemPrice transformToOrderServiceItemPriceEntity(OrderServiceItemPriceDTO orderServiceItemPriceDto){
         OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
-        orderServiceItemPrice.setId(orderServiceItemPrice.getId());
+        orderServiceItemPrice.setId(orderServiceItemPriceDto.getId());
         orderServiceItemPrice.setOrder(transformToOrderEntity(orderServiceItemPriceDto.getOrder()));
         orderServiceItemPrice.setServiceItemPrice(transformToServiceItemPriceEntity(orderServiceItemPriceDto.getServiceItemPrice()));
         if (orderServiceItemPriceDto.getCount() == null){
@@ -44,7 +44,7 @@ public class EntityDtoConverter {
 
     public static Order transformToOrderEntity(OrderDTO orderDto){
         Order order = new Order();
-        order.setId(order.getId());
+        order.setId(orderDto.getId());
         order.setUser(transformToUserEntity(orderDto.getUser()));
         order.setTire(transformToTireEntity(orderDto.getTire()));
         order.setType(transformToTypeEntity(orderDto.getType()));

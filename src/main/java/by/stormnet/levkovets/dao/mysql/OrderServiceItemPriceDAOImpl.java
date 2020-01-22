@@ -24,7 +24,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?)");
 
             statement.setInt(1, obj.getOrder().getId());
             statement.setInt(2, obj.getServiceItemPrice().getId());
@@ -50,8 +50,8 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?");
+            c.setAutoCommit(false);
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?)");
 
             final int batchSize = 100;
             int count = 0;
@@ -72,8 +72,9 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 }
             }
             statement.executeBatch();
+            c.commit();
+            c.setAutoCommit(true);
 
-            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
@@ -108,7 +109,6 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
         }
     }
 
-    @Override
     public void updateAll(List<OrderServiceItemPrice> list) {
 
         Connection c = null;
@@ -140,7 +140,6 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             }
             statement.executeBatch();
 
-            statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
