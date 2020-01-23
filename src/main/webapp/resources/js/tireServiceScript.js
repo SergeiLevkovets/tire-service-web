@@ -1,5 +1,31 @@
 $(document).ready(function () {
 
+    /**
+     * service-item-price
+     * */
+
+    $('#').click(function () {
+        if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
+            alert("Поля «Размер колес» не могут быть пустыми");
+            return;
+        }
+        let url = $(this).val();
+        let dataString = 'width=' + $('#width').val() + '&height=' + $('#height').val() + '&diameter=' + $('#diameter').val();
+        $.ajax({
+            url: url,
+            type: 'get',
+            data: dataString,
+        }).success(function () {
+            alert("Данные сохранены")
+        }).error(function () {
+            alert("Данные не отправлены")
+        })
+
+    })
+
+/**
+ * order-create
+ * */
 
     $('#carBtn').click(function () {
             $('#bus_form').prop('hidden', 'true');
@@ -141,6 +167,9 @@ $(document).ready(function () {
         })*/
     })
 
+/**
+ * registration
+ * */
 
     $('#submit_registration').click(function () {
         if (isEmpty($('#email').val()) || !(($('#email').val().match(/.+?\@.+/g) || []).length === 1)) {
@@ -162,6 +191,9 @@ $(document).ready(function () {
         $('#registration_form').submit();
     });
 
+/**
+ *login
+ * */
 
     $('#submit_login').click(function () {
         if (isEmpty($('#email').val()) & isEmpty($('#phone').val())) {
@@ -187,13 +219,9 @@ $(document).ready(function () {
         $('#login_form').submit();
     })
 
-    $('#submit_forgot').click(function () {
-        if (isEmpty($('#email_forgot').val()) || !(($('#email_forgot').val().match(/.+?\@.+/g) || []).length === 1)) {
-            alert(" Заполните правильно поле «Email»");
-            return;
-        }
-        $('#forgot_form').submit();
-    })
+    /**
+    * profile
+    */
 
     $('#profile_submit').click(function () {
         if (isEmpty($('#profile_name ').val())) {

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-@WebServlet("/authorized/order-car")
+@WebServlet("/authorized/order-create")
 public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,7 +52,7 @@ public class OrderController extends HttpServlet {
             }
         }
 
-        req.getRequestDispatcher("/WEB-INF/pages/order-car.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/pages/order-create.jsp").forward(req, resp);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class OrderController extends HttpServlet {
         OrderDTO order = createOrder(parameters);
 
         String contextPath = req.getContextPath();
-        resp.sendRedirect(contextPath + "/authorized/order-car");
+        resp.sendRedirect(contextPath + "/authorized/order-create");
 
     }
 

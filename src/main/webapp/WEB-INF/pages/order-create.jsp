@@ -274,10 +274,11 @@
                                         ${valveError}
                                         <select class="form-control" id="valve" name="valve">
                                             <option hidden></option>
-                                            <c:forEach items="${valveList}" var="valveItem">
-                                                <option ${paramValues.valve.stream().anyMatch(v->v == valveItem.serviceItem.name).get() ? 'selected' : ''}>${valveItem.serviceItem.name}</option>
+                                            <c:forEach items="${valveList}" var="typeElem">
+                                                <option ${paramValues.valve.stream().anyMatch(v->v == typeElem.serviceItem.name).get() ? 'selected' : ''}>${typeElem.serviceItem.name}</option>
                                             </c:forEach>
-                                        </select></div>
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="content-box-large form-group row">

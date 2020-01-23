@@ -138,7 +138,7 @@ public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices");
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices ORDER BY fk_type_id");
             set = statement.executeQuery();
 
             while (set.next()) {
@@ -175,7 +175,7 @@ public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_service_item_id = ?");
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_service_item_id = ? ORDER BY fk_type_id");
             statement.setInt(1, item.getId());
             set = statement.executeQuery();
 
@@ -213,7 +213,7 @@ public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_type_id = ?");
+            statement = c.prepareStatement("select id, fk_service_item_id, fk_type_id, fk_diameter_id, price from tire_service_db.service_item_prices where fk_type_id = ? ORDER BY fk_service_item_id");
             statement.setInt(1, type.getId());
             set = statement.executeQuery();
 
