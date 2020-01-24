@@ -9,11 +9,11 @@ public interface ServiceItemDAO {
 
     void update(ServiceItem serviceItem);
 
-    void delete(ServiceItem serviceItem);
+    void deleteById(Integer id);
 
     ServiceItem loadById(Integer id);
 
     List<ServiceItem> loadAll();
 
-    ServiceItem loadByName(String name);
+    ServiceItem loadByArticle(String name);
 }

@@ -23,9 +23,10 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.service_items (name) VALUES (?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.service_items (name, article) VALUES (?, ?)");
 
             statement.setString(1, serviceItem.getName());
+            statement.setString(2, serviceItem.getArticle());
 
             statement.executeUpdate();
         } catch(SQLException e) {
@@ -42,10 +43,11 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.service_items SET name = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.service_items SET name = ?, article = ? WHERE id = ?");
 
             statement.setString(1, serviceItem.getName());
-            statement.setInt(2, serviceItem.getId());
+            statement.setString(2, serviceItem.getArticle());
+            statement.setInt(3, serviceItem.getId());
 
             statement.executeUpdate();
 
@@ -57,7 +59,7 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
     }
 
     @Override
-    public void delete(ServiceItem serviceItem) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -65,7 +67,7 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.service_items WHERE id = ?");
 
-            statement.setInt(1, serviceItem.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 
@@ -85,16 +87,18 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name from tire_service_db.service_items where id = ?");
+            statement = c.prepareStatement("select id, name, article from tire_service_db.service_items where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
+                String article = set.getString("article");
                 serviceItem = new ServiceItem();
                 serviceItem.setId(objectId);
                 serviceItem.setName(name);
+                serviceItem.setArticle(article);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
@@ -113,15 +117,17 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name from tire_service_db.service_items");
+            statement = c.prepareStatement("select id, name, article from tire_service_db.service_items");
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
                 String name = set.getString("name");
+                String article = set.getString("article");
                 ServiceItem serviceItem = new ServiceItem();
                 serviceItem.setId(objectId);
                 serviceItem.setName(name);
+                serviceItem.setArticle(article);
                 list.add(serviceItem);
             }
         } catch (SQLException e) {
@@ -133,7 +139,7 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
     }
 
     @Override
-    public ServiceItem loadByName(String name) {
+    public ServiceItem loadByArticle(String article) {
         Connection c = null;
         PreparedStatement statement = null;
         ResultSet set = null;
@@ -141,16 +147,18 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, name from tire_service_db.service_items where name = ?");
-            statement.setString(1, name);
+            statement = c.prepareStatement("select id, name, article from tire_service_db.service_items where article = ?");
+            statement.setString(1, article);
             set = statement.executeQuery();
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                String itemName = set.getString("name");
+                String name = set.getString("name");
+                String art = set.getString("article");
                 serviceItem = new ServiceItem();
                 serviceItem.setId(objectId);
-                serviceItem.setName(itemName);
+                serviceItem.setName(name);
+                serviceItem.setArticle(art);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);

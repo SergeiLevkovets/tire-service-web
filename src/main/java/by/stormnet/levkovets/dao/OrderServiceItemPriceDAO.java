@@ -15,9 +15,9 @@ public interface OrderServiceItemPriceDAO {
 
     public void updateAll(List<OrderServiceItemPrice> list);
 
-    void delete(OrderServiceItemPrice obj);
+    void deleteById(Integer id);
 
-    void deleteByOrder(Order obj);
+    void deleteByOrderId(Integer id);
 
     OrderServiceItemPrice loadById(Integer id);
 

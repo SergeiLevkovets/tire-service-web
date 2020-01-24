@@ -9,7 +9,7 @@ public interface TireDAO {
 
     void update(Tire tire);
 
-    void delete(Tire tire);
+    void deleteById(Integer id);
 
     Tire loadById(Integer id);
 

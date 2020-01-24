@@ -40,9 +40,9 @@ public class WidthServiceImpl implements by.stormnet.levkovets.services.WidthSer
     }
 
     @Override
-    public void delete(WidthDTO obj) {
+    public void deleteById(Integer id) {
         WidthDAO dao = DAOFactory.getFactory().getWidthDAO();
-        dao.delete(EntityDtoConverter.transformToWidthEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

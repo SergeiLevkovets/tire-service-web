@@ -11,7 +11,7 @@ public interface ServiceItemService {
 
     List<ServiceItemDTO> getAll();
 
-    void delete(ServiceItemDTO obj);
+    void deleteById(Integer id);
 
     void saveOrUpdate(ServiceItemDTO serviceItemDto);
 }

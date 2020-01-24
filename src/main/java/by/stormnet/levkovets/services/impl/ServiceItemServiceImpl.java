@@ -22,7 +22,7 @@ public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.Se
     @Override
     public ServiceItemDTO getByName(String name) {
         ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
-        ServiceItem serviceItem = serviceItemDao.loadByName(name);
+        ServiceItem serviceItem = serviceItemDao.loadByArticle(name);
         ServiceItemDTO serviceItemDto = null;
         if (serviceItem != null) {
             serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
@@ -43,9 +43,9 @@ public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.Se
     }
 
     @Override
-    public void delete(ServiceItemDTO obj) {
+    public void deleteById(Integer id) {
         ServiceItemDAO dao = DAOFactory.getFactory().getServiceItemDAO();
-        dao.delete(EntityDtoConverter.transformToServiceItemEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

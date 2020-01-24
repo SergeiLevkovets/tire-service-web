@@ -30,9 +30,9 @@ public class OrderServiceImpl implements by.stormnet.levkovets.services.OrderSer
     }
 
     @Override
-    public void delete(OrderDTO obj) {
+    public void deleteById(Integer id) {
         OrderDAO dao = DAOFactory.getFactory().getOrderDAO();
-        dao.delete(EntityDtoConverter.transformToOrderEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

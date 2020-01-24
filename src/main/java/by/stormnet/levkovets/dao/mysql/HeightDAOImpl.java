@@ -57,7 +57,7 @@ public class HeightDAOImpl implements HeightDAO {
     }
 
     @Override
-    public void delete(Height height) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -65,7 +65,7 @@ public class HeightDAOImpl implements HeightDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.heights WHERE id = ?");
 
-            statement.setInt(1, height.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

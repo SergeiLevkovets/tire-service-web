@@ -11,7 +11,7 @@ public interface WidthService {
 
     List<WidthDTO> getAll();
 
-    void delete(WidthDTO obj);
+    void deleteById(Integer id);
 
     void saveOrUpdate(WidthDTO widthDto);
 }

@@ -28,9 +28,9 @@ public class DiameterServiceImpl implements by.stormnet.levkovets.services.Diame
     }
 
     @Override
-    public void delete(DiameterDTO obj) {
+    public void deleteById(Integer id) {
         DiameterDAO dao = DAOFactory.getFactory().getDiameterDAO();
-        dao.delete(EntityDtoConverter.transformToDiameterEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

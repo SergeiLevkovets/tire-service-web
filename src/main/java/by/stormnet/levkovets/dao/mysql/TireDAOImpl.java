@@ -77,7 +77,7 @@ public class TireDAOImpl implements TireDAO {
     }
 
     @Override
-    public void delete(Tire tire) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -85,7 +85,7 @@ public class TireDAOImpl implements TireDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.tires WHERE id = ?");
 
-            statement.setInt(1, tire.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

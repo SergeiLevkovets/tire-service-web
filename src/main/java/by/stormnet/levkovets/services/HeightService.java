@@ -9,7 +9,7 @@ public interface HeightService {
 
     HeightDTO getByName(String name);
 
-    void delete(HeightDTO obj);
+    void deleteById(Integer id);
 
     List<HeightDTO> getAll();
 

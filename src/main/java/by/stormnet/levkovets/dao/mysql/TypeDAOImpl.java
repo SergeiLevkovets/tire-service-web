@@ -57,7 +57,7 @@ public class TypeDAOImpl implements TypeDAO {
     }
 
     @Override
-    public void delete(Type type) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -65,7 +65,7 @@ public class TypeDAOImpl implements TypeDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.types WHERE id = ?");
 
-            statement.setInt(1, type.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

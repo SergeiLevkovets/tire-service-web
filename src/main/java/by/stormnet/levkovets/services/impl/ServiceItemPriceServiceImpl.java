@@ -26,42 +26,40 @@ public class ServiceItemPriceServiceImpl implements ServiceItemPriceService {
     public List<ServiceItemPriceDTO> getAllByType(TypeDTO type) {
         ServiceItemPriceDAO serviceItemPriceDao = DAOFactory.getFactory().getServiceItemPriceDAO();
         List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByType(EntityDtoConverter.transformToTypeEntity(type));
-        List<ServiceItemPriceDTO> serviceItemPriceDtoList = new ArrayList<>();
-        for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
-            ServiceItemPriceDTO serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
-            serviceItemPriceDtoList.add(serviceItemPriceDto);
-        }
-        return serviceItemPriceDtoList;
+
+        return EntityDtoConverter.transformAllToServiceItemPriceDto(serviceItemPriceList);
     }
+
+    @Override
+    public List<ServiceItemPriceDTO> getAllUniqueByType(TypeDTO type) {
+        ServiceItemPriceDAO serviceItemPriceDao = DAOFactory.getFactory().getServiceItemPriceDAO();
+        List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllUniqueByType(EntityDtoConverter.transformToTypeEntity(type));
+
+        return EntityDtoConverter.transformAllToServiceItemPriceDto(serviceItemPriceList);
+    }
+
+
 
     @Override
     public List<ServiceItemPriceDTO> getAllServiceItemPriceByServiceItem(ServiceItemDTO serviceItem) {
         ServiceItemPriceDAO serviceItemPriceDao = DAOFactory.getFactory().getServiceItemPriceDAO();
         List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAllByItem(EntityDtoConverter.transformToServiceItemEntity(serviceItem));
-        List<ServiceItemPriceDTO> serviceItemPriceDtoList = new ArrayList<>();
-        for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
-            ServiceItemPriceDTO serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
-            serviceItemPriceDtoList.add(serviceItemPriceDto);
-        }
-        return serviceItemPriceDtoList;
+
+        return EntityDtoConverter.transformAllToServiceItemPriceDto(serviceItemPriceList);
     }
 
     @Override
     public List<ServiceItemPriceDTO> getAll() {
         ServiceItemPriceDAO serviceItemPriceDao = DAOFactory.getFactory().getServiceItemPriceDAO();
         List<ServiceItemPrice> serviceItemPriceList = serviceItemPriceDao.loadAll();
-        List<ServiceItemPriceDTO> serviceItemPriceDtoList = new ArrayList<>();
-        for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
-            ServiceItemPriceDTO serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
-            serviceItemPriceDtoList.add(serviceItemPriceDto);
-        }
-        return serviceItemPriceDtoList;
+
+        return EntityDtoConverter.transformAllToServiceItemPriceDto(serviceItemPriceList);
     }
 
     @Override
-    public void delete(ServiceItemPriceDTO obj) {
+    public void deleteById(Integer id) {
         ServiceItemPriceDAO dao = DAOFactory.getFactory().getServiceItemPriceDAO();
-        dao.delete(EntityDtoConverter.transformToServiceItemPriceEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

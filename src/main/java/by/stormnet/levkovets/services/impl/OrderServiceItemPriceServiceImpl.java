@@ -42,15 +42,15 @@ public class OrderServiceItemPriceServiceImpl implements OrderServiceItemPriceSe
     }
 
     @Override
-    public void delete(OrderServiceItemPriceDTO obj) {
+    public void deleteById(Integer id) {
         OrderServiceItemPriceDAO dao = DAOFactory.getFactory().getOrderServiceItemPriceDAO();
-        dao.delete(EntityDtoConverter.transformToOrderServiceItemPriceEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override
-    public void deleteByOrder(OrderDTO obj) {
+    public void deleteByOrderId(Integer id) {
         OrderServiceItemPriceDAO dao = DAOFactory.getFactory().getOrderServiceItemPriceDAO();
-        dao.deleteByOrder(EntityDtoConverter.transformToOrderEntity(obj));
+        dao.deleteByOrderId(id);
     }
 
     @Override

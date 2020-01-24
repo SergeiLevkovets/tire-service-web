@@ -9,6 +9,7 @@ public class ServiceItemDTO implements DTO {
 
     private Integer id;
     private String name;
+    private String article;
 
     public ServiceItemDTO() {
     }
@@ -31,18 +32,27 @@ public class ServiceItemDTO implements DTO {
         this.name = name;
     }
 
+    public String getArticle() {
+        return article;
+    }
+
+    public void setArticle(String article) {
+        this.article = article;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ServiceItemDTO that = (ServiceItemDTO) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(name, that.name);
+                Objects.equals(name, that.name) &&
+                Objects.equals(article, that.article);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, article);
     }
 
     @Override
@@ -50,6 +60,7 @@ public class ServiceItemDTO implements DTO {
         return "ServiceItemDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", article='" + article + '\'' +
                 '}';
     }
 }

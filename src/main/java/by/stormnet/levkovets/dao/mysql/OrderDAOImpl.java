@@ -77,7 +77,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public void delete(Order order) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -85,7 +85,7 @@ public class OrderDAOImpl implements OrderDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.orders WHERE id = ?");
 
-            statement.setInt(1, order.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

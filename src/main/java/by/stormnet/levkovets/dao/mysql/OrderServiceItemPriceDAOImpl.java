@@ -148,7 +148,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
     }
 
     @Override
-    public void delete(OrderServiceItemPrice obj) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -156,7 +156,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.orders_to_service_item_prices WHERE id = ?");
 
-            statement.setInt(1, obj.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 
@@ -168,14 +168,14 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
     }
 
     @Override
-    public void deleteByOrder(Order obj) {
+    public void deleteByOrderId(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
         try {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.orders_to_service_item_prices WHERE fk_orders_id = ?");
-            statement.setInt(1, obj.getId());
+            statement.setInt(1, id);
             statement.executeUpdate();
 
         } catch (SQLException e) {

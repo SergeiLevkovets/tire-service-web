@@ -9,7 +9,7 @@ public interface TypeService {
 
     TypeDTO getByName(String name);
 
-    void delete(TypeDTO obj);
+    void deleteById(Integer id);
 
     List<TypeDTO> getAll();
 

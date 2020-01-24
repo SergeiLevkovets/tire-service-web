@@ -11,7 +11,7 @@ public interface ServiceItemPriceDAO {
 
     void update(ServiceItemPrice serviceItemPrice);
 
-    void delete(ServiceItemPrice serviceItemPrice);
+    void deleteById(Integer id);
 
     ServiceItemPrice loadById(Integer id);
 
@@ -20,4 +20,6 @@ public interface ServiceItemPriceDAO {
     List<ServiceItemPrice> loadAllByItem(ServiceItem item);
 
     List<ServiceItemPrice> loadAllByType(Type type);
+
+    List<ServiceItemPrice> loadAllUniqueByType(Type type);
 }

@@ -19,7 +19,6 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
         if (req.getAttribute("widthList") == null) {
             WidthService widthService = ServiceFactory.getFactory().getWidthService();
             List<WidthDTO> widthList = widthService.getAll();
@@ -39,9 +38,27 @@ public class OrderController extends HttpServlet {
 
         }
 
-        if ((req.getAttribute("patchList") == null) || (req.getAttribute("valveList") == null)) {
+        if ((req.getAttribute("patchList") == null)
+                || (req.getAttribute("valveList") == null)
+                || (req.getAttribute("serviceItemPriceListByType") == null)
+                || (req.getAttribute("serviceItemPriceListUniversal") == null)
+        ) {
             ServiceItemPriceService serviceItemPriceService = ServiceFactory.getFactory().getServiceItemPriceService();
             TypeService typeService = ServiceFactory.getFactory().getTypeService();
+
+            if (req.getAttribute("serviceItemPriceListByType") == null) {
+                if (req.getParameter("type") == null){
+                    List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllUniqueByType(typeService.getByName("car"));
+                    req.setAttribute("serviceItemPriceListByType", list);
+                }else {
+                    List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllUniqueByType(typeService.getByName(req.getParameter("type")));
+                    req.setAttribute("serviceItemPriceListByType", list);
+                }
+            }
+            if (req.getAttribute("serviceItemPriceListUniversal") == null) {
+                List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllByType(typeService.getByName("universal"));
+                req.setAttribute("serviceItemPriceListUniversal", list);
+            }
             if (req.getAttribute("patchList") == null) {
                 List<ServiceItemPriceDTO> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
                 req.setAttribute("patchList", patchList);

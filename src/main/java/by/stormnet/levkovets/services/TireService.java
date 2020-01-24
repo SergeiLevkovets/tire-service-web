@@ -9,7 +9,7 @@ public interface TireService {
 
     List<TireDTO> getAll();
 
-    void delete(TireDTO obj);
+    void deleteById(Integer id);
 
     Integer saveOrUpdate(TireDTO tireDto);
 }

@@ -9,7 +9,7 @@ public interface DiameterService {
 
     DiameterDTO getByName(String name);
 
-    void delete(DiameterDTO obj);
+    void deleteById(Integer id);
 
     List<DiameterDTO> getAll();
 

@@ -57,7 +57,7 @@ public class WidthDAOImpl implements WidthDAO {
     }
 
     @Override
-    public void delete(Width width) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -65,7 +65,7 @@ public class WidthDAOImpl implements WidthDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.widths WHERE id = ?");
 
-            statement.setInt(1, width.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

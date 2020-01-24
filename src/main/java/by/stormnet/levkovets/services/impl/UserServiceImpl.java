@@ -33,9 +33,9 @@ public class UserServiceImpl implements by.stormnet.levkovets.services.UserServi
     }
 
     @Override
-    public void delete(UserDTO obj) {
+    public void deleteById(Integer id) {
         UserDAO dao = DAOFactory.getFactory().getUserDAO();
-        dao.delete(EntityDtoConverter.transformToUserEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

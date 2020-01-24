@@ -29,9 +29,9 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public void delete(TypeDTO obj) {
+    public void deleteById(Integer id) {
         TypeDAO dao = DAOFactory.getFactory().getTypeDAO();
-        dao.delete(EntityDtoConverter.transformToTypeEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

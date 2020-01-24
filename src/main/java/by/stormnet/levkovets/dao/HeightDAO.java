@@ -9,7 +9,7 @@ public interface HeightDAO {
 
     void update(Height height);
 
-    void delete(Height height);
+    void deleteById(Integer id);
 
     Height loadById(Integer id);
 

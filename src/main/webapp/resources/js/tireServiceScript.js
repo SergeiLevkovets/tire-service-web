@@ -23,40 +23,17 @@ $(document).ready(function () {
 
     })
 
-/**
- * order-create
- * */
+    /**
+     * order-create
+     * */
 
-    $('#carBtn').click(function () {
-            $('#bus_form').prop('hidden', 'true');
-            $('#truck_form').prop('hidden', 'true');
-            $('#suv').prop('checked', null);
-            $('#dual').prop('checked', null);
-            $('#ring').prop('checked', null);
-            $('#heavy').prop('checked', null);
+    $('.content-box-header').find(':checkbox').change(function () {
+        if ($(this).find($('.input :input')).val > 0) {
+            $(this).find($('.input')).addClass('has-success')
+        } else {
+            $(this).find($('.input')).removeClass('has-success')
+        }
     })
-
-    $('#busBtn').click(function () {
-            $('#bus_form').prop('hidden', null);
-            $('#truck_form').prop('hidden', 'true');
-            $('#ring').prop('checked', null);
-            $('#heavy').prop('checked', null);
-    })
-
-    $('#truckBtn').click(function () {
-            $('#truck_form').prop('hidden', null);
-            $('#bus_form').prop('hidden', 'true');
-            $('#suv').prop('checked', null);
-            $('#dual').prop('checked', null);
-    })
-
-    $('#ring').click(function () {
-        $('#heavy').removeAttr('checked');
-    })
-    $('#heavy').click(function () {
-        $('#ring').removeAttr('checked');
-    })
-
 
     $('#tireSaveBtn').click(function () {
         if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
@@ -167,9 +144,9 @@ $(document).ready(function () {
         })*/
     })
 
-/**
- * registration
- * */
+    /**
+     * registration
+     * */
 
     $('#submit_registration').click(function () {
         if (isEmpty($('#email').val()) || !(($('#email').val().match(/.+?\@.+/g) || []).length === 1)) {
@@ -191,9 +168,9 @@ $(document).ready(function () {
         $('#registration_form').submit();
     });
 
-/**
- *login
- * */
+    /**
+     *login
+     * */
 
     $('#submit_login').click(function () {
         if (isEmpty($('#email').val()) & isEmpty($('#phone').val())) {
@@ -220,8 +197,8 @@ $(document).ready(function () {
     })
 
     /**
-    * profile
-    */
+     * profile
+     */
 
     $('#profile_submit').click(function () {
         if (isEmpty($('#profile_name ').val())) {
@@ -248,7 +225,7 @@ $(document).ready(function () {
 
 
 function isEmpty(value) {
-    if (value == null){
+    if (value == null) {
         return true;
     }
     return value.trim() === '';

@@ -33,9 +33,9 @@ public class TireServiceImpl implements by.stormnet.levkovets.services.TireServi
     }
 
     @Override
-    public void delete(TireDTO obj) {
+    public void deleteById(Integer id) {
         TireDAO dao = DAOFactory.getFactory().getTireDAO();
-        dao.delete(EntityDtoConverter.transformToTireEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

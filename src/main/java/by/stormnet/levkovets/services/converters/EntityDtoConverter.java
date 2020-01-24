@@ -3,6 +3,9 @@ package by.stormnet.levkovets.services.converters;
 import by.stormnet.levkovets.domain.impl.*;
 import by.stormnet.levkovets.dto.impl.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EntityDtoConverter {
 
     public EntityDtoConverter() {
@@ -119,6 +122,7 @@ public class EntityDtoConverter {
         ServiceItemDTO serviceItemDto = new ServiceItemDTO();
         serviceItemDto.setId(serviceItem.getId());
         serviceItemDto.setName(serviceItem.getName());
+        serviceItemDto.setArticle(serviceItem.getArticle());
         return serviceItemDto;
     }
 
@@ -126,6 +130,7 @@ public class EntityDtoConverter {
         ServiceItem ServiceItem = new ServiceItem();
         ServiceItem.setId(serviceItemDto.getId());
         ServiceItem.setName(serviceItemDto.getName());
+        ServiceItem.setArticle(serviceItemDto.getArticle());
         return ServiceItem;
     }
 
@@ -139,6 +144,15 @@ public class EntityDtoConverter {
         serviceItemPriceDto.setType(transformToTypeDto(serviceItem.getType()));
         serviceItemPriceDto.setPrice(serviceItem.getPrice());
         return serviceItemPriceDto;
+    }
+
+    public static List<ServiceItemPriceDTO> transformAllToServiceItemPriceDto(List<ServiceItemPrice> serviceItemPriceList){
+        List<ServiceItemPriceDTO> serviceItemPriceDtoList = new ArrayList<>();
+        for (ServiceItemPrice serviceItemPrice : serviceItemPriceList) {
+            ServiceItemPriceDTO serviceItemPriceDto = EntityDtoConverter.transformToServiceItemPriceDto(serviceItemPrice);
+            serviceItemPriceDtoList.add(serviceItemPriceDto);
+        }
+        return serviceItemPriceDtoList;
     }
 
     public static ServiceItemPrice transformToServiceItemPriceEntity(ServiceItemPriceDTO serviceItemPriceDto){

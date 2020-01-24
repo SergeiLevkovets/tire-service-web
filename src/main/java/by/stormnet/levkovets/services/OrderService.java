@@ -9,7 +9,7 @@ public interface OrderService {
 
     List<OrderDTO> getAll();
 
-    void delete(OrderDTO obj);
+    void deleteById(Integer id);
 
     Integer saveOrUpdate(OrderDTO orderDto);
 }

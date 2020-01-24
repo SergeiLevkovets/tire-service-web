@@ -76,7 +76,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void delete(User user) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -84,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.users WHERE id = ?");
 
-            statement.setInt(1, user.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

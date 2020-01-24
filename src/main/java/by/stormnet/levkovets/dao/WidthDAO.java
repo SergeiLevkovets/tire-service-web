@@ -9,7 +9,7 @@ public interface WidthDAO {
 
     void update(Width width);
 
-    void delete(Width width);
+    void deleteById(Integer id);
 
     Width loadById(Integer id);
 

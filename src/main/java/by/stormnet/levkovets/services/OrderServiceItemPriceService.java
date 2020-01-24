@@ -12,9 +12,9 @@ public interface OrderServiceItemPriceService {
 
     List<OrderServiceItemPriceDTO> getAllByOrder(OrderDTO dto);
 
-    void delete(OrderServiceItemPriceDTO obj);
+    void deleteById(Integer id);
 
-    void deleteByOrder(OrderDTO obj);
+    void deleteByOrderId(Integer id);
 
     void saveOrUpdate(OrderServiceItemPriceDTO dto);
 

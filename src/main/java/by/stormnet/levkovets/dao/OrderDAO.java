@@ -10,7 +10,7 @@ public interface OrderDAO {
 
     void update(Order order);
 
-    void delete(Order order);
+    void deleteById(Integer id);
 
     Order loadById(Integer id);
 

@@ -57,7 +57,7 @@ public class DiameterDAOImpl implements DiameterDAO {
     }
 
     @Override
-    public void delete(Diameter diameter) {
+    public void deleteById(Integer id) {
         Connection c = null;
         PreparedStatement statement = null;
 
@@ -65,7 +65,7 @@ public class DiameterDAOImpl implements DiameterDAO {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("DELETE FROM tire_service_db.diameters WHERE id = ?");
 
-            statement.setInt(1, diameter.getId());
+            statement.setInt(1, id);
 
             statement.executeUpdate();
 

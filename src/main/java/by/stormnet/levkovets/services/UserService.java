@@ -9,7 +9,7 @@ public interface UserService {
 
     List<UserDTO> getAll();
 
-    void delete(UserDTO obj);
+    void deleteById(Integer id);
 
     Integer saveOrUpdate(UserDTO userDto);
 }

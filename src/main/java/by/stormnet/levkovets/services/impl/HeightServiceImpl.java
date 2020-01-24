@@ -28,9 +28,9 @@ public class HeightServiceImpl implements by.stormnet.levkovets.services.HeightS
     }
 
     @Override
-    public void delete(HeightDTO obj) {
+    public void deleteById(Integer id) {
         HeightDAO dao = DAOFactory.getFactory().getHeightDAO();
-        dao.delete(EntityDtoConverter.transformToHeightEntity(obj));
+        dao.deleteById(id);
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface TypeDAO {
 
     void update(Type type);
 
-    void delete(Type type);
+    void deleteById(Integer id);
 
     Type loadById(Integer id);
 

@@ -11,11 +11,13 @@ public interface ServiceItemPriceService {
 
     List<ServiceItemPriceDTO> getAllByType(TypeDTO type);
 
+    List<ServiceItemPriceDTO> getAllUniqueByType(TypeDTO type);
+
     List<ServiceItemPriceDTO> getAllServiceItemPriceByServiceItem(ServiceItemDTO serviceItem);
 
     List<ServiceItemPriceDTO> getAll();
 
-    void delete(ServiceItemPriceDTO obj);
+    void deleteById(Integer id);
 
     void saveOrUpdate(ServiceItemPriceDTO serviceItemPriceDto);
 }

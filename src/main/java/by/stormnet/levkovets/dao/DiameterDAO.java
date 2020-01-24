@@ -9,7 +9,7 @@ public interface DiameterDAO {
 
     void update(Diameter diameter);
 
-    void delete(Diameter diameter);
+    void deleteById(Integer id);
 
     Diameter loadById(Integer id);
 
