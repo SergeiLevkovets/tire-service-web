@@ -3,6 +3,7 @@ package by.stormnet.levkovets.dao.mysql;
 import by.stormnet.levkovets.dao.ServiceItemDAO;
 import by.stormnet.levkovets.dao.db.ConnectionManager;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
+import by.stormnet.levkovets.domain.impl.Type;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -118,6 +119,39 @@ public class ServiceItemDAOImpl implements ServiceItemDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
             statement = c.prepareStatement("select id, name, article from tire_service_db.service_items");
+            set = statement.executeQuery();
+
+            while (set.next()) {
+                Integer objectId = set.getInt("id");
+                String name = set.getString("name");
+                String article = set.getString("article");
+                ServiceItem serviceItem = new ServiceItem();
+                serviceItem.setId(objectId);
+                serviceItem.setName(name);
+                serviceItem.setArticle(article);
+                list.add(serviceItem);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return list;
+    }
+
+    @Override
+    public List<ServiceItem> loadAllByTypeInServiceItemPrice(Type type) {
+        List<ServiceItem> list = new ArrayList<>();
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("SELECT id, name, article FROM tire_service_db.service_items t, " +
+                    "(SELECT DISTINCT fk_service_item_id FROM tire_service_db.service_item_prices WHERE fk_type_id = ?) AS t2 " +
+                    "WHERE t.id = t2.fk_service_item_id");
+            statement.setInt(1, type.getId());
             set = statement.executeQuery();
 
             while (set.next()) {

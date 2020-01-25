@@ -1,3 +1,34 @@
+function fail() {
+    let url = $('#order_form').attr('action');
+    let param = $('#order_form').serialize();
+    $.ajax({
+        url: url,
+        type: 'get',
+        data: param,
+    }).success(function (response) {
+        let val = response.toString();
+        let html = $(document).html();
+        $(document).html(val.toString())
+    }).error(function () {
+        alert("Данные не отправлены")
+    })
+}
+
+function changeClass() {
+    let inputs = $('.observable [ type = number]');
+    inputs.each(function () {
+        if ($(this).val() > 0) {
+            if (!$(this).parent().parent().is('.has-success')) {
+                $(this).parent().parent().addClass('has-success')
+            }
+        } else {
+            if ($(this).parent().parent().is('.has-success')) {
+                $(this).parent().parent().removeClass('has-success')
+            }
+        }
+    });
+};
+
 $(document).ready(function () {
 
     /**
@@ -27,19 +58,55 @@ $(document).ready(function () {
      * order-create
      * */
 
-    $('.content-box-header').find(':checkbox').change(function () {
-        if ($(this).find($('.input :input')).val > 0) {
-            $(this).find($('.input')).addClass('has-success')
+
+
+    $('.observable [ type = number]').on('input', function () {
+        if ($(this).val() > 0) {
+            if (!$(this).parent().parent().is('.has-success')) {
+                $(this).parent().parent().addClass('has-success')
+            }
         } else {
-            $(this).find($('.input')).removeClass('has-success')
+            if ($(this).parent().parent().is('.has-success')) {
+                $(this).parent().parent().removeClass('has-success')
+            }
         }
-    })
+    });
+
+    $('.observable :button').click(function () {
+        let elem = $(this).parent().parent().next();
+        let value = elem.find('[type = number]').val();
+        if (value > 0) {
+            if (!elem.is('.has-success')) {
+                elem.addClass('has-success')
+            }
+        } else {
+            if (elem.is('.has-success')) {
+                elem.removeClass('has-success')
+            }
+        }
+    });
+
+    $('#complex').click(function () {
+        if (isEmpty($('#wheelCount').val())) {
+            alert("Поле «Количество колес» не может быть пустым");
+            return;
+        }
+        $('#mounting').val($('#wheelCount').val());
+        $('#dismantling').val($('#wheelCount').val());
+        $('#wheelRemove').val($('#wheelCount').val());
+        $('#wheelInstall').val($('#wheelCount').val());
+        $('#balancing').val($('#wheelCount').val());
+
+        changeClass();
+    });
+
 
     $('#tireSaveBtn').click(function () {
         if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
             alert("Поля «Размер колес» не могут быть пустыми");
             return;
         }
+        $(document)
         let url = $(this).val();
         let dataString = 'width=' + $('#width').val() + '&height=' + $('#height').val() + '&diameter=' + $('#diameter').val();
         $.ajax({
@@ -52,48 +119,7 @@ $(document).ready(function () {
             alert("Данные не отправлены")
         })
 
-    })
-
-
-    $('#complex').click(function () {
-        $('#mounting').prop('checked', 'true');
-        $('#wheelRemove').prop('checked', 'true');
-        $('#balancing').prop('checked', 'true');
-    })
-
-    $('#valveReplacement').click(function () {
-        if ($('#valveReplacement').prop('checked')) {
-            $('#valveCount').prop('required', 'true')
-        } else {
-            $('#valveCount').prop('required', null)
-            $('#valveCount').val('')
-            $('#valve').val('')
-        }
-    })
-
-    $('#sealing').click(function () {
-        if ($('#sealing').prop('checked')) {
-            $('#sealingCount').prop('required', 'true')
-        } else {
-            $('#sealingCount').prop('required', null)
-            $('#sealingCount').val('')
-        }
-    })
-
-    $('#repair input').click(function () {
-        if ($('#diagnostic').prop('checked')
-            || $('#punctureRepair').prop('checked')
-            || $('#cutRepair').prop('checked')
-            || $('#bigCutRepair').prop('checked')
-            || $('#verticalCutRepair').prop('checked')
-            || $('#diagnostic').prop('checked')) {
-            $('#repairCount').prop('required', 'true')
-        } else {
-            $('#repairCount').prop('required', null)
-            $('#repairCount').val('')
-            $('#patch').val('')
-        }
-    })
+    });
 
     $('#submit_order').click(function () {
         if (isEmpty($('#wheelCount').val())) {
@@ -104,32 +130,8 @@ $(document).ready(function () {
             alert("Поля «Размер колес» не могут быть пустыми");
             return;
         }
-        if ($('#valveReplacement').prop('checked')) {
-            if (isEmpty($('#valveCount').val())) {
-                alert("Поле «Количество вентелей» не может быть пустым");
-                return;
-            }
-        }
-        if ($('#sealing').prop('checked')) {
-            if (isEmpty($('#sealingCount').val())) {
-                alert("Поле «Количество колес для гермитизации» не может быть пустым");
-                return;
-            }
-        }
-        if ($('#diagnostic').prop('checked')
-            || $('#punctureRepair').prop('checked')
-            || $('#cutRepair').prop('checked')
-            || $('#bigCutRepair').prop('checked')
-            || $('#verticalCutRepair').prop('checked')
-            || $('#diagnostic').prop('checked')) {
 
-            if (isEmpty($('#repairCount').val())) {
-                alert("Поле «Количество колес для ремонта» не может быть пустым");
-                return;
-            }
-        }
-
-        $('#order').submit();
+        $('#order_form').submit();
 
         /*let url = $('#order').attr('action');
         let param = $('#order').serialize();
@@ -142,7 +144,9 @@ $(document).ready(function () {
         }).error(function () {
             alert("Данные формы не отправлены")
         })*/
-    })
+    });
+
+    changeClass();
 
     /**
      * registration

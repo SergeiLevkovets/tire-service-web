@@ -19,37 +19,36 @@
                 <div class="panel-body">
                     <div class="panel-body">
 
-                        <form name="order" id="order"
+                        <form name="order" id="order_form"
                               action="${pageContext.request.contextPath}/authorized/order-create"
-                              method="post">
+                              method="get">
 
                             <fieldset class="content-box-large">
+                                <c:url value="/authorized/order-create" var="car_url">
+                                    <c:param name="type" value="car"/>
+                                </c:url>
+                                <c:url value="/authorized/order-create" var="bus_url">
+                                    <c:param name="type" value="bus"/>
+                                </c:url>
+                                <c:url value="/authorized/order-create" var="truck_url">
+                                    <c:param name="type" value="truck"/>
+                                </c:url>
                                 <div class="form-group">
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons" id="typeParam">
-                                        <label href="order-create" id="carBtn"
+                                        <label id="carBtn"
                                                class="btn btn-info ${param.type == null || param.type == 'car' ? 'active' : ''}">
-                                            <c:url value="/authorized/order-create" var="order-create">
-                                                <c:param name="type" value="car"/>
-                                            </c:url>
-                                            <input type="radio" name="type" id="car" value="car" checked
-                                                   required>
+                                            <input type="radio" name="type" id="car" value="car" onchange="window.location = '${car_url}'" checked required>
                                             Легвой
                                         </label>
-                                        <label href="order-create" id="busBtn" class="btn btn-info ${param.type == 'bus' ? 'active' : ''}">
-                                            <c:url value="/authorized/order-create" var="order-create">
-                                                <c:param name="type" value="bus"/>
-                                            </c:url>
-                                            <input  type="radio" name="type" id="bus"
-                                                   value="bus" ${param.type == 'bus' ? 'checked' : ''} required>
+                                        <label id="busBtn" class="btn btn-info ${param.type == 'bus' ? 'active' : ''}">
+                                            <input type="radio" name="type" id="bus"
+                                                   value="bus" ${param.type == 'bus' ? 'checked' : ''} onchange="window.location = '${bus_url}'" required >
                                             Микроавтобус / джип
                                         </label>
-                                        <label href="order-create" id="truckBtn"
+                                        <label id="truckBtn"
                                                class="btn btn-info ${param.type == 'truck' ? 'active' : ''}">
-                                            <c:url value="/authorized/order-create" var="order-create">
-                                                <c:param name="type" value="truck"/>
-                                            </c:url>
                                             <input type="radio" name="type" id="truck"
-                                                   value="truck" ${param.type == 'truck' ? 'checked' : ''} required>
+                                                   value="truck" ${param.type == 'truck' ? 'checked' : ''} onchange="window.location = '${truck_url}'" required>
                                             Грузовой
                                         </label>
                                     </div>
@@ -134,111 +133,111 @@
                                 </div>
 
                                 <div id="operation_div">
-                                    <div class="row panel-heading">
-                                        <div class="panel-title">Основные операции</div>
-                                    </div>
-                                    <c:forEach items="${serviceItemPriceListByType}" var="serviceItemPrice">
-                                        <div class="content-box-header row">
-                                            <div class="col-md-1">
-                                                <input type="checkbox" name="${serviceItemPrice.serviceItem.article}"
-                                                       id="${serviceItemPrice.serviceItem.article}">
-                                            </div>
-                                            <div class="btn-toolbar col-md-3" role="toolbar"
-                                                 aria-label="Toolbar with button groups">
-                                                <div class="btn-group mr-2" role="group"
-                                                     aria-label="First group">
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val('')">
-                                                        0
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(1)">
-                                                        1
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(2)">
-                                                        2
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(3)">
-                                                        3
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(4)">
-                                                        4
-                                                    </button>
+                                    <div class="content-box">
+                                        <div class="row panel-heading">
+                                            <div class="panel-title">Основные операции</div>
+                                        </div>
+                                        <div class="row btn">
+                                            <button type="button" class="btn btn-default" id="complex"
+                                                    name="complex">Комплекс
+                                            </button>
+                                        </div>
+                                        <c:forEach items="${serviceItemListByType}" var="serviceItem">
+                                            <div class="observable content-box-header row">
+                                                <div class="btn-toolbar col-md-4" role="toolbar"
+                                                     aria-label="Toolbar with button groups">
+                                                    <div class="btn-group mr-2" role="group"
+                                                         aria-label="First group">
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val('')">
+                                                            0
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(1)">
+                                                            1
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(2)">
+                                                            2
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(3)">
+                                                            3
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(4)">
+                                                            4
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="input col-md-2">
-                                                <div class="input-group">
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
                                                         <span class="input-group-addon"><i
                                                                 class="fa fa-dollar"></i></span>
-                                                    <input type="number" class="form-control"
-                                                           id="${serviceItemPrice.serviceItem.article}Count"
-                                                           name="${serviceItemPrice.serviceItem.article}Count" min="1">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-check"></i></span>
+                                                        <input type="number" class="form-control" id="${serviceItem.article}"
+                                                               name="${serviceItem.article}" min="1" value="${param.get(serviceItem.article)}"
+                                                        >
+                                                        <span class="input-group-addon"><i
+                                                                class="fa fa-check"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="panel-title">${serviceItem.name}</div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="panel-title">${serviceItemPrice.serviceItem.name}</div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
-
-                                    <div class="row panel-heading">
-                                        <div class="panel-title">Дополнительные операции</div>
+                                        </c:forEach>
                                     </div>
-                                    <c:forEach items="${serviceItemPriceListUniversal}" var="serviceItemPrice">
-                                        <div class="content-box-header row">
-                                            <div class="col-md-1">
-                                                <input type="checkbox" name="${serviceItemPrice.serviceItem.article}"
-                                                       id="${serviceItemPrice.serviceItem.article}"/>
-                                            </div>
-                                            <div class="btn-toolbar col-md-3" role="toolbar"
-                                                 aria-label="Toolbar with button groups">
-                                                <div class="btn-group mr-2" role="group"
-                                                     aria-label="First group">
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val('')">
-                                                        0
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(1)">
-                                                        1
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(2)">
-                                                        2
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(3)">
-                                                        3
-                                                    </button>
-                                                    <button type="button" class="btn btn-default"
-                                                            onclick="$('#${serviceItemPrice.serviceItem.article}Count').val(4)">
-                                                        4
-                                                    </button>
+
+                                    <div class="content-box">
+                                        <div class="row panel-heading">
+                                            <div class="panel-title">Дополнительные операции</div>
+                                        </div>
+                                        <c:forEach items="${serviceItemListUniversal}" var="serviceItem">
+                                            <div class="observable content-box-header row">
+                                                <div class="btn-toolbar col-md-4" role="toolbar"
+                                                     aria-label="Toolbar with button groups">
+                                                    <div class="btn-group mr-2" role="group"
+                                                         aria-label="First group">
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val('')">
+                                                            0
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(1)">
+                                                            1
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(2)">
+                                                            2
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(3)">
+                                                            3
+                                                        </button>
+                                                        <button type="button" class="btn btn-default"
+                                                                onclick="$('#${serviceItem.article}').val(4)">
+                                                            4
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="input col-md-2">
-                                                <div class="input-group">
+                                                <div class="col-md-2">
+                                                    <div class="input-group">
                                                         <span class="input-group-addon"><i
                                                                 class="fa fa-dollar"></i></span>
-                                                    <input type="number" class="form-control"
-                                                           id="${serviceItemPrice.serviceItem.article}Count"
-                                                           name="${serviceItemPrice.serviceItem.article}Count" min="1">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-check"></i></span>
+                                                        <input type="number" class="form-control" id="${serviceItem.article}"
+                                                               name="${serviceItem.article}" min="1" value="${param.get(serviceItem.article)}">
+                                                        <span class="input-group-addon"><i
+                                                                class="fa fa-check"></i></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="panel-title">${serviceItem.name}</div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="panel-title">${serviceItemPrice.serviceItem.name}</div>
-                                            </div>
-                                        </div>
-                                    </c:forEach>
+                                        </c:forEach>
+                                    </div>
 
-                                    <div class="content-box form-group row">
+                                    <div class="observable content-box form-group row">
                                         <div class="row panel-heading">
                                             <div class="panel-title">Вентили</div>
                                         </div>
@@ -276,14 +275,14 @@
                                             <select class="form-control" id="valve" name="valve">
                                                 <option hidden></option>
                                                 <c:forEach items="${valveList}" var="valveItem">
-                                                    <option ${paramValues.valve.stream().anyMatch(v->v == valveItem.id).get() ? 'selected' : ''}
-                                                            value="${valveItem.id}">${valveItem.serviceItem.name}</option>
+                                                    <option ${paramValues.valve.stream().anyMatch(v->v == valveItem.article).get() ? 'selected' : ''}
+                                                            value="${valveItem.article}">${valveItem.name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="content-box form-group row">
+                                    <div class="observable content-box form-group row">
                                         <div class="row panel-heading">
                                             <div class="panel-title">Латки</div>
                                         </div>
@@ -321,8 +320,8 @@
                                             <select class="form-control" id="patch" name="patch">
                                                 <option hidden></option>
                                                 <c:forEach items="${patchList}" var="patchItem">
-                                                    <option ${paramValues.patch.stream().anyMatch(v->fn:startsWith(v, patchItem.serviceItem.article)).get() ? 'selected' : ''}
-                                                            value="${patchItem.serviceItem.article}">${patchItem.serviceItem.name}</option>
+                                                    <option ${paramValues.patch.stream().anyMatch(v->fn:startsWith(v, patchItem.article)).get() ? 'selected' : ''}
+                                                            value="${patchItem.article}">${patchItem.name}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>

@@ -1,6 +1,7 @@
 package by.stormnet.levkovets.dao;
 
 import by.stormnet.levkovets.domain.impl.ServiceItem;
+import by.stormnet.levkovets.domain.impl.Type;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface ServiceItemDAO {
     ServiceItem loadById(Integer id);
 
     List<ServiceItem> loadAll();
+
+    List<ServiceItem> loadAllByTypeInServiceItemPrice(Type type);
 
     ServiceItem loadByArticle(String name);
 }

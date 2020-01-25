@@ -4,6 +4,7 @@ import by.stormnet.levkovets.dao.ServiceItemDAO;
 import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.ServiceItem;
 import by.stormnet.levkovets.dto.impl.ServiceItemDTO;
+import by.stormnet.levkovets.dto.impl.TypeDTO;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
@@ -34,6 +35,18 @@ public class ServiceItemServiceImpl implements by.stormnet.levkovets.services.Se
     public List<ServiceItemDTO> getAll() {
         ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
         List<ServiceItem> serviceItemList = serviceItemDao.loadAll();
+        List<ServiceItemDTO> serviceItemDtoList = new ArrayList<>();
+        for (ServiceItem serviceItem : serviceItemList) {
+            ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);
+            serviceItemDtoList.add(serviceItemDto);
+        }
+        return serviceItemDtoList;
+    }
+
+    @Override
+    public List<ServiceItemDTO> getAllByTypeInServiceItemPrice(TypeDTO type) {
+        ServiceItemDAO serviceItemDao = DAOFactory.getFactory().getServiceItemDAO();
+        List<ServiceItem> serviceItemList = serviceItemDao.loadAllByTypeInServiceItemPrice(EntityDtoConverter.transformToTypeEntity(type));
         List<ServiceItemDTO> serviceItemDtoList = new ArrayList<>();
         for (ServiceItem serviceItem : serviceItemList) {
             ServiceItemDTO serviceItemDto = EntityDtoConverter.transformToServiceItemDto(serviceItem);

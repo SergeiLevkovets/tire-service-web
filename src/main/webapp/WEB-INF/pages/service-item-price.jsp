@@ -30,21 +30,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${serviceItemPriceList}" var="serviceItemPrice">
+                                <c:forEach items="${serviceItemPriceList}" var="serviceItem">
                                     <tr>
-                                        <td>${serviceItemPrice.id}</td>
-                                        <td>${serviceItemPrice.serviceItem.name}</td>
-                                        <td>${serviceItemPrice.serviceItem.article}</td>
-                                        <td>${serviceItemPrice.type.type}</td>
-                                        <td>${serviceItemPrice.diameter.diameter}</td>
-                                        <td>${serviceItemPrice.price}</td>
+                                        <td>${serviceItem.id}</td>
+                                        <td>${serviceItem.serviceItem.name}</td>
+                                        <td>${serviceItem.serviceItem.article}</td>
+                                        <td>${serviceItem.type.type}</td>
+                                        <td>${serviceItem.diameter.diameter}</td>
+                                        <td>${serviceItem.price}</td>
                                         <td>
                                             <c:url value="/authorized/admin/service-item-price" var="update">
-                                                <c:param name="serviceItemPrice_update" value="${serviceItemPrice.id}"/>
+                                                <c:param name="serviceItemPrice_update" value="${serviceItem.id}"/>
                                             </c:url>
                                             <a href="${update}" class="btn btn-info" id="update"><i class="glyphicon glyphicon-refresh"></i> Update</a>
                                             <c:url value="/authorized/admin/service-item-price" var="delete">
-                                                <c:param name="serviceItemPrice_delete" value="${serviceItemPrice.id}"/>
+                                                <c:param name="serviceItemPrice_delete" value="${serviceItem.id}"/>
                                             </c:url>
                                             <a href="${delete}" class="btn btn-danger" id="delete"><i class="glyphicon glyphicon-remove"></i> Delete</a>
                                         </td>

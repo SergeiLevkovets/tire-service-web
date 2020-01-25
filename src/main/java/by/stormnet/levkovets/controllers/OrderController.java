@@ -40,31 +40,32 @@ public class OrderController extends HttpServlet {
 
         if ((req.getAttribute("patchList") == null)
                 || (req.getAttribute("valveList") == null)
-                || (req.getAttribute("serviceItemPriceListByType") == null)
-                || (req.getAttribute("serviceItemPriceListUniversal") == null)
+                || (req.getAttribute("serviceItemListByType") == null)
+                || (req.getAttribute("serviceItemListUniversal") == null)
         ) {
-            ServiceItemPriceService serviceItemPriceService = ServiceFactory.getFactory().getServiceItemPriceService();
+            ServiceItemService serviceItemService = ServiceFactory.getFactory().getServiceItemService();
             TypeService typeService = ServiceFactory.getFactory().getTypeService();
 
-            if (req.getAttribute("serviceItemPriceListByType") == null) {
-                if (req.getParameter("type") == null){
-                    List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllUniqueByType(typeService.getByName("car"));
-                    req.setAttribute("serviceItemPriceListByType", list);
-                }else {
-                    List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllUniqueByType(typeService.getByName(req.getParameter("type")));
-                    req.setAttribute("serviceItemPriceListByType", list);
+            if (req.getAttribute("serviceItemListByType") == null) {
+                if (req.getParameter("type") == null) {
+                    List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("car"));
+                    req.setAttribute("serviceItemListByType", list);
+                } else {
+                    String type = req.getParameter("type");
+                    List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName(type));
+                    req.setAttribute("serviceItemListByType", list);
                 }
             }
-            if (req.getAttribute("serviceItemPriceListUniversal") == null) {
-                List<ServiceItemPriceDTO> list = serviceItemPriceService.getAllByType(typeService.getByName("universal"));
-                req.setAttribute("serviceItemPriceListUniversal", list);
+            if (req.getAttribute("serviceItemListUniversal") == null) {
+                List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("universal"));
+                req.setAttribute("serviceItemListUniversal", list);
             }
             if (req.getAttribute("patchList") == null) {
-                List<ServiceItemPriceDTO> patchList = serviceItemPriceService.getAllByType(typeService.getByName("patch"));
+                List<ServiceItemDTO> patchList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("patch"));
                 req.setAttribute("patchList", patchList);
             }
             if (req.getAttribute("valveList") == null) {
-                List<ServiceItemPriceDTO> valveList = serviceItemPriceService.getAllByType(typeService.getByName("valve"));
+                List<ServiceItemDTO> valveList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("valve"));
                 req.setAttribute("valveList", valveList);
             }
         }
@@ -205,10 +206,7 @@ public class OrderController extends HttpServlet {
 
         List<ServiceItemPriceDTO> serviceItemPriceDTOAll = serviceItemPriceService.getAll();
 
-        Integer wheelCount = Integer.valueOf(parameters.get("wheelCount"));
-
         for (String parameterName : parameters.keySet()) {
-            Integer defaultCount = wheelCount;
             ServiceItemDTO serviceItemDTO = serviceItemService.getByName(parameterName);
             if (serviceItemDTO == null) {
                 serviceItemDTO = serviceItemService.getByName(parameters.get(parameterName));
@@ -216,117 +214,21 @@ public class OrderController extends HttpServlet {
                     continue;
                 }
                 if (parameterName.equals("valve")) {
-                    defaultCount = Integer.parseInt(parameters.get("valveCount"));
+                    int valveCount = Integer.parseInt(parameters.get("valveCount"));
+                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO, diameterDTO);
+                    serviceItemPriceDtoList.put(serviceItemPrice, valveCount);
+                    continue;
                 }
                 if (parameterName.equals("patch")) {
-                    defaultCount = Integer.parseInt(parameters.get("repairCount"));
-                }
-
-            }
-            switch (parameterName) {
-                case "mounting": {
-                    if (parameters.containsKey("suv")) {
-                        TypeDTO type = typeService.getByName("suv");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    if (parameters.containsKey("heavy")) {
-                        TypeDTO type = typeService.getByName("heavy");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    if (parameters.containsKey("ring")) {
-                        TypeDTO type = typeService.getByName("ring");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
+                    int repairCount = Integer.parseInt(parameters.get("repairCount"));
                     ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO, diameterDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                case "balancing": {
-                    if (parameters.containsKey("suv")) {
-                        TypeDTO type = typeService.getByName("suv");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO, diameterDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-
-                }
-                case "wheelRemove": {
-                    if (parameters.containsKey("heavy")) {
-                        TypeDTO type = typeService.getByName("heavy");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    if (parameters.containsKey("dual")) {
-                        TypeDTO type = typeService.getByName("dual");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    if (parameters.containsKey("suv")) {
-                        TypeDTO type = typeService.getByName("suv");
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                case "pumping": {
-                    if (typeName.equals("truck")) {
-                        if (parameters.containsKey("heavy")) {
-                            TypeDTO type = typeService.getByName("heavy");
-                            ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, type);
-                            serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                            break;
-                        }
-                        ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO);
-                        serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                        break;
-                    }
-                    TypeDTO universalType = typeService.getByName("universal");
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, universalType);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                case "valveReplacement": {
-                    defaultCount = Integer.parseInt(parameters.get("valveCount"));
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                case "sealing": {
-                    defaultCount = Integer.parseInt(parameters.get("sealingCount"));
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                case "diagnostic":
-                case "punctureRepair":
-                case "cutRepair":
-                case "bigCutRepair":
-                case "verticalCutRepair": {
-                    defaultCount = Integer.parseInt(parameters.get("repairCount"));
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
-                }
-                default: {
-                    ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO);
-                    serviceItemPriceDtoList.put(serviceItemPrice, defaultCount);
-                    break;
+                    serviceItemPriceDtoList.put(serviceItemPrice, repairCount);
+                    continue;
                 }
             }
+            int count = Integer.parseInt(parameters.get(parameterName));
+            ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, orderTypeDTO, diameterDTO);
+            serviceItemPriceDtoList.put(serviceItemPrice, count);
         }
 
         return serviceItemPriceDtoList;
@@ -334,16 +236,8 @@ public class OrderController extends HttpServlet {
 
     /**
      * Как лучшу сделать? Методы ниже добавить в DAO или один раз зделать getAll и передовать List в метод?
-     * Иногда передаем все четыре параметра в метод, а находит по двум или трем
+     * передаем четыре параметра в метод, а находит по одному или двум, или трем, не считая list
      */
-
-    public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem) {
-        return findServiceItemPrice(list, serviceItem, null, null);
-    }
-
-    public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type) {
-        return findServiceItemPrice(list, serviceItem, type, null);
-    }
 
     public ServiceItemPriceDTO findServiceItemPrice(List<ServiceItemPriceDTO> list, ServiceItemDTO serviceItem, TypeDTO type, DiameterDTO diameter) {
         ServiceItemPriceDTO itemPriceDto = null;
@@ -377,6 +271,7 @@ public class OrderController extends HttpServlet {
             return serviceItemPriceDtoByTypeList.get(0);
 
         }
+
         for (ServiceItemPriceDTO serviceItemPrice : serviceItemPriceDtoByTypeList) {
             if (serviceItemPrice.getDiameter().equals(diameter)) {
                 itemPriceDto = serviceItemPrice;

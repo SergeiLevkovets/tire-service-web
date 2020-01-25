@@ -96,7 +96,7 @@ CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
 
 ################################################
 
-INSERT INTO tire_service_db.users (id, name, email, password, phone) value (1, 'root', 'email@email', 'root', '8 029 111 11 11');
+INSERT INTO tire_service_db.users (id, name, email, password, phone) value (1, 'root', 'email@email.ru', 'root', '8 029 111 11 11');
 
 INSERT INTO tire_service_db.diameters (diameter)
 VALUES ('r13'),
@@ -331,7 +331,6 @@ VALUES
 
        ((SELECT id from tire_service_db.service_items where article = 'valveReplacement' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
        ((SELECT id from tire_service_db.service_items where article = 'balanceWeightsAdhesive' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
-       ((SELECT id from tire_service_db.service_items where article = 'dismantling' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
        ((SELECT id from tire_service_db.service_items where article = 'cameraInsert' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
        ((SELECT id from tire_service_db.service_items where article = 'cleaning' ),(Select id from tire_service_db.types where type = 'universal'), null, 1.00),
        ((SELECT id from tire_service_db.service_items where article = 'diagnostic' ),(Select id from tire_service_db.types where type = 'universal'), null, 2.00),
