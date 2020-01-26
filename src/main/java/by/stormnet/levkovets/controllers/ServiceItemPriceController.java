@@ -97,7 +97,8 @@ public class ServiceItemPriceController extends HttpServlet {
             return;
         }
 
-        req.getRequestDispatcher("/WEB-INF/pages/service-item-price.jsp").forward(req, resp);
+        String contextPath = req.getContextPath();
+        req.getRequestDispatcher(contextPath + "/authorized/admin/service-item-price").forward(req, resp);
     }
 
     private boolean validateData(HttpServletRequest req) {

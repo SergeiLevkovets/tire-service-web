@@ -96,21 +96,6 @@ $(document).ready(function () {
         }
     });
 
-   /* $('#carBtn').click(function () {
-        $('#bus_form').prop('hidden', 'true');
-        $('#truck_form').prop('hidden', 'true');
-    })
-
-    $('#busBtn').click(function () {
-        $('#bus_form').prop('hidden', null);
-        $('#truck_form').prop('hidden', 'true');
-    })
-
-    $('#truckBtn').click(function () {
-        $('#truck_form').prop('hidden', null);
-        $('#bus_form').prop('hidden', 'true');
-    })*/
-
     $('#complex_car').click(function () {
         if (isEmpty($('#wheelCount').val())) {
             alert("Поле «Количество колес» не может быть пустым");
@@ -255,7 +240,6 @@ $(document).ready(function () {
     })
 
     $('#saveFormBtn').click(function () {
-        // $('#submit_message').empty();
         $('#order_form').submit();
     })
 

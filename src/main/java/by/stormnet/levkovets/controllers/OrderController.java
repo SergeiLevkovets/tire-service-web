@@ -20,6 +20,7 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (req.getParameter("getInformationByOrder") != null) {
+//            ajax
             Map<String, String> parameters = getAllNotNullParam(req);
             Map<ServiceItemPriceDTO, Integer> serviceItemPricesAndCountForOrder = findAllServiceItemPricesAndCountByParameters(parameters);
 

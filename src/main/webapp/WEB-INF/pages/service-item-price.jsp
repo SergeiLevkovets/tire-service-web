@@ -68,7 +68,7 @@
                               action="${pageContext.request.contextPath}/authorized/admin/service-item-price"
                               method="post">
                             <div class="form-group row">
-                                <div class="col-md-1" ${serviceItemForUpdate.id == null ? 'hidden' : ''}>
+                                <div class="col-md-1" ${serviceItemForUpdate.id == null ? (param.serviceItemPriceId == null ? 'hidden' : '') : ''}>
                                     <label for="serviceItemId">ID</label>
                                     <input type="text" class="form-control" name="serviceItemPriceId" id="serviceItemId" readonly
                                            value="${param.serviceItemPriceId == null ? serviceItemForUpdate.id : param.serviceItemPriceId}" >
