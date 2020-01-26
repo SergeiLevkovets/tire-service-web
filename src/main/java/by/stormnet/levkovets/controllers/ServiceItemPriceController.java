@@ -43,7 +43,9 @@ public class ServiceItemPriceController extends HttpServlet {
 
         if (req.getParameter("serviceItemPrice_delete") != null){
             Integer id = HttpUtils.getIntParam(req, "serviceItemPrice_delete");
+
             serviceItemPriceService.deleteById(id);
+
             String contextPath = req.getContextPath();
             resp.sendRedirect(contextPath + "/authorized/admin/service-item-price");
             return;
@@ -94,11 +96,12 @@ public class ServiceItemPriceController extends HttpServlet {
 
             String contextPath = req.getContextPath();
             resp.sendRedirect(contextPath + "/authorized/admin/service-item-price");
-            return;
+
+        }else {
+            String contextPath = req.getContextPath();
+            req.getRequestDispatcher(contextPath + "/authorized/admin/service-item-price").forward(req, resp);
         }
 
-        String contextPath = req.getContextPath();
-        req.getRequestDispatcher(contextPath + "/authorized/admin/service-item-price").forward(req, resp);
     }
 
     private boolean validateData(HttpServletRequest req) {

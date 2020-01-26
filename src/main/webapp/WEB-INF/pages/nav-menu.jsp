@@ -7,4 +7,5 @@
 <li class="${sessionScope.authorizedUserName != null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/registration"> <i class="glyphicon glyphicon-floppy-disk"></i> Registration </a> </li>
 <li class="${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/logout"> <i class="glyphicon glyphicon-log-out"></i> Logout </a> </li>
 <li class="${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/admin/service-item-price"> <i class="glyphicon glyphicon-list"></i> ServiceItemPrice </a> </li>
+<li class="${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/admin/element-change"> <i class="glyphicon glyphicon-list"></i> ServiceElements </a> </li>
 <li><a href="${pageContext.request.contextPath}/404"> <i class="glyphicon glyphicon-warning-sign"></i> 404 </a> </li>

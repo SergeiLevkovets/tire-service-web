@@ -32,20 +32,53 @@ function changeClass() {
 $(document).ready(function () {
 
     /**
+     * element-change
+     * */
+
+    $('#saveElemChange').click(function () {
+
+        let isNameEmpty = isEmpty($('#elemName').val());
+
+        if (isNameEmpty) {
+            alert("Поле «" + $('#labelElemName').text() + "» не может быть пустыми");
+            return;
+        }
+
+        let itemChecked = $('#serviceItemChange').prop("checked");
+        let isArticleEmpty = isEmpty($('#elemArticle').val());
+
+        if ( itemChecked && isArticleEmpty) {
+            alert("Поле «" + $('#labelElemArticle').text() + "» не может быть пустыми");
+            return;
+        }
+
+        let diameterChecked = $('#diameterChange').prop("checked");
+        let isRegex = !(/[r][\d,.]+/.test(($('#elemName').val())));
+
+        if (diameterChecked && isRegex){
+            alert("Поле «" + $('#labelElemName').text() + "» должно начинаться с буквы \"r\", а дальше цифрами указывается размер диаметер диска");
+            return;
+        }
+
+        $('#elemChangeForm').submit();
+
+    })
+
+    /**
      * service-item-price
      * */
 
     $('#saveServiceItemPrice').click(function () {
         if (isEmpty($('#serviceItem').val())) {
-            alert("Поля «ServiceItem» не может быть пустыми");
+            alert("Поле «ServiceItem» не может быть пустыми");
             return;
         }
         if (isEmpty($('#type').val())) {
-            alert("Поля «Type» не может быть пустыми");
+            alert("Поле «Type» не может быть пустыми");
             return;
         }
         if (isEmpty($('#price').val())) {
-            alert("Поля «Price» не может быть пустыми");
+            alert("Поле «Price» не может быть пустыми");
             return;
         }
 

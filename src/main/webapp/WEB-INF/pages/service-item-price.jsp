@@ -55,14 +55,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <c:url value="" var="getServiceItem">
-                            <c:param name="serviceItem_get" value="serviceItem"/>
+                        <c:url value="/authorized/admin/element-change" var="getServiceItem">
+                            <c:param name="elementChange" value="serviceItemChange"/>
                         </c:url>
-                        <c:url value="" var="getType">
-                            <c:param name="type_get" value="type"/>
-                        </c:url>
-                        <c:url value="" var="getDiameter">
-                            <c:param name="diameter_get" value="diameter"/>
+                        <c:url value="/authorized/admin/element-change" var="getDiameter">
+                            <c:param name="elementChange" value="diameterChange"/>
                         </c:url>
                         <form class="form-horizontal panel-body" id="service_price_form"
                               action="${pageContext.request.contextPath}/authorized/admin/service-item-price"
@@ -85,7 +82,7 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <label>Type (<a href="${getType}">Create New</a>)</label>
+                                    <label>Type</label>
                                     ${errorMap.value.typeIdError}
                                     <select class="form-control" id="type" name="typeId">
                                         <option hidden></option>
