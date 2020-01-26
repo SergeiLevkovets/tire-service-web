@@ -42,61 +42,82 @@
                                             <c:url value="/authorized/admin/service-item-price" var="update">
                                                 <c:param name="serviceItemPrice_update" value="${serviceItem.id}"/>
                                             </c:url>
-                                            <a href="${update}" class="btn btn-info" id="update"><i class="glyphicon glyphicon-refresh"></i> Update</a>
+                                            <a href="${update}" class="btn btn-info" id="update"><i
+                                                    class="glyphicon glyphicon-refresh"></i> Update</a>
                                             <c:url value="/authorized/admin/service-item-price" var="delete">
                                                 <c:param name="serviceItemPrice_delete" value="${serviceItem.id}"/>
                                             </c:url>
-                                            <a href="${delete}" class="btn btn-danger" id="delete"><i class="glyphicon glyphicon-remove"></i> Delete</a>
+                                            <a href="${delete}" class="btn btn-danger" id="delete"><i
+                                                    class="glyphicon glyphicon-remove"></i> Delete</a>
                                         </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>
                         </div>
+                        <c:url value="" var="getServiceItem">
+                            <c:param name="serviceItem_get" value="serviceItem"/>
+                        </c:url>
+                        <c:url value="" var="getType">
+                            <c:param name="type_get" value="type"/>
+                        </c:url>
+                        <c:url value="" var="getDiameter">
+                            <c:param name="diameter_get" value="diameter"/>
+                        </c:url>
+                        <form class="form-horizontal panel-body" id="service_price_form"
+                              action="${pageContext.request.contextPath}/authorized/admin/service-item-price"
+                              method="post">
+                            <div class="form-group row">
+                                <div class="col-md-1" ${serviceItemForUpdate.id == null ? 'hidden' : ''}>
+                                    <label for="serviceItemId">ID</label>
+                                    <input type="text" class="form-control" name="serviceItemPriceId" id="serviceItemId" readonly
+                                           value="${param.serviceItemPriceId == null ? serviceItemForUpdate.id : param.serviceItemPriceId}" >
+                                </div>
+                                <div class="col-md-3">
+                                    <label>ServiceItem (<a href="${getServiceItem}">Create New</a>)</label>
+                                    ${errorMap.value.serviceItemIdError}
+                                    <select class="form-control" id="serviceItem" name="serviceItemId">
+                                        <option hidden></option>
+                                        <c:forEach items="${serviceItemList}" var="serviceItemElem">
+                                            <option ${param.serviceItemId == serviceItemElem.id ? 'selected' : serviceItemForUpdate.serviceItem.id == serviceItemElem.id ? 'selected' : ''} value="${serviceItemElem.id}">${serviceItemElem.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label>Type (<a href="${getType}">Create New</a>)</label>
+                                    ${errorMap.value.typeIdError}
+                                    <select class="form-control" id="type" name="typeId">
+                                        <option hidden></option>
+                                        <c:forEach items="${typeList}" var="typeElem">
+                                            <option ${param.typeId == typeElem.id ? 'selected' : serviceItemForUpdate.type.id == typeElem.id ? 'selected' : ''} value="${typeElem.id}">${typeElem.type}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+
+                                    <label>Diameter (<a href="${getDiameter}" id="">Create New</a>) </label>
+                                    <select class="form-control" id="diameter" name="diameterId">
+                                        <option hidden></option>
+                                        <c:forEach items="${diameterList}" var="diameterElem">
+                                            <option ${param.diameterid == diameterElem.id ? 'selected' : serviceItemForUpdate.diameter.id == diameterElem.id ? 'selected' : ''} value="${diameterElem.id}">${diameterElem.diameter}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    ${errorMap.value.priceError}
+                                    <label for="price">Price</label>
+                                    <input type="number" class="form-control" name="price" id="price"
+                                           value="${param.price == null ? serviceItemForUpdate.price : param.price}" >
+                                </div>
+                            </div>
+                            <div class="form-inline">
+                                <button type="button" class="btn btn-success" name="saveServiceItemPrice"
+                                        id="saveServiceItemPrice">Save
+                                </button>
+                            </div>
+                        </form>
                         <div class="row">
-                            <form class="form-horizontal panel-body" id="service_price_form"
-                                  action="" method="">
-                                <div class="form-group row">
-                                    <div class="col-md-3">
-                                        <label>ServiceItem (<a href="" id="">Create New</a>)</label>
-                                        ${serviceItemError}
-                                        <select class="form-control" id="serviceItem" name="serviceItem">
-                                            <option ${serviceItem == null ? 'hidden' : ''}>${serviceItem}</option>
-                                            <c:forEach items="${serviceItemList}" var="serviceItemElem">
-                                                <option ${paramValues.serviceItem.stream().anyMatch(v->v == serviceItemElem.name).get() ? 'selected' : ''}>${serviceItemElem.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Type (<a href="" id="">Create New</a>)</label>
-                                        ${typeError}
-                                        <select class="form-control" id="type" name="type">
-                                            <option ${type == null ? 'hidden' : ''}>${type}</option>
-                                            <c:forEach items="${typeList}" var="typeElem">
-                                                <option ${paramValues.type.stream().anyMatch(v->v == typeElem.type).get() ? 'selected' : ''}>${typeElem.type}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Diameter (<a href="" id="">Create New</a>) </label>
-                                        ${diameterError}
-                                        <select class="form-control" id="diameter" name="diameter">
-                                            <option ${diameter == null ? 'hidden' : ''}>${diameter}</option>
-                                            <c:forEach items="${diameterList}" var="diameterElem">
-                                                <option ${paramValues.diameter.stream().anyMatch(v->v == diameterElem.diameter).get() ? 'selected' : ''}>${diameterElem.diameter}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="price">Price</label>
-                                        <input type="number" class="form-control"
-                                               value="${param.price}" name="price" id="price">
-                                    </div>
-                                </div>
-                                <div class="form-inline">
-                                    <button type="button" class="btn btn-success" name="saveServiceItemPrice" id="saveServiceItemPrice">Save</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>

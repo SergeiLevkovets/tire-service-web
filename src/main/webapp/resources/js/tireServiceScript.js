@@ -35,23 +35,33 @@ $(document).ready(function () {
      * service-item-price
      * */
 
-    $('#').click(function () {
-        if (isEmpty($('#width').val()) || isEmpty($('#height').val()) || isEmpty($('#diameter').val())) {
-            alert("Поля «Размер колес» не могут быть пустыми");
+    $('#saveServiceItemPrice').click(function () {
+        if (isEmpty($('#serviceItem').val())) {
+            alert("Поля «ServiceItem» не может быть пустыми");
             return;
         }
-        let url = $(this).val();
-        let dataString = 'width=' + $('#width').val() + '&height=' + $('#height').val() + '&diameter=' + $('#diameter').val();
+        if (isEmpty($('#type').val())) {
+            alert("Поля «Type» не может быть пустыми");
+            return;
+        }
+        if (isEmpty($('#price').val())) {
+            alert("Поля «Price» не может быть пустыми");
+            return;
+        }
+
+        $('#service_price_form').submit();
+
+        /*let url = $('#service_price_form').attr('action');
+        let param = $('#service_price_form').serialize();
         $.ajax({
             url: url,
-            type: 'get',
-            data: dataString,
+            type: 'post',
+            data: param,
         }).success(function () {
             alert("Данные сохранены")
         }).error(function () {
             alert("Данные не отправлены")
-        })
-
+        })*/
     })
 
     /**
@@ -86,7 +96,22 @@ $(document).ready(function () {
         }
     });
 
-    $('#complex').click(function () {
+   /* $('#carBtn').click(function () {
+        $('#bus_form').prop('hidden', 'true');
+        $('#truck_form').prop('hidden', 'true');
+    })
+
+    $('#busBtn').click(function () {
+        $('#bus_form').prop('hidden', null);
+        $('#truck_form').prop('hidden', 'true');
+    })
+
+    $('#truckBtn').click(function () {
+        $('#truck_form').prop('hidden', null);
+        $('#bus_form').prop('hidden', 'true');
+    })*/
+
+    $('#complex_car').click(function () {
         if (isEmpty($('#wheelCount').val())) {
             alert("Поле «Количество колес» не может быть пустым");
             return;
@@ -96,6 +121,80 @@ $(document).ready(function () {
         $('#wheelRemove').val($('#wheelCount').val());
         $('#wheelInstall').val($('#wheelCount').val());
         $('#balancing').val($('#wheelCount').val());
+
+        changeClass();
+    });
+
+    $('#complex_suv').click(function () {
+        if (isEmpty($('#wheelCount').val())) {
+            alert("Поле «Количество колес» не может быть пустым");
+            return;
+        }
+        $('#mounting').val('');
+        $('#dismantling').val('');
+        $('#wheelRemove').val('');
+        $('#wheelInstall').val('');
+        $('#balancing').val('');
+        $('#mountingSuv').val($('#wheelCount').val());
+        $('#dismantlingSuv').val($('#wheelCount').val());
+        $('#wheelRemoveSuv').val($('#wheelCount').val());
+        $('#wheelInstallSuv').val($('#wheelCount').val());
+        $('#balancingSuv').val($('#wheelCount').val());
+
+        changeClass();
+    });
+
+    $('#complex_bus').click(function () {
+        if (isEmpty($('#wheelCount').val())) {
+            alert("Поле «Количество колес» не может быть пустым");
+            return;
+        }
+        $('#mountingSuv').val('');
+        $('#dismantlingSuv').val('');
+        $('#wheelRemoveSuv').val('');
+        $('#wheelInstallSuv').val('');
+        $('#balancingSuv').val('');
+        $('#mounting').val($('#wheelCount').val());
+        $('#dismantling').val($('#wheelCount').val());
+        $('#wheelRemove').val($('#wheelCount').val());
+        $('#wheelInstall').val($('#wheelCount').val());
+        $('#balancing').val($('#wheelCount').val());
+
+        changeClass();
+    });
+
+    $('#complex_truck').click(function () {
+        if (isEmpty($('#wheelCount').val())) {
+            alert("Поле «Количество колес» не может быть пустым");
+            return;
+        }
+        $('#mountingHeavy').val('');
+        $('#dismantlingHeavy').val('');
+        $('#wheelRemoveHeavy').val('');
+        $('#wheelInstallHeavy').val('');
+        $('#mounting').val($('#wheelCount').val());
+        $('#dismantling').val($('#wheelCount').val());
+        $('#wheelRemove').val($('#wheelCount').val());
+        $('#wheelInstall').val($('#wheelCount').val());
+        $('#balancing').val($('#wheelCount').val());
+
+        changeClass();
+    });
+
+    $('#complex_heavy').click(function () {
+        if (isEmpty($('#wheelCount').val())) {
+            alert("Поле «Количество колес» не может быть пустым");
+            return;
+        }
+        $('#mounting').val('');
+        $('#dismantling').val('');
+        $('#wheelRemove').val('');
+        $('#wheelInstall').val('');
+        $('#balancing').val('');
+        $('#mountingHeavy').val($('#wheelCount').val());
+        $('#dismantlingHeavy').val($('#wheelCount').val());
+        $('#wheelRemoveHeavy').val($('#wheelCount').val());
+        $('#wheelInstallHeavy').val($('#wheelCount').val());
 
         changeClass();
     });
@@ -131,20 +230,44 @@ $(document).ready(function () {
             return;
         }
 
-        $('#order_form').submit();
+        /*$('#order_form').submit();*/
 
-        /*let url = $('#order').attr('action');
-        let param = $('#order').serialize();
+        let url = $('#order_form').attr('action');
+        let param = $('#order_form').serialize() + '&getInformationByOrder=true';
         $.ajax({
             url: url,
-            type: 'POST',
+            type: 'GET',
             data: param,
-        }).success(function () {
-            alert("Данные формы сохранены")
+        }).success(function (response) {
+            let html = $.parseHTML( response );
+            $('#submit_message').html(html);
         }).error(function () {
             alert("Данные формы не отправлены")
-        })*/
+        })
     });
+
+    $('#submit_message').on( 'click', '#saveFormBtn',  function () {
+        $('#order_form').submit();
+    })
+
+    $('#submit_message').on( 'click', '#cancelFormBtn',  function () {
+        $('#submit_message').empty();
+    })
+
+    $('#saveFormBtn').click(function () {
+        // $('#submit_message').empty();
+        $('#order_form').submit();
+    })
+
+    $('#cancelFormBtn').click(function () {
+        $('#submit_message').empty();
+    })
+
+
+    $('#clean_form').click(function () {
+        $('#order_form').trigger('reset');
+        changeClass();
+    })
 
     changeClass();
 

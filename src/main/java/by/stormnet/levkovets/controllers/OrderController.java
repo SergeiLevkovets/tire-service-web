@@ -19,58 +19,77 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (req.getAttribute("widthList") == null) {
-            WidthService widthService = ServiceFactory.getFactory().getWidthService();
-            List<WidthDTO> widthList = widthService.getAll();
-            req.setAttribute("widthList", widthList);
+        if (req.getParameter("getInformationByOrder") != null) {
+            Map<String, String> parameters = getAllNotNullParam(req);
+            Map<ServiceItemPriceDTO, Integer> serviceItemPricesAndCountForOrder = findAllServiceItemPricesAndCountByParameters(parameters);
 
-        }
-        if (req.getAttribute("heightList") == null) {
-            HeightService heightService = ServiceFactory.getFactory().getHeightService();
-            List<HeightDTO> heightList = heightService.getAll();
-            req.setAttribute("heightList", heightList);
+            Double totalPrice = Double.valueOf(0);
+            for (ServiceItemPriceDTO serviceItemPriceDTO : serviceItemPricesAndCountForOrder.keySet()) {
+                totalPrice += serviceItemPriceDTO.getPrice() * serviceItemPricesAndCountForOrder.get(serviceItemPriceDTO);
+            }
 
-        }
-        if (req.getAttribute("diameterList") == null) {
-            DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
-            List<DiameterDTO> diameterList = diameterService.getAll();
-            req.setAttribute("diameterList", diameterList);
+            req.setAttribute("serviceItemPricesList", serviceItemPricesAndCountForOrder);
+            req.setAttribute("totalPrice", totalPrice);
 
-        }
+            req.getRequestDispatcher("/WEB-INF/pages/order-create-response.jsp").forward(req, resp);
 
-        if ((req.getAttribute("patchList") == null)
-                || (req.getAttribute("valveList") == null)
-                || (req.getAttribute("serviceItemListByType") == null)
-                || (req.getAttribute("serviceItemListUniversal") == null)
-        ) {
-            ServiceItemService serviceItemService = ServiceFactory.getFactory().getServiceItemService();
-            TypeService typeService = ServiceFactory.getFactory().getTypeService();
+        }else {
 
-            if (req.getAttribute("serviceItemListByType") == null) {
-                if (req.getParameter("type") == null) {
-                    List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("car"));
-                    req.setAttribute("serviceItemListByType", list);
-                } else {
-                    String type = req.getParameter("type");
-                    List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName(type));
-                    req.setAttribute("serviceItemListByType", list);
+            if (req.getAttribute("widthList") == null) {
+                WidthService widthService = ServiceFactory.getFactory().getWidthService();
+                List<WidthDTO> widthList = widthService.getAll();
+                req.setAttribute("widthList", widthList);
+
+            }
+
+            if (req.getAttribute("heightList") == null) {
+                HeightService heightService = ServiceFactory.getFactory().getHeightService();
+                List<HeightDTO> heightList = heightService.getAll();
+                req.setAttribute("heightList", heightList);
+
+            }
+
+            if (req.getAttribute("diameterList") == null) {
+                DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
+                List<DiameterDTO> diameterList = diameterService.getAll();
+                req.setAttribute("diameterList", diameterList);
+
+            }
+
+            if ((req.getAttribute("patchList") == null)
+                    || (req.getAttribute("valveList") == null)
+                    || (req.getAttribute("serviceItemListByType") == null)
+                    || (req.getAttribute("serviceItemListUniversal") == null)
+            ) {
+                ServiceItemService serviceItemService = ServiceFactory.getFactory().getServiceItemService();
+                TypeService typeService = ServiceFactory.getFactory().getTypeService();
+
+                if (req.getAttribute("serviceItemListByType") == null) {
+                    if (req.getParameter("type") == null) {
+                        List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("car"));
+                        req.setAttribute("serviceItemListByType", list);
+                    } else {
+                        String type = req.getParameter("type");
+                        List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName(type));
+                        req.setAttribute("serviceItemListByType", list);
+                    }
+                }
+                if (req.getAttribute("serviceItemListUniversal") == null) {
+                    List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("universal"));
+                    req.setAttribute("serviceItemListUniversal", list);
+                }
+                if (req.getAttribute("patchList") == null) {
+                    List<ServiceItemDTO> patchList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("patch"));
+                    req.setAttribute("patchList", patchList);
+                }
+                if (req.getAttribute("valveList") == null) {
+                    List<ServiceItemDTO> valveList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("valve"));
+                    req.setAttribute("valveList", valveList);
                 }
             }
-            if (req.getAttribute("serviceItemListUniversal") == null) {
-                List<ServiceItemDTO> list = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("universal"));
-                req.setAttribute("serviceItemListUniversal", list);
-            }
-            if (req.getAttribute("patchList") == null) {
-                List<ServiceItemDTO> patchList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("patch"));
-                req.setAttribute("patchList", patchList);
-            }
-            if (req.getAttribute("valveList") == null) {
-                List<ServiceItemDTO> valveList = serviceItemService.getAllByTypeInServiceItemPrice(typeService.getByName("valve"));
-                req.setAttribute("valveList", valveList);
-            }
-        }
 
-        req.getRequestDispatcher("/WEB-INF/pages/order-create.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/order-create.jsp").forward(req, resp);
+        }
     }
 
     @Override
@@ -82,6 +101,12 @@ public class OrderController extends HttpServlet {
 
         String contextPath = req.getContextPath();
         resp.sendRedirect(contextPath + "/authorized/order-create");
+
+    }
+
+    @Override
+    protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 
     }
 

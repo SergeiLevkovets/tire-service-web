@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
 
@@ -33,7 +35,11 @@ public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
             statement.setInt(1, serviceItemPrice.getServiceItem().getId());
             statement.setInt(2, serviceItemPrice.getType().getId());
-            statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            if (serviceItemPrice.getDiameter() == null) {
+                statement.setNull(3, NULL);
+            }else {
+                statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            }
             statement.setDouble(4, serviceItemPrice.getPrice());
 
 
@@ -56,7 +62,11 @@ public class ServiceItemPriceDAOImpl implements ServiceItemPriceDAO {
 
             statement.setInt(1, serviceItemPrice.getServiceItem().getId());
             statement.setInt(2, serviceItemPrice.getType().getId());
-            statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            if (serviceItemPrice.getDiameter() == null) {
+                statement.setNull(3, NULL);
+            }else {
+                statement.setInt(3, serviceItemPrice.getDiameter().getId());
+            }
             statement.setDouble(4, serviceItemPrice.getPrice());
             statement.setInt(5, serviceItemPrice.getId());
 
