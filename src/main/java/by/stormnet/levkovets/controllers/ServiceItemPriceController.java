@@ -35,14 +35,16 @@ public class ServiceItemPriceController extends HttpServlet {
         TypeService typeService = ServiceFactory.getFactory().getTypeService();
         DiameterService diameterService = ServiceFactory.getFactory().getDiameterService();
 
-        if (req.getParameter("serviceItemPrice_update") != null){
-            Integer id = HttpUtils.getIntParam(req, "serviceItemPrice_update");
+        if (HttpUtils.isParameterExists(req, "serviceItemPriceUpdate")){
+
+            Integer id = HttpUtils.getIntParam(req, "serviceItemPriceUpdate");
             ServiceItemPriceDTO serviceItemPriceDTO = serviceItemPriceService.getById(id);
+
             req.setAttribute("serviceItemForUpdate", serviceItemPriceDTO);
         }
 
-        if (req.getParameter("serviceItemPrice_delete") != null){
-            Integer id = HttpUtils.getIntParam(req, "serviceItemPrice_delete");
+        if (HttpUtils.isParameterExists(req, "serviceItemPriceDelete")){
+            Integer id = HttpUtils.getIntParam(req, "serviceItemPriceDelete");
 
             serviceItemPriceService.deleteById(id);
 
@@ -98,6 +100,7 @@ public class ServiceItemPriceController extends HttpServlet {
             resp.sendRedirect(contextPath + "/authorized/admin/service-item-price");
 
         }else {
+
             String contextPath = req.getContextPath();
             req.getRequestDispatcher(contextPath + "/authorized/admin/service-item-price").forward(req, resp);
         }

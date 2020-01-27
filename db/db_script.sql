@@ -43,31 +43,34 @@ CREATE TABLE `tire_service_db`.`service_items`
 (
     `id`         INTEGER      NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name`       VARCHAR(255) NOT NULL,
-    `article`       VARCHAR(255) NOT NULL
+    `article`    VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE `tire_service_db`.`tires`
 (
-    `id`             INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `fk_width_id`    INTEGER   NOT NULL,
-    `fk_height_id`   INTEGER   NOT NULL,
-    `fk_diameter_id` INTEGER   NOT NULL,
-    `date`           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `id`             INTEGER    NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_width_id`    INTEGER    NOT NULL,
+    `fk_height_id`   INTEGER    NOT NULL,
+    `fk_diameter_id` INTEGER    NULL,
+    `date`           TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_to_width` FOREIGN KEY (`fk_width_id`) REFERENCES widths (`id`),
     CONSTRAINT `fk_to_height` FOREIGN KEY (`fk_height_id`) REFERENCES heights (`id`),
     CONSTRAINT `fk_to_diameter` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE `tire_service_db`.`service_item_prices`
 (
-    `id`                    INTEGER        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `fk_service_item_id`    INTEGER        NOT NULL,
-    `fk_type_id`            INTEGER        NOT NULL,
-    `fk_diameter_id`        INTEGER        NULL,
-    `price`                 NUMERIC(10, 2) NOT NULL,
-    CONSTRAINT `fk_to_items` FOREIGN KEY (fk_service_item_id) REFERENCES service_items (`id`),
+    `id`                    INTEGER         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `fk_service_item_id`    INTEGER         NOT NULL,
+    `fk_type_id`            INTEGER         NOT NULL,
+    `fk_diameter_id`        INTEGER         NULL,
+    `price`                 NUMERIC(10, 2)  NOT NULL,
+    CONSTRAINT `fk_to_items` FOREIGN KEY (fk_service_item_id) REFERENCES service_items (`id`)
+    ON DELETE CASCADE,
     CONSTRAINT `fk_to_types` FOREIGN KEY (fk_type_id) REFERENCES types (`id`),
     CONSTRAINT `fk_to_diameters` FOREIGN KEY (`fk_diameter_id`) REFERENCES diameters (`id`)
+    ON DELETE SET NULL
 );
 
 CREATE TABLE `tire_service_db`.`orders`
@@ -86,17 +89,18 @@ CREATE TABLE `tire_service_db`.`orders`
 
 CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
 (
-    `id`                       INTEGER   NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `id`                       INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `fk_orders_id`             INTEGER NOT NULL,
-    `fk_service_item_price_id` INTEGER NOT NULL,
+    `fk_service_item_price_id` INTEGER NULL,
     `count`                    INTEGER NOT NULL DEFAULT 1,
     CONSTRAINT `fk_to_order` FOREIGN KEY (`fk_orders_id`) REFERENCES `orders` (`id`),
     CONSTRAINT `fk_to_service_item_price` FOREIGN KEY (`fk_service_item_price_id`) REFERENCES `service_item_prices` (`id`)
+    ON DELETE SET NULL
 );
 
 ################################################
 
-INSERT INTO tire_service_db.users (id, name, email, password, phone) value (1, 'root', 'email@email.ru', 'root', '8 029 111 11 11');
+INSERT INTO tire_service_db.users (name, email, password, phone) value ('root', 'email@email.ru', 'root', '8 029 111 11 11');
 
 INSERT INTO tire_service_db.diameters (diameter)
 VALUES ('r13'),

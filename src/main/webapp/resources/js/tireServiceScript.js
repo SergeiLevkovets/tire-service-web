@@ -44,23 +44,33 @@ $(document).ready(function () {
             return;
         }
 
-        let itemChecked = $('#serviceItemChange').prop("checked");
-        let isArticleEmpty = isEmpty($('#elemArticle').val());
-
-        if ( itemChecked && isArticleEmpty) {
-            alert("Поле «" + $('#labelElemArticle').text() + "» не может быть пустыми");
-            return;
-        }
-
-        let diameterChecked = $('#diameterChange').prop("checked");
+        let isDiameter = $('#labelElemName').text() == 'Диаметр';
         let isRegex = !(/[r][\d,.]+/.test(($('#elemName').val())));
 
-        if (diameterChecked && isRegex){
+        if (isDiameter && isRegex){
             alert("Поле «" + $('#labelElemName').text() + "» должно начинаться с буквы \"r\", а дальше цифрами указывается размер диаметер диска");
             return;
         }
 
         $('#elemChangeForm').submit();
+
+    })
+
+    $('#saveServiceItem').click(function () {
+
+        let isNameEmpty = isEmpty($('#elemName').val());
+        if (isNameEmpty) {
+            alert("Поле «" + $('#labelElemName').text() + "» не может быть пустыми");
+            return;
+        }
+
+        let isArticleEmpty = isEmpty($('#elemArticle').val());
+        if (isArticleEmpty) {
+            alert("Поле «" + $('#labelElemArticle').text() + "» не может быть пустыми");
+            return;
+        }
+
+        $('#serviceItemForm').submit();
 
     })
 

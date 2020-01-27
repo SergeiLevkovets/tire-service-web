@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
     @Override
     public void save(OrderServiceItemPrice obj) {
@@ -27,7 +29,11 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?)");
 
             statement.setInt(1, obj.getOrder().getId());
-            statement.setInt(2, obj.getServiceItemPrice().getId());
+            if (obj.getServiceItemPrice().getId() == null) {
+                statement.setNull(2, NULL);
+            }else {
+                statement.setInt(2, obj.getServiceItemPrice().getId());
+            }
             if (obj.getCount() == null) {
                 statement.setInt(3, 1);
             } else {
@@ -59,7 +65,11 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             for (OrderServiceItemPrice obj : list) {
 
                 statement.setInt(1, obj.getOrder().getId());
-                statement.setInt(2, obj.getServiceItemPrice().getId());
+                if (obj.getServiceItemPrice().getId() == null) {
+                    statement.setNull(2, NULL);
+                }else {
+                    statement.setInt(2, obj.getServiceItemPrice().getId());
+                }
                 if (obj.getCount() == null) {
                     statement.setInt(3, 1);
                 } else {
@@ -92,7 +102,11 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             statement = c.prepareStatement("UPDATE tire_service_db.orders_to_service_item_prices SET fk_orders_id = ?, fk_service_item_price_id = ?, count = ? WHERE id = ?");
 
             statement.setInt(1, obj.getOrder().getId());
-            statement.setInt(2, obj.getServiceItemPrice().getId());
+            if (obj.getServiceItemPrice().getId() == null) {
+                statement.setNull(2, NULL);
+            }else {
+                statement.setInt(2, obj.getServiceItemPrice().getId());
+            }
             if (obj.getCount() == null) {
                 statement.setInt(3, 1);
             } else {
@@ -125,7 +139,11 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             for (OrderServiceItemPrice obj : list) {
 
                 statement.setInt(1, obj.getOrder().getId());
-                statement.setInt(2, obj.getServiceItemPrice().getId());
+                if (obj.getServiceItemPrice().getId() == null) {
+                    statement.setNull(2, NULL);
+                }else {
+                    statement.setInt(2, obj.getServiceItemPrice().getId());
+                }
                 if (obj.getCount() == null) {
                     statement.setInt(3, 1);
                 } else {

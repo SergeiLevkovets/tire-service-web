@@ -40,12 +40,12 @@
                                         <td>${serviceItem.price}</td>
                                         <td>
                                             <c:url value="/authorized/admin/service-item-price" var="update">
-                                                <c:param name="serviceItemPrice_update" value="${serviceItem.id}"/>
+                                                <c:param name="serviceItemPriceUpdate" value="${serviceItem.id}"/>
                                             </c:url>
                                             <a href="${update}" class="btn btn-info" id="update"><i
                                                     class="glyphicon glyphicon-refresh"></i> Update</a>
                                             <c:url value="/authorized/admin/service-item-price" var="delete">
-                                                <c:param name="serviceItemPrice_delete" value="${serviceItem.id}"/>
+                                                <c:param name="serviceItemPriceDelete" value="${serviceItem.id}"/>
                                             </c:url>
                                             <a href="${delete}" class="btn btn-danger" id="delete"><i
                                                     class="glyphicon glyphicon-remove"></i> Delete</a>
@@ -55,10 +55,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <c:url value="/authorized/admin/element-change" var="getServiceItem">
+                        <c:url value="/authorized/admin/service-item" var="getServiceItem">
                             <c:param name="elementChange" value="serviceItemChange"/>
                         </c:url>
-                        <c:url value="/authorized/admin/element-change" var="getDiameter">
+                        <c:url value="/authorized/admin/diameter" var="getDiameter">
                             <c:param name="elementChange" value="diameterChange"/>
                         </c:url>
                         <form class="form-horizontal panel-body" id="service_price_form"

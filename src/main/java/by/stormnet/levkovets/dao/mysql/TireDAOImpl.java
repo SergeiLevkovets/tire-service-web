@@ -14,6 +14,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Types.NULL;
+
 public class TireDAOImpl implements TireDAO {
 
 
@@ -33,7 +35,11 @@ public class TireDAOImpl implements TireDAO {
 
             statement.setInt(1, tire.getWidth().getId());
             statement.setInt(2, tire.getHeight().getId());
-            statement.setInt(3, tire.getDiameter().getId());
+            if (tire.getDiameter() == null) {
+                statement.setNull(3, NULL);
+            }else {
+                statement.setInt(3, tire.getDiameter().getId());
+            }
 
             statement.executeUpdate();
 
@@ -63,7 +69,11 @@ public class TireDAOImpl implements TireDAO {
 
             statement.setInt(1, tire.getWidth().getId());
             statement.setInt(2, tire.getHeight().getId());
-            statement.setInt(3, tire.getDiameter().getId());
+            if (tire.getDiameter() == null) {
+                statement.setNull(3, NULL);
+            }else {
+                statement.setInt(3, tire.getDiameter().getId());
+            }
             statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
             statement.setInt(5, tire.getId());
 
