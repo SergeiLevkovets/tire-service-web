@@ -20,7 +20,6 @@ import java.util.Map;
 @WebServlet("/authorized/profile")
 public class ProfileController extends HttpServlet {
     private static final String MESSAGE = "<strong style=\"color: red\">Поле не может быть пустым</strong>";
-    private static final String NAME_MESSAGE = "<strong style=\"color: red\">Такое имя уже существует</strong>";
     private static final String EMAIL_MESSAGE = "<strong style=\"color: red\">Такой Email уже существует</strong>";
     private static final String PHONE_MESSAGE = "<strong style=\"color: red\">Такой номер телефона уже существует</strong>";
 

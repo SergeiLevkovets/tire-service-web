@@ -11,6 +11,7 @@ public class UserDTO implements DTO {
     private String email;
     private String password;
     private String phone;
+    private String role;
 
     public UserDTO() {
     }
@@ -57,6 +58,14 @@ public class UserDTO implements DTO {
         this.phone = phone;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,7 +89,9 @@ public class UserDTO implements DTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

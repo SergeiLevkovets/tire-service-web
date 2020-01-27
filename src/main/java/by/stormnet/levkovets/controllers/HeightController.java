@@ -81,8 +81,7 @@ public class HeightController extends HttpServlet {
 
         } else {
 
-            String contextPath = req.getContextPath();
-            req.getRequestDispatcher(contextPath + "/authorized/admin/height").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/height.jsp").forward(req, resp);
 
         }
     }

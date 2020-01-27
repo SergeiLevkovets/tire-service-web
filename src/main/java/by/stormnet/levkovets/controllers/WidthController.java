@@ -79,8 +79,7 @@ public class WidthController extends HttpServlet {
 
         } else {
 
-            String contextPath = req.getContextPath();
-            req.getRequestDispatcher(contextPath + "/authorized/admin/width").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/width.jsp").forward(req, resp);
         }
     }
 

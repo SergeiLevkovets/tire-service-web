@@ -86,8 +86,7 @@ public class DiameterController extends HttpServlet {
 
             } else {
 
-                String contextPath = req.getContextPath();
-                req.getRequestDispatcher(contextPath + "/authorized/admin/diameter").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/pages/diameter.jsp").forward(req, resp);
 
             }
     }

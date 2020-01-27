@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label>ServiceItem (<a href="${getServiceItem}">Create New</a>)</label>
-                                    ${errorMap.value.serviceItemIdError}
+                                    ${errorMap["serviceItemIdError"]}
                                     <select class="form-control" id="serviceItem" name="serviceItemId">
                                         <option hidden></option>
                                         <c:forEach items="${serviceItemList}" var="serviceItemElem">
@@ -83,7 +83,7 @@
 
                                 <div class="col-md-2">
                                     <label>Type</label>
-                                    ${errorMap.value.typeIdError}
+                                    ${errorMap["typeIdError"]}
                                     <select class="form-control" id="type" name="typeId">
                                         <option hidden></option>
                                         <c:forEach items="${typeList}" var="typeElem">
@@ -102,7 +102,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    ${errorMap.value.priceError}
+                                    ${errorMap["priceError"]}
                                     <label for="price">Price</label>
                                     <input type="number" class="form-control" name="price" id="price"
                                            value="${param.price == null ? serviceItemForUpdate.price : param.price}" >

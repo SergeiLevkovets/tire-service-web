@@ -57,7 +57,7 @@
                                            value="${param.elemId == null ? elemId : param.elemId}">
                                 </div>
                                 <div class="col-md-2">
-                                    ${errorMap.value.nameError}
+                                    ${errorMap["nameError"]}
                                     <label id="labelElemName" for="elemName">${firstFieldName}</label>
                                     <input type="text" class="form-control" name="elemName" id="elemName"
                                            value="${param.elemName == null ? elemName : param.elemName}">

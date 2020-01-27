@@ -101,8 +101,8 @@ public class ServiceItemPriceController extends HttpServlet {
 
         }else {
 
-            String contextPath = req.getContextPath();
-            req.getRequestDispatcher(contextPath + "/authorized/admin/service-item-price").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/pages/service-item-price.jsp").forward(req, resp);
+
         }
 
     }

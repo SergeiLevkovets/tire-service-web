@@ -62,13 +62,13 @@
                                            value="${param.elemId == null ? elemId : param.elemId}">
                                 </div>
                                 <div class="col-md-2">
-                                    ${errorMap.value.nameError}
+                                    ${errorMap["nameError"]}
                                     <label id="labelElemName" for="elemName">${firstFieldName}</label>
                                     <input type="text" class="form-control" name="elemName" id="elemName"
                                            value="${param.elemName == null ? elemName : param.elemName}">
                                 </div>
                                 <div class="col-md-2">
-                                    ${errorMap.value.articleError}
+                                    ${errorMap["articleError"]}
                                     <label id="labelElemArticle" for="elemArticle">${secondFieldName}</label>
                                     <input type="text" class="form-control" name="elemArticle" id="elemArticle"
                                            value="${param.elemArticle == null ? elemArticle : param.elemArticle}">

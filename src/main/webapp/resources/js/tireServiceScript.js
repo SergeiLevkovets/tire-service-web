@@ -32,6 +32,42 @@ function changeClass() {
 $(document).ready(function () {
 
     /**
+     * users
+     * */
+
+    $('#saveUser').click(function () {
+
+
+        if (isEmpty($('#name').val())) {
+            alert("Поле «Имя» не может быть пустыми");
+            return;
+        }
+
+        if (isEmpty($('#email').val()) || !(($('#email').val().match(/.+?\@.+/g) || []).length === 1)) {
+            alert(" Заполните правильно поле «Email»");
+            return;
+        }
+
+        if (isEmpty($('#password').val())) {
+            alert("Поле «Password» не может быть пустым");
+            return;
+        }
+
+        if (isEmpty($('#phone').val()) || !(/^[+]?\d[\d\(\)\ -]{4,14}\d$/.test(($('#phone').val())))) {
+            alert(" Заполните правильно поле «Phone»");
+            return;
+        }
+
+        if (isEmpty($('#role').val())) {
+            alert("Поле «Роль» не может быть пустыми");
+            return;
+        }
+
+        $('#usersForm').submit();
+
+    })
+
+    /**
      * element-change
      * */
 

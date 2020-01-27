@@ -189,6 +189,7 @@ public class EntityDtoConverter {
         userDto.setEmail(user.getEmail());
         userDto.setPhone(user.getPhone());
         userDto.setPassword(user.getPassword());
+        userDto.setRole(user.getRole());
 
         return userDto;
     }
@@ -201,6 +202,7 @@ public class EntityDtoConverter {
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
         user.setPassword(userDto.getPassword());
+        user.setRole(userDto.getRole());
 
         return user;
     }
