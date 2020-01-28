@@ -269,12 +269,11 @@ $(document).ready(function () {
             alert("Поля «Размер колес» не могут быть пустыми");
             return;
         }
-        $(document)
         let url = $(this).val();
         let dataString = 'width=' + $('#width').val() + '&height=' + $('#height').val() + '&diameter=' + $('#diameter').val();
         $.ajax({
             url: url,
-            type: 'get',
+            type: 'POST',
             data: dataString,
         }).success(function () {
             alert("Данные сохранены")

@@ -79,7 +79,6 @@ CREATE TABLE `tire_service_db`.`orders`
     `fk_user_id` INTEGER   NOT NULL,
     `fk_tire_id` INTEGER   NOT NULL,
     `fk_type_id` INTEGER   NOT NULL,
-    `price`      NUMERIC(10, 2) NOT NULL,
     `date`       TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT `fk_to_user` FOREIGN KEY (`fk_user_id`) REFERENCES users (`id`),
     CONSTRAINT `fk_to_tire` FOREIGN KEY (`fk_tire_id`) REFERENCES tires (`id`),
@@ -93,6 +92,7 @@ CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
     `fk_orders_id`             INTEGER NOT NULL,
     `fk_service_item_price_id` INTEGER NULL,
     `count`                    INTEGER NOT NULL DEFAULT 1,
+    `price`      NUMERIC(10, 2) NOT NULL,
     CONSTRAINT `fk_to_order` FOREIGN KEY (`fk_orders_id`) REFERENCES `orders` (`id`),
     CONSTRAINT `fk_to_service_item_price` FOREIGN KEY (`fk_service_item_price_id`) REFERENCES `service_item_prices` (`id`)
     ON DELETE SET NULL
@@ -101,6 +101,10 @@ CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
 ################################################
 
 INSERT INTO tire_service_db.users (name, email, password, phone) value ('root', 'email@email.ru', 'root', '8 029 111 11 11');
+
+
+
+#####################
 
 INSERT INTO tire_service_db.diameters (diameter)
 VALUES ('r13'),
@@ -202,6 +206,58 @@ VALUES ('115'),
        ('400'),
        ('405');
 
+################ test #########
+INSERT INTO tire_service_db.tires (fk_width_id, fk_height_id, fk_diameter_id)
+VALUES
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+(20, 9, 8),
+
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+(18, 11, 2),
+
+(15, 19, 4),
+(15, 19, 4),
+(15, 19, 4),
+(15, 19, 4),
+(15, 19, 4),
+(15, 19, 4),
+(15, 19, 4),
+
+(25, 5, 10),
+(25, 5, 10),
+(25, 5, 10),
+(25, 5, 10),
+(25, 5, 10),
+
+(18, 3, 5),
+(18, 3, 5),
+(18, 3, 5),
+
+(18, 11, 1),
+(19, 10, 2),
+(12, 13, 3),
+(20, 12, 4),
+(21, 9, 5),
+(22, 8, 6),
+(23, 7, 7),
+(20, 13, 8);
+################
+
 INSERT INTO `tire_service_db`.service_items (name, article)
 VALUES
        ('Монтаж', 'mounting'),
@@ -263,19 +319,19 @@ VALUES ('universal'),
 
 INSERT INTO tire_service_db.service_item_prices (fk_service_item_id, fk_type_id, fk_diameter_id, price)
 VALUES
-       ((SELECT id from tire_service_db.service_items where article = 'mounting' ),(Select id from tire_service_db.types where type = 'truck'), null, 2.50),
+       ((SELECT id from tire_service_db.service_items where article = 'mounting' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
        ((SELECT id from tire_service_db.service_items where article = 'mountingRing' ),(Select id from tire_service_db.types where type = 'truck'), null, 4.00),
        ((SELECT id from tire_service_db.service_items where article = 'mountingHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 8.50),
-       ((SELECT id from tire_service_db.service_items where article = 'dismantling' ),(Select id from tire_service_db.types where type = 'truck'), null, 2.50),
+       ((SELECT id from tire_service_db.service_items where article = 'dismantling' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
        ((SELECT id from tire_service_db.service_items where article = 'dismantlingRing' ),(Select id from tire_service_db.types where type = 'truck'), null, 4.00),
        ((SELECT id from tire_service_db.service_items where article = 'dismantlingHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 8.50),
        ((SELECT id from tire_service_db.service_items where article = 'balancing' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
        ((SELECT id from tire_service_db.service_items where article = 'pumping' ),(Select id from tire_service_db.types where type = 'truck'), null, 1.00),
        ((SELECT id from tire_service_db.service_items where article = 'pumpingHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 1.50),
-       ((SELECT id from tire_service_db.service_items where article = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'truck'), null, 1.50),
-       ((SELECT id from tire_service_db.service_items where article = 'wheelRemoveHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 2.50),
-       ((SELECT id from tire_service_db.service_items where article = 'wheelInstall' ),(Select id from tire_service_db.types where type = 'truck'), null, 1.50),
-       ((SELECT id from tire_service_db.service_items where article = 'wheelInstallHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 2.50),
+       ((SELECT id from tire_service_db.service_items where article = 'wheelRemove' ),(Select id from tire_service_db.types where type = 'truck'), null, 3.00),
+       ((SELECT id from tire_service_db.service_items where article = 'wheelRemoveHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
+       ((SELECT id from tire_service_db.service_items where article = 'wheelInstall' ),(Select id from tire_service_db.types where type = 'truck'), null, 3.00),
+       ((SELECT id from tire_service_db.service_items where article = 'wheelInstallHeavy' ),(Select id from tire_service_db.types where type = 'truck'), null, 5.00),
 
        ((SELECT id from tire_service_db.service_items where article = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r13'), 1.50),
        ((SELECT id from tire_service_db.service_items where article = 'mounting' ),(Select id from tire_service_db.types where type = 'car'), (Select id from tire_service_db.diameters where diameter = 'r14'), 1.50),

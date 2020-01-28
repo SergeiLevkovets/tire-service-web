@@ -26,7 +26,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count, price) VALUES (?, ?, ?, ?)");
 
             statement.setInt(1, obj.getOrder().getId());
             if (obj.getServiceItemPrice().getId() == null) {
@@ -39,6 +39,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             } else {
                 statement.setInt(3, obj.getCount());
             }
+            statement.setDouble(4, obj.getTotalPrice());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -57,7 +58,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
             c.setAutoCommit(false);
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count, price) VALUES (?, ?, ?, ?)");
 
             final int batchSize = 100;
             int count = 0;
@@ -75,6 +76,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 } else {
                     statement.setInt(3, obj.getCount());
                 }
+                statement.setDouble(4, obj.getTotalPrice());
                 statement.addBatch();
 
                 if (++count % batchSize == 0) {
@@ -99,7 +101,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("UPDATE tire_service_db.orders_to_service_item_prices SET fk_orders_id = ?, fk_service_item_price_id = ?, count = ? WHERE id = ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.orders_to_service_item_prices SET fk_orders_id = ?, fk_service_item_price_id = ?, count = ?, price = ? WHERE id = ?");
 
             statement.setInt(1, obj.getOrder().getId());
             if (obj.getServiceItemPrice().getId() == null) {
@@ -112,7 +114,8 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
             } else {
                 statement.setInt(3, obj.getCount());
             }
-            statement.setInt(4, obj.getId());
+            statement.setDouble(4, obj.getTotalPrice());
+            statement.setInt(5, obj.getId());
 
             statement.executeUpdate();
 
@@ -131,7 +134,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.orders_to_service_item_prices (fk_orders_id, fk_service_item_price_id, count) VALUES (?, ?, ?");
+            statement = c.prepareStatement("UPDATE tire_service_db.orders_to_service_item_prices SET fk_orders_id = ?, fk_service_item_price_id = ?, count = ?, price = ? WHERE id = ?");
 
             final int batchSize = 100;
             int count = 0;
@@ -149,7 +152,8 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 } else {
                     statement.setInt(3, obj.getCount());
                 }
-                statement.setInt(4, obj.getId());
+                statement.setDouble(4, obj.getTotalPrice());
+                statement.setInt(5, obj.getId());
                 statement.addBatch();
 
                 if (++count % batchSize == 0) {
@@ -215,7 +219,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count from tire_service_db.orders_to_service_item_prices where id = ?");
+            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count, price from tire_service_db.orders_to_service_item_prices where id = ?");
             statement.setInt(1, id);
             set = statement.executeQuery();
 
@@ -224,11 +228,13 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
+                Double price = set.getDouble("price");
                 orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
                 orderServiceItemPrice.setCount(count);
+                orderServiceItemPrice.setTotalPrice(price);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
@@ -250,7 +256,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count from tire_service_db.orders_to_service_item_prices");
+            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count, price from tire_service_db.orders_to_service_item_prices");
             set = statement.executeQuery();
 
 
@@ -259,11 +265,13 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
+                Double price = set.getDouble("price");
                 OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
                 orderServiceItemPrice.setCount(count);
+                orderServiceItemPrice.setTotalPrice(price);
                 list.add(orderServiceItemPrice);
             }
         } catch (SQLException e) {
@@ -286,7 +294,7 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count from tire_service_db.orders_to_service_item_prices where fk_orders_id = ?");
+            statement = c.prepareStatement("select id, fk_orders_id, fk_service_item_price_id, count, price from tire_service_db.orders_to_service_item_prices where fk_orders_id = ?");
             statement.setInt(1, obj.getId());
             set = statement.executeQuery();
 
@@ -296,11 +304,13 @@ public class OrderServiceItemPriceDAOImpl implements OrderServiceItemPriceDAO {
                 Order order = orderDao.loadById(set.getInt("fk_orders_id"));
                 ServiceItemPrice serviceItemPrice = serviceItemPriceDao.loadById(set.getInt("fk_service_item_price_id"));
                 Integer count = set.getInt("count");
+                Double price = set.getDouble("price");
                 OrderServiceItemPrice orderServiceItemPrice = new OrderServiceItemPrice();
                 orderServiceItemPrice.setId(objectId);
                 orderServiceItemPrice.setOrder(order);
                 orderServiceItemPrice.setServiceItemPrice(serviceItemPrice);
                 orderServiceItemPrice.setCount(count);
+                orderServiceItemPrice.setTotalPrice(price);
                 list.add(orderServiceItemPrice);
             }
         } catch (SQLException e) {

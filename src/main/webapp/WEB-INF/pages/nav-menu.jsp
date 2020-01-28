@@ -5,6 +5,12 @@
 <li class="${pageContext.request.servletPath.endsWith("profile.jsp") ? 'current' : ''} ${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/profile"> <i class="glyphicon glyphicon-user"></i> Профиль </a> </li>
 <li class="${pageContext.request.servletPath.endsWith("login.jsp") ? 'current' : ''} ${sessionScope.authorizedUserName != null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/login"> <i class="glyphicon glyphicon-log-in"></i> Войти  </a> </li>
 <li class="${pageContext.request.servletPath.endsWith("registration.jsp") ? 'current' : ''} ${sessionScope.authorizedUserName != null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/registration"> <i class="glyphicon glyphicon-floppy-disk"></i> Регистрация </a> </li>
+<li class="submenu ${sessionScope.authorizedUserName == null ? 'hidden' : ''}"><a href="#"><i class="glyphicon glyphicon-list"></i> Статистика <span class="caret pull-right"></span></a>
+    <!-- Sub menu -->
+    <ul>
+        <li class="${pageContext.request.servletPath.endsWith("service-item-price.jsp") ? 'current' : ''} ${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/admin/tire"> <i class="glyphicon glyphicon-list"></i> Список шин </a> </li>
+    </ul>
+</li>
 <li class="submenu ${sessionScope.authorizedUserName == null ? 'hidden' : ''}"><a href="#"><i class="glyphicon glyphicon-list"></i> Редактирование <span class="caret pull-right"></span></a>
     <!-- Sub menu -->
     <ul>

@@ -3,11 +3,16 @@ package by.stormnet.levkovets.services.impl;
 import by.stormnet.levkovets.dao.OrderDAO;
 import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.Order;
-import by.stormnet.levkovets.dto.impl.OrderDTO;
+import by.stormnet.levkovets.dto.impl.*;
+import by.stormnet.levkovets.services.*;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
+import by.stormnet.levkovets.services.factory.ServiceFactory;
+import by.stormnet.levkovets.utils.HttpUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrderServiceImpl implements by.stormnet.levkovets.services.OrderService {
     @Override
@@ -46,4 +51,23 @@ public class OrderServiceImpl implements by.stormnet.levkovets.services.OrderSer
         }
         return id;
     }
+
+    @Override
+    public OrderDTO createOrder(UserDTO userDTO,TireDTO tireDTO, TypeDTO typeDTO) {
+
+        OrderDTO orderDto = new OrderDTO();
+
+        orderDto.setUser(userDTO);
+        orderDto.setTire(tireDTO);
+        orderDto.setType(typeDTO);
+
+
+        OrderService orderService = ServiceFactory.getFactory().getOrderService();
+        Integer orderId = orderService.saveOrUpdate(orderDto);
+        orderDto.setId(orderId);
+
+        return orderDto;
+
+    }
+
 }

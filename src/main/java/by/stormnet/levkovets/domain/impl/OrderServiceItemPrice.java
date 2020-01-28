@@ -9,6 +9,8 @@ public class OrderServiceItemPrice implements Entity {
     private Order order;
     private ServiceItemPrice serviceItemPrice;
     private Integer count;
+    private Double totalPrice;
+
 
     public OrderServiceItemPrice() {
     }
@@ -47,6 +49,14 @@ public class OrderServiceItemPrice implements Entity {
         this.count = count;
     }
 
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,12 +65,13 @@ public class OrderServiceItemPrice implements Entity {
         return Objects.equals(id, that.id) &&
                 Objects.equals(order, that.order) &&
                 Objects.equals(serviceItemPrice, that.serviceItemPrice) &&
-                Objects.equals(count, that.count);
+                Objects.equals(count, that.count) &&
+                Objects.equals(totalPrice, that.totalPrice);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, order, serviceItemPrice, count);
+        return Objects.hash(id, order, serviceItemPrice, count, totalPrice);
     }
 
     @Override
@@ -70,6 +81,7 @@ public class OrderServiceItemPrice implements Entity {
                 ", order=" + order +
                 ", serviceItemPrice=" + serviceItemPrice +
                 ", count=" + count +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
 }

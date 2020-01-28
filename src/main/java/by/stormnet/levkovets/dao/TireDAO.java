@@ -14,4 +14,7 @@ public interface TireDAO {
     Tire loadById(Integer id);
 
     List<Tire> loadAll();
+
+    List<Tire> loadCountTOP(Integer count);
+
 }

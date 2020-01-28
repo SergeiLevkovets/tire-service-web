@@ -5,11 +5,13 @@ import by.stormnet.levkovets.dao.factory.DAOFactory;
 import by.stormnet.levkovets.domain.impl.OrderServiceItemPrice;
 import by.stormnet.levkovets.dto.impl.OrderDTO;
 import by.stormnet.levkovets.dto.impl.OrderServiceItemPriceDTO;
+import by.stormnet.levkovets.dto.impl.ServiceItemPriceDTO;
 import by.stormnet.levkovets.services.OrderServiceItemPriceService;
 import by.stormnet.levkovets.services.converters.EntityDtoConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class OrderServiceItemPriceServiceImpl implements OrderServiceItemPriceService {
     @Override
@@ -81,6 +83,31 @@ public class OrderServiceItemPriceServiceImpl implements OrderServiceItemPriceSe
         if (!updateEntityList.isEmpty()){
             dao.updateAll(updateEntityList);
         }
+    }
+
+    @Override
+    public List<OrderServiceItemPriceDTO> createOrderToServiceItemPrices(OrderDTO orderDto, Map<ServiceItemPriceDTO, Integer> serviceItemPricesAndCount) {
+
+        List<OrderServiceItemPriceDTO> list = new ArrayList<>();
+
+        for (ServiceItemPriceDTO serviceItemPriceDTO : serviceItemPricesAndCount.keySet()) {
+
+            Integer count = serviceItemPricesAndCount.get(serviceItemPriceDTO);
+            Double totalPrice = serviceItemPriceDTO.getPrice() * count;
+
+            OrderServiceItemPriceDTO orderServiceItemPriceDTO = new OrderServiceItemPriceDTO();
+            orderServiceItemPriceDTO.setOrder(orderDto);
+            orderServiceItemPriceDTO.setServiceItemPrice(serviceItemPriceDTO);
+            orderServiceItemPriceDTO.setCount(count);
+            orderServiceItemPriceDTO.setTotalPrice(totalPrice);
+
+            list.add(orderServiceItemPriceDTO);
+
+        }
+
+        saveOrUpdateAll(list);
+
+        return list;
     }
 
 

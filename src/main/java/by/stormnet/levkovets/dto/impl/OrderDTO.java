@@ -10,7 +10,6 @@ public class OrderDTO implements DTO {
     private UserDTO user;
     private TireDTO tire;
     private TypeDTO type;
-    private Double totalPrice;
     private Date date;
 
     public OrderDTO() {
@@ -58,30 +57,21 @@ public class OrderDTO implements DTO {
         this.date = date;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDTO orderDto = (OrderDTO) o;
-        return Objects.equals(id, orderDto.id) &&
-                Objects.equals(user, orderDto.user) &&
-                Objects.equals(tire, orderDto.tire) &&
-                Objects.equals(type, orderDto.type) &&
-                Objects.equals(totalPrice, orderDto.totalPrice) &&
-                Objects.equals(date, orderDto.date);
+        OrderDTO orderDTO = (OrderDTO) o;
+        return Objects.equals(id, orderDTO.id) &&
+                Objects.equals(user, orderDTO.user) &&
+                Objects.equals(tire, orderDTO.tire) &&
+                Objects.equals(type, orderDTO.type) &&
+                Objects.equals(date, orderDTO.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, tire, type, totalPrice, date);
+        return Objects.hash(id, user, tire, type, date);
     }
 
     @Override
@@ -91,7 +81,6 @@ public class OrderDTO implements DTO {
                 ", user=" + user +
                 ", tire=" + tire +
                 ", type=" + type +
-                ", totalPrice=" + totalPrice +
                 ", date=" + date +
                 '}';
     }

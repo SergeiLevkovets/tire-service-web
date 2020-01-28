@@ -11,7 +11,6 @@ public class Order implements Entity {
     private User user;
     private Tire tire;
     private Type type;
-    private Double totalPrice;
     private Date date;
 
     public Order() {
@@ -59,14 +58,6 @@ public class Order implements Entity {
         this.date = date;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,13 +67,12 @@ public class Order implements Entity {
                 Objects.equals(user, order.user) &&
                 Objects.equals(tire, order.tire) &&
                 Objects.equals(type, order.type) &&
-                Objects.equals(date, order.date) &&
-                Objects.equals(totalPrice, order.totalPrice);
+                Objects.equals(date, order.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, tire, type, date, totalPrice);
+        return Objects.hash(id, user, tire, type, date);
     }
 
     @Override
@@ -92,7 +82,6 @@ public class Order implements Entity {
                 ", user=" + user +
                 ", tire=" + tire +
                 ", type=" + type +
-                ", totalPrice=" + totalPrice +
                 ", date=" + date +
                 '}';
     }

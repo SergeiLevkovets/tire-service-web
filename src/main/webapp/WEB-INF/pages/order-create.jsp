@@ -125,7 +125,7 @@
                             <div class="form-group row" id="wheel_save_btn">
                                 <div class="col-sm-6 ">
                                     <button type="button" class="btn btn-default" id="tireSaveBtn"
-                                            value="${pageContext.request.contextPath}/authorized/tire-save">
+                                            value="${pageContext.request.contextPath}/authorized/admin/tire">
                                         Сохранить в базу
                                     </button>
                                 </div>

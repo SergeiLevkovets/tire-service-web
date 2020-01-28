@@ -18,6 +18,7 @@ public class EntityDtoConverter {
         orderServiceItemPriceDto.setOrder(transformToOrderDto(orderServiceItemPrice.getOrder()));
         orderServiceItemPriceDto.setServiceItemPrice(transformToServiceItemPriceDto(orderServiceItemPrice.getServiceItemPrice()));
         orderServiceItemPriceDto.setCount(orderServiceItemPrice.getCount());
+        orderServiceItemPriceDto.setTotalPrice(orderServiceItemPrice.getTotalPrice());
         return orderServiceItemPriceDto;
     }
 
@@ -31,6 +32,7 @@ public class EntityDtoConverter {
         }else {
             orderServiceItemPrice.setCount(orderServiceItemPriceDto.getCount());
         }
+        orderServiceItemPrice.setTotalPrice(orderServiceItemPriceDto.getTotalPrice());
         return orderServiceItemPrice;
     }
 
@@ -40,7 +42,6 @@ public class EntityDtoConverter {
         orderDto.setUser(transformToUserDto(order.getUser()));
         orderDto.setTire(transformToTireDto(order.getTire()));
         orderDto.setType(transformToTypeDto(order.getType()));
-        orderDto.setTotalPrice(order.getTotalPrice());
         orderDto.setDate(order.getDate());
         return orderDto;
     }
@@ -51,7 +52,6 @@ public class EntityDtoConverter {
         order.setUser(transformToUserEntity(orderDto.getUser()));
         order.setTire(transformToTireEntity(orderDto.getTire()));
         order.setType(transformToTypeEntity(orderDto.getType()));
-        order.setTotalPrice(orderDto.getTotalPrice());
         order.setDate(orderDto.getDate());
         return order;
     }

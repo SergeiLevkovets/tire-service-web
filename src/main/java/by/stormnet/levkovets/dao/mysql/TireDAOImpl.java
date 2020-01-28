@@ -37,7 +37,7 @@ public class TireDAOImpl implements TireDAO {
             statement.setInt(2, tire.getHeight().getId());
             if (tire.getDiameter() == null) {
                 statement.setNull(3, NULL);
-            }else {
+            } else {
                 statement.setInt(3, tire.getDiameter().getId());
             }
 
@@ -49,7 +49,7 @@ public class TireDAOImpl implements TireDAO {
                 id = set.getInt(1);
             }
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement, set);
@@ -71,7 +71,7 @@ public class TireDAOImpl implements TireDAO {
             statement.setInt(2, tire.getHeight().getId());
             if (tire.getDiameter() == null) {
                 statement.setNull(3, NULL);
-            }else {
+            } else {
                 statement.setInt(3, tire.getDiameter().getId());
             }
             statement.setTimestamp(4, new Timestamp(tire.getDate().getTime()));
@@ -79,7 +79,7 @@ public class TireDAOImpl implements TireDAO {
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -99,7 +99,7 @@ public class TireDAOImpl implements TireDAO {
 
             statement.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException("Some errors occurred during DB access!", e);
         } finally {
             ConnectionManager.getManager().closeDbResources(c, statement);
@@ -124,7 +124,7 @@ public class TireDAOImpl implements TireDAO {
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Width width = widthDao.loadById(set.getInt("fk_width_id")) ;
+                Width width = widthDao.loadById(set.getInt("fk_width_id"));
                 Height height = heightDao.loadById(set.getInt("fk_height_id"));
                 Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 java.util.Date date = set.getTimestamp("date");
@@ -162,7 +162,7 @@ public class TireDAOImpl implements TireDAO {
 
             while (set.next()) {
                 Integer objectId = set.getInt("id");
-                Width width = widthDao.loadById(set.getInt("fk_width_id")) ;
+                Width width = widthDao.loadById(set.getInt("fk_width_id"));
                 Height height = heightDao.loadById(set.getInt("fk_height_id"));
                 Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
                 java.util.Date date = set.getTimestamp("date");
@@ -172,6 +172,43 @@ public class TireDAOImpl implements TireDAO {
                 tire.setHeight(height);
                 tire.setDiameter(diameter);
                 tire.setDate(date);
+                list.add(tire);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Some errors occurred during DB access!", e);
+        } finally {
+            ConnectionManager.getManager().closeDbResources(c, statement, set);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Tire> loadCountTOP(Integer count) {
+
+        List<Tire> list = new ArrayList<>();
+
+        Connection c = null;
+        PreparedStatement statement = null;
+        ResultSet set = null;
+        WidthDAO widthDao = new WidthDAOImpl();
+        HeightDAO heightDao = new HeightDAOImpl();
+        DiameterDAO diameterDao = new DiameterDAOImpl();
+
+        try {
+            c = ConnectionManager.getManager().getConnection();
+            statement = c.prepareStatement("SELECT fk_width_id, fk_height_id, fk_diameter_id FROM tires GROUP BY fk_width_id, fk_height_id, fk_diameter_id ORDER BY COUNT(*) DESC LIMIT ?");
+            statement.setInt(1, count);
+            set = statement.executeQuery();
+
+
+            while (set.next()) {
+                Width width = widthDao.loadById(set.getInt("fk_width_id"));
+                Height height = heightDao.loadById(set.getInt("fk_height_id"));
+                Diameter diameter = diameterDao.loadById(set.getInt("fk_diameter_id"));
+                Tire tire = new Tire();
+                tire.setWidth(width);
+                tire.setHeight(height);
+                tire.setDiameter(diameter);
                 list.add(tire);
             }
         } catch (SQLException e) {
