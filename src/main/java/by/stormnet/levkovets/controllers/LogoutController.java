@@ -17,6 +17,7 @@ public class LogoutController extends HttpServlet {
         if (authorizedUserId != null) {
             httpSession.removeAttribute("authorizedUserId");
             httpSession.removeAttribute("authorizedUserName");
+            httpSession.removeAttribute("authorizedUserRole");
         }
         req.getRequestDispatcher("/WEB-INF/pages/index.jsp").forward(req, resp);
     }

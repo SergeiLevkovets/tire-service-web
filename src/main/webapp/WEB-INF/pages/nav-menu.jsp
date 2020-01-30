@@ -9,7 +9,8 @@
     <!-- Sub menu -->
     <ul>
         <li class="${sessionScope.authorizedUserRole != 'admin' ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/admin/tire"> <i class="glyphicon glyphicon-list"></i> Список шин </a> </li>
-        <li class="${sessionScope.authorizedUserRole != 'admin' ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/order-statistics"> <i class="glyphicon glyphicon-list"></i> Список заказов </a> </li>
+        <li class="${sessionScope.authorizedUserRole != 'admin' ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/admin/order-statistics"> <i class="glyphicon glyphicon-list"></i> Полный список заказов </a> </li>
+        <li class="${sessionScope.authorizedUserName == null ? 'hidden' : ''}" ><a href="${pageContext.request.contextPath}/authorized/order-statistics"> <i class="glyphicon glyphicon-list"></i> Список заказов </a> </li>
     </ul>
 </li>
 <li class="submenu ${sessionScope.authorizedUserRole != 'admin' ? 'hidden' : ''}"><a href="#"><i class="glyphicon glyphicon-list"></i> Редактирование <span class="caret pull-right"></span></a>
