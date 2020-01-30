@@ -12,7 +12,7 @@ CREATE TABLE `tire_service_db`.`users`
     `email`    VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
     `phone`    VARCHAR(255) NOT NULL,
-    `role`     VARCHAR(255) NULL
+    `role`     VARCHAR(255) NOT NULL DEFAULT 'user'
 );
 
 CREATE TABLE `tire_service_db`.`widths`
@@ -100,7 +100,7 @@ CREATE TABLE `tire_service_db`.`orders_to_service_item_prices`
 
 ################################################
 
-INSERT INTO tire_service_db.users (name, email, password, phone) value ('root', 'email@email.ru', 'root', '8 029 111 11 11');
+INSERT INTO tire_service_db.users (name, email, password, phone, role) value ('root', 'root@email.com', 'root', '8 029 111 11 11', 'admin');
 
 
 

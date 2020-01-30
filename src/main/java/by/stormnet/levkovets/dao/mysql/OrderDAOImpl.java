@@ -170,7 +170,22 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public List<Order> loadAllByDatesAndUser(Date startDate, Date endDate, User user) {
+        Integer id = user.getId();
+        String query = "select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders where `date` between ? and ? and fk_user_id = ?";
+
+        return loadAllBy(startDate, endDate, id, query);
+    }
+
+    @Override
     public List<Order> loadAllByDates(Date startDate, Date endDate) {
+        String query = "select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders where `date` between ? and ?";
+
+
+        return loadAllBy(startDate, endDate, null, query);
+    }
+
+    private List<Order> loadAllBy(Date startDate, Date endDate, Integer id, String query) {
         List<Order> list = new ArrayList<>();
         Connection c = null;
         PreparedStatement statement = null;
@@ -181,10 +196,15 @@ public class OrderDAOImpl implements OrderDAO {
 
         try {
             c = ConnectionManager.getManager().getConnection();
-            statement = c.prepareStatement(
-                    "select id, fk_user_id, fk_tire_id, fk_type_id, `date` from tire_service_db.orders where `date` between ? end ?");
-            statement.setTimestamp(1, new Timestamp(startDate.getTime()));
-            statement.setTimestamp(2, new Timestamp(endDate.getTime()));
+
+            statement = c.prepareStatement(query);
+            Timestamp start = new Timestamp(startDate.getTime());
+            Timestamp end = new Timestamp(endDate.getTime());
+            statement.setTimestamp(1, start);
+            statement.setTimestamp(2, end);
+            if (id != null){
+                statement.setInt(3, id);
+            }
             set = statement.executeQuery();
 
 
@@ -209,5 +229,6 @@ public class OrderDAOImpl implements OrderDAO {
         }
         return list;
     }
+
 
 }

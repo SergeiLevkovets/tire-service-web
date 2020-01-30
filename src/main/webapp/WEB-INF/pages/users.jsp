@@ -62,38 +62,43 @@
                                 <div class="col-md-1" ${userForUpdate.id == null ? (param.userId == null ? 'hidden' : '') : ''}>
                                     <label>ID</label>
                                     <input type="text" class="form-control" name="userId" id="userId" readonly
-                                           value="${param.userId == null ? userForUpdate.id : param.userId}" >
+                                           value="${param.userId == null ? userForUpdate.id : param.userId}">
                                 </div>
                                 <div class="col-md-3">
                                     <label>Имя</label>
                                     ${errorMap["nameError"]}
                                     <input type="text" class="form-control" name="name" id="name"
-                                           value="${param.name == null ? userForUpdate.name : param.name}" >
+                                           value="${param.name == null ? userForUpdate.name : param.name}">
                                 </div>
 
                                 <div class="col-md-2">
                                     <label>Почта</label>
                                     ${errorMap['emailError']}
                                     <input type="text" class="form-control" name="email" id="email"
-                                           value="${param.email == null ? userForUpdate.email : param.email}" >
+                                           value="${param.email == null ? userForUpdate.email : param.email}">
                                 </div>
                                 <div class="col-md-2">
                                     ${errorMap["passwordError"]}
                                     <label>Пароль</label>
                                     <input type="text" class="form-control" name="password" id="password"
-                                           value="${param.password == null ? userForUpdate.password : param.password}" >
+                                           value="${param.password == null ? userForUpdate.password : param.password}">
                                 </div>
                                 <div class="col-md-2">
                                     ${errorMap["phoneError"]}
                                     <label>Номер телефона</label>
                                     <input type="text" class="form-control" name="phone" id="phone"
-                                           value="${param.phone == null ? userForUpdate.phone : param.phone}" >
+                                           value="${param.phone == null ? userForUpdate.phone : param.phone}">
                                 </div>
                                 <div class="col-md-2">
                                     ${errorMap["roleError"]}
                                     <label>Роль</label>
-                                    <input type="text" class="form-control" name="role" id="role"
-                                           value="${param.role == null ? userForUpdate.role : param.role}" >
+                                    <select class="form-control" id="role" name="role">
+                                        <option hidden></option>
+                                        <option ${param.role == 'user' ? 'selected' : userForUpdate.role == 'user' ? 'selected' : ''}
+                                                value="user">user</option>
+                                        <option ${param.role == 'admin' ? 'selected' : userForUpdate.role == 'admin' ? 'selected' : ''}
+                                                value="admin">admin</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-inline">

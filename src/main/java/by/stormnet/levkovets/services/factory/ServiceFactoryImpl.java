@@ -20,6 +20,11 @@ public class ServiceFactoryImpl extends ServiceFactory {
     }
 
     @Override
+    public OrderStatisticService getOrderStatisticService() {
+        return new OrderStatisticServiceImpl();
+    }
+
+    @Override
     public OrderServiceItemPriceService getOrderServiceItemPriceService() {
         return new OrderServiceItemPriceServiceImpl();
     }

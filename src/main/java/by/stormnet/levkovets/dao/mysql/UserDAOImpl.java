@@ -25,13 +25,12 @@ public class UserDAOImpl implements UserDAO {
         try {
             c = ConnectionManager.getManager().getConnection();
 
-            statement = c.prepareStatement("INSERT INTO tire_service_db.users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)");
+            statement = c.prepareStatement("INSERT INTO tire_service_db.users (name, email, password, phone) VALUES (?, ?, ?, ?)");
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getPhone());
-            statement.setString(5, user.getRole());
 
             statement.executeUpdate();
 

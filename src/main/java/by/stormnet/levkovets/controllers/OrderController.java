@@ -174,7 +174,7 @@ public class OrderController extends HttpServlet {
                     continue;
                 }
                 if (parameterName.equals("patch")) {
-                    int repairCount = Integer.parseInt(parameters.get("repairCount"));
+                    int repairCount = Integer.parseInt(parameters.get("patchCount"));
                     ServiceItemPriceDTO serviceItemPrice = findServiceItemPrice(serviceItemPriceDTOAll, serviceItemDTO, typeDTO, diameterDTO);
                     serviceItemPriceDtoList.put(serviceItemPrice, repairCount);
                     continue;

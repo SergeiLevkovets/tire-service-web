@@ -13,7 +13,7 @@ public interface OrderServiceItemPriceDAO {
 
     void update(OrderServiceItemPrice obj);
 
-    public void updateAll(List<OrderServiceItemPrice> list);
+    void updateAll(List<OrderServiceItemPrice> list);
 
     void deleteById(Integer id);
 

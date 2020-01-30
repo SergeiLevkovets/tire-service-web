@@ -6,21 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/authorized/*")
-public class AuthorizationFilter implements Filter {
+@WebFilter("/authorized/admin/*")
+public class AdminFilter implements Filter {
         @Override
         public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             HttpSession session = httpServletRequest.getSession();
-            Integer authorizedUserId = (Integer) session.getAttribute("authorizedUserId");
-            String authorizedUserName = (String) session.getAttribute("authorizedUserName");
+            String authorizedUserRole = (String) session.getAttribute("authorizedUserRole");
 
-            if (authorizedUserId == null || authorizedUserName == null) {
-                String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
-                session.setAttribute("requestURIFromFilter", requestURI);
-//                servletRequest.getServletContext().getRequestDispatcher("/login").forward(servletRequest, servletResponse);
-                httpServletRequest.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(servletRequest, servletResponse);
+            if (!authorizedUserRole.equals("admin")){
+                httpServletRequest.getRequestDispatcher("/WEB-INF/pages/404.jsp").forward(servletRequest, servletResponse);
             }
             filterChain.doFilter(servletRequest, servletResponse);
         }

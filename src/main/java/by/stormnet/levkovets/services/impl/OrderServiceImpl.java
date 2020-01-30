@@ -11,6 +11,7 @@ import by.stormnet.levkovets.utils.HttpUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,30 @@ public class OrderServiceImpl implements by.stormnet.levkovets.services.OrderSer
         List<OrderDTO> list = new ArrayList<>();
 
         for (Order order : orderDao.loadAll()) {
+            OrderDTO orderDto = EntityDtoConverter.transformToOrderDto(order);
+            list.add(orderDto);
+        }
+        return list;
+    }
+
+    @Override
+    public List<OrderDTO> getAllByDates(Date startDate, Date endDate) {
+        OrderDAO orderDao = DAOFactory.getFactory().getOrderDAO();
+        List<OrderDTO> list = new ArrayList<>();
+
+        for (Order order : orderDao.loadAllByDates(startDate, endDate)) {
+            OrderDTO orderDto = EntityDtoConverter.transformToOrderDto(order);
+            list.add(orderDto);
+        }
+        return list;
+    }
+
+    @Override
+    public List<OrderDTO> getAllByDatesAndUser(Date startDate, Date endDate, UserDTO userDTO) {
+        OrderDAO orderDao = DAOFactory.getFactory().getOrderDAO();
+        List<OrderDTO> list = new ArrayList<>();
+
+        for (Order order : orderDao.loadAllByDatesAndUser(startDate, endDate, EntityDtoConverter.transformToUserEntity(userDTO))) {
             OrderDTO orderDto = EntityDtoConverter.transformToOrderDto(order);
             list.add(orderDto);
         }

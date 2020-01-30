@@ -97,6 +97,7 @@ public class LoginController extends HttpServlet {
 
                         session.setAttribute("authorizedUserId", user.getId());
                         session.setAttribute("authorizedUserName", user.getName());
+                        session.setAttribute("authorizedUserRole", user.getRole());
                         return false;
 
                     }
@@ -111,6 +112,7 @@ public class LoginController extends HttpServlet {
 
                         session.setAttribute("authorizedUserId", user.getId());
                         session.setAttribute("authorizedUserName", user.getName());
+                        session.setAttribute("authorizedUserRole", user.getRole());
                         return false;
 
                     }
